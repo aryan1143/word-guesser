@@ -1,4 +1,5 @@
 import logo from '../assets/logo.svg'
+import Grid from '../components/Grid'
 
 const HomePage = () => {
   return (
@@ -18,8 +19,12 @@ const HomePage = () => {
           </div>
         </div>
         <div className='relative w-4/10 h-full flex flex-col items-end'>
-          <div className='absolute top-20 h-screen w-full bg-white rounded-t-2xl shadow-sm animate-slide-up'>
-
+          <div className='absolute top-20 h-screen w-fit flex flex-col gap-5 justify-start items-start py-10 px-15 bg-white rounded-t-2xl shadow-sm animate-slide-up'>
+            <div className='flex items-center gap-3 w-fit h-fit'>
+              <img src={logo} className='w-[calc(0.5rem+2vw)]' />
+              <p className='text-3xl font-bold text-[#234120]'>W-GUESSER</p>
+            </div>
+            <Grid isBigTiles={true} />
           </div>
         </div>
       </div>
