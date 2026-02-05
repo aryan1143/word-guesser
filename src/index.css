@@ -12,7 +12,7 @@ body {
 @keyframes slideUp {
   0% {
     transform: translateY(100%);
-    opacity: 0; /* Optional: makes it fade in while sliding */
+    opacity: 0;
   }
   100% {
     transform: translateY(0);
@@ -22,4 +22,63 @@ body {
 
 .animate-slide-up {
   animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* @keyframes smoothFade {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-smooth-fade {
+  animation: smoothFade 0.4s ease-out forwards;
+} */
+
+@keyframes mainDown {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-main-down{
+  animation: mainDown 0.3s ease-out forwards;
+}
+
+@keyframes mainUp {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-main-up{
+  animation: mainUp 0.3s ease-out forwards;
+}
+
+@keyframes down {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+.animate-down{
+  animation: down 0.3s ease-out forwards;
+}
+@keyframes up {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-up{
+  animation: up 0.3s ease-out forwards;
 }
