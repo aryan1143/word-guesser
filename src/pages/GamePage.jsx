@@ -1,9 +1,23 @@
 import React from 'react'
+import Grid from '../components/Grid'
+import Keyboard from '../components/Keyboard'
 
 const GamePage = () => {
-  return (
-    <div>GamePage</div>
-  )
+    const allWords = [
+        '-----',
+        '-----',
+        '-----',
+        '-----',
+        '-----',
+        '-----'
+    ]
+
+    return (
+        <div className='mt-5 md:mt-0 flex flex-col items-center gap-5 md:gap-2 h-8/10 md:flex-1'>
+            <Grid isBigTiles={false} allWords={allWords} />
+            <Keyboard />
+        </div>
+    )
 }
 
 export default GamePage

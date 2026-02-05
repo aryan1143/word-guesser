@@ -1,17 +1,8 @@
 import { useState } from 'react'
 import Tile from './Tile'
 
-const Grid = ({ isBigTiles = false }) => {
+const Grid = ({ isBigTiles = false, allWords }) => {
   const [targetWord, setTargetWord] = useState('GUESS');
-
-  const allWords = [
-    'GLUES',
-    'GUEST',
-    'GUESS',
-    '-----',
-    '-----',
-    '-----'
-  ]
 
   //Function to return the state of each tile i.e.(R: Right letter on right position, F: Right letter but wrong position, N: Letter is not present in the word)
   const allWordsState = allWords.map((word) => {
@@ -29,7 +20,7 @@ const Grid = ({ isBigTiles = false }) => {
   })
 
   return (
-    <div className={`grid grid-cols-5 grid-rows-6 ${isBigTiles ? 'gap-3' : 'gap-2'}`}>
+    <div className={`grid w-fit grid-cols-5 grid-rows-6 ${isBigTiles ? 'gap-3' : 'gap-2'}`}>
       {allWords.map((word, wordIndex)=>{
         return word.split('').map((letter, letterIndex)=>{
           if(letter === '-') letter = '';

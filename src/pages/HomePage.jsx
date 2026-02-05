@@ -4,6 +4,17 @@ import Grid from '../components/Grid'
 import Header from '../components/Header'
 
 const HomePage = () => {
+
+    const allWordsSample = [
+    'GLUES',
+    'GUEST',
+    'GUESS',
+    '-----',
+    '-----',
+    '-----'
+  ]
+
+
   return (
     <>
       <div className='flex w-screen pl-15 pr-15 overflow-hidden h-screen max-w-540'>
@@ -26,7 +37,7 @@ const HomePage = () => {
               <img src={logo} className='w-[calc(0.5rem+2vw)]' />
               <p className='text-3xl font-bold text-[#234120]'>W-GUESSER</p>
             </div>
-            <Grid isBigTiles={true} />
+            <Grid isBigTiles={true} allWords={allWordsSample}/>
           </div>
         </div>
       </div>
