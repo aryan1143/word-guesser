@@ -1,10 +1,19 @@
 @import "tailwindcss";
 /* @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:opsz,wght@10..72,100..900&family=Noto+Sans+JP:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline:opsz,wght@10..72,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+JP:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
 body {
   font-family: 'Poppins', sans-serif;
 }
 
+.pop-up {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  animation: upp 0.2s ease-in-out forwards;
+}
 
 /*animations*/
 
@@ -14,6 +23,7 @@ body {
     transform: translateY(100%);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;
@@ -21,19 +31,32 @@ body {
 }
 
 .animate-slide-up {
-  animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideUp 1s ease-in-out forwards;
+}
+
+@keyframes upp {
+  0% {
+    transform: translate(-50%, 50%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
 }
 
 @keyframes mainDown {
   0% {
     transform: translateY(-10px);
   }
+
   100% {
     transform: translateY(0px);
   }
 }
 
-.animate-main-down{
+.animate-main-down {
   animation: mainDown 0.3s ease-out forwards;
 }
 
@@ -41,12 +64,13 @@ body {
   0% {
     transform: translateY(10px);
   }
+
   100% {
     transform: translateY(0px);
   }
 }
 
-.animate-main-up{
+.animate-main-up {
   animation: mainUp 0.3s ease-out forwards;
 }
 
@@ -54,23 +78,26 @@ body {
   0% {
     transform: translateY(0px);
   }
+
   100% {
     transform: translateY(10px);
   }
 }
 
-.animate-down{
+.animate-down {
   animation: down 0.3s ease-out forwards;
 }
+
 @keyframes up {
   0% {
     transform: translateY(0px);
   }
+
   100% {
     transform: translateY(-10px);
   }
 }
 
-.animate-up{
+.animate-up {
   animation: up 0.3s ease-out forwards;
 }

@@ -3,27 +3,30 @@ import { GrPieChart } from "react-icons/gr";
 import { MdOutlineLeaderboard, MdArrowBack } from "react-icons/md";
 import { RiSettingsLine } from "react-icons/ri";
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { GiSoundOff } from "react-icons/gi";
+import { GiSoundOn } from "react-icons/gi";
 
-const Header = () => {
+const Header = ({setShowLeaderBoard, setShowSetting, setShowStatistics}) => {
   const location = useLocation();
   const locationPath = location.pathname;
   console.log(locationPath)
 
   return (
-    <div className='flex gap-2 w-screen max-w-540 pt-2 md:pt-3 px-2 md-px-5'>
+    <div className='flex z-50 gap-2 w-screen max-w-540 pt-2 md:pt-3 px-2 md-px-5'>
       <div className='flex gap-2 items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] duration-95 '>
-        <p className={`${locationPath === '/game-page' ? 'animate-down hidden' : 'animate-main-up'} flex gap-1 justify-center items-center`}><GrPieChart className='-mt-1' /> Stastistics</p>
-        <Link to='/' className={`${locationPath === '/game-page' ? 'animate-main-down' : 'animate-up hidden'} flex gap-1 justify-center items-center`}><MdArrowBack /> Back</Link>
+        <p onClick={()=>{setShowStatistics((prev)=>(!prev))}} className={`${locationPath === '/' ? 'animate-main-down' : 'animate-up hidden'} flex gap-1 justify-center items-center`}><GrPieChart className='-mt-1' /> Stastistics</p>
+        <Link to='/' className={`${locationPath === '/game-page' ? 'animate-main-up' : 'animate-down hidden'} flex gap-1 justify-center items-center`}><MdArrowBack /> Back</Link>
       </div>
-      <div className='flex gap-2 ml-auto items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] duration-95 '>
+      <div onClick={()=>{setShowLeaderBoard((prev)=>(!prev))}} className='flex gap-2 ml-auto items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] duration-95 '>
         <MdOutlineLeaderboard />
         <p>Leaderboard</p>
       </div>
       <div className='flex ml-0 gap-2 items-center w-[calc(1rem+2vw)] h-[calc(1rem+2vw)] justify-center px-2 py-2 bg-[#acdda8] text-[calc(1.3rem+0.8vw)] min-w-10 min-h-10 font-bold text-[#234120] rounded-[50%] cursor-pointer hover:bg-[#9ac596] duration-95 '>
+        <GiSoundOn />
+      </div>
+      <div onClick={()=>{setShowSetting((prev)=>(!prev))}} className='flex ml-0 gap-2 items-center w-[calc(1rem+2vw)] h-[calc(1rem+2vw)] justify-center px-2 py-2 bg-[#acdda8] text-[calc(1.3rem+0.8vw)] min-w-10 min-h-10 font-bold text-[#234120] rounded-[50%] cursor-pointer hover:bg-[#9ac596] duration-95 '>
         <RiSettingsLine />
       </div>
-      <div></div>
     </div>
   )
 }

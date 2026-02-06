@@ -5,7 +5,7 @@ const Keyboard = () => {
   const keysRow = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', <MdOutlineBackspace />]
+    ['Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Backspace']
   ];
 
   return (
@@ -14,7 +14,7 @@ const Keyboard = () => {
         return <div key={i} className='flex justify-center w-full max-w-120 gap-1'>
           {
             keys.map((key) => {
-              return <div className={`flex justify-center items-center rounded md:p-4 bg-[#acdda8] px-3 py-3 font-bold text-[#234120] ${key === 'Enter' ? 'text-sm md:text-2xl' : 'text-xl md:text-2xl'}`} key={key}>{key}</div>
+              return <div className={`flex justify-center items-center rounded md:p-4 bg-[#acdda8] px-3 py-3 min-w-9 md:min-w-12 font-bold text-[#234120] ${key === 'Enter' ? 'text-sm md:text-xl' : 'text-xl md:text-2xl'}`} key={key}>{key === 'Backspace' ? <MdOutlineBackspace className='md:size-9'/> : key}</div>
             })
           }
         </div>
