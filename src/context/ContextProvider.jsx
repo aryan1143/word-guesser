@@ -3,14 +3,15 @@ import Context from "./Context";
 
 
 const ContextProvider = ({ children }) => {
-    // const [showLeaderBoard, setShowLeaderBoard] = useState(false);
-    // const [showStatistics, setShowStatistics] = useState(false);
-    // const [showSetting, setShowSetting] = useState(false);
-    const [showPopUp, setShowPopUp] = useState({ showLeaderBoard: false, showSetting: false, showStatistics: false });
+    const [showPopUp, setShowPopUp] = useState(null);
+    const [soundOn, setSoundOn] = useState(false);
+    console.log(showPopUp)
 
     const value = {
         showPopUp,
-        setShowPopUp
+        setShowPopUp,
+        soundOn,
+        setSoundOn
     }
 
     return (
