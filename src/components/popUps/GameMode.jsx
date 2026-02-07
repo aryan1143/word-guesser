@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import closeIcon from '../../assets/close-icon48.png'
+import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context'
 
 const GameMode = () => {
@@ -15,13 +15,13 @@ const GameMode = () => {
             <img src={closeIcon} className='filter drop-shadow-[0_4px_0_#acdda8] filter-green size-5' alt="Close" />
           </button>
         </div>
-        <div className='shadow-[0_4px_0_0_#234120] flex h-full w-full gap-5 justify-center items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
-          <div className='shadow-[0_4px_0_0_#234120] flex flex-col items-center pt-3 justify-around w-30/100 h-9/10 rounded-xl bg-[#accda8]'>
-            <div className='shadow-[0_2px_0_0_#234120] h-4/10 w-9/10 rounded-2xl bg-[#d7ead5]'>
-              <p className='h-full w-full text-center flex items-center p-2 text-5xl text-[#234120]'>Word Of The Day</p>
+        <div className='shadow-[0_4px_0_0_#234120] flex flex-col md:flex-row h-full w-full gap-2 md:gap-5 justify-center items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
+          <div className='shadow-[0_4px_0_0_#234120] flex flex-row md:flex-col items-evenly md:items-center pt-3 justify-evenly w-9/10 h-3/10 md:w-30/100 md:h-9/10 rounded-xl bg-[#accda8]'>
+            <div className="shadow-[0_2px_0_0_#234120] h-9/10 w-45/100 md:h-4/10 md:w-9/10 rounded-2xl bg-[#e2f0e0] bg-[url('/bg-day.png')] bg-cover">
+              <p className='h-full w-full text-center flex items-center p-2 text-3xl md:text-5xl text-[#234120]'>Word Of The Day</p>
             </div>
-            <div className='flex-1 w-9/10 p-2 pt-4 flex flex-col gap-3 text-[1.25rem] text-[#0f2c0d]'>
-              <ul className='list-disc wrap-normal px-3 flex flex-col gap-1 [text-shadow:1px_1px_2px_#acdda8]'>
+            <div className='flex-1 w-9/10 p-2 pt-4 hidden md:flex flex-col gap-3 text-[1.25rem] text-[#0f2c0d]'>
+              <ul className='list-disc wrap-normal px-3 flex-col gap-1 [text-shadow:1px_1px_2px_#acdda8]'>
                 <li>
                   Guess the words withing 6 tries.
                 </li>
@@ -30,17 +30,17 @@ const GameMode = () => {
                 </li>
               </ul>
             </div>
-            <div className='flex w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button className='w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#acdda8]'>Play</button>
-              <button className='w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Help</button>
+            <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
+              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
-          <div className='shadow-[0_4px_0_0_#234120] flex flex-col items-center pt-3 justify-around w-30/100 h-9/10 rounded-xl bg-[#accda8]'>
-            <div className='shadow-[0_2px_0_0_#234120] h-4/10 w-9/10 rounded-2xl bg-[#d7ead5]'>
-              <p className='h-full w-full text-center flex justify-center items-center p-2 text-5xl text-[#234120]'>Challange With Friend</p>
+          <div className='shadow-[0_4px_0_0_#234120] flex flex-row md:flex-col items-evenly md:items-center pt-3 justify-evenly w-9/10 h-3/10 md:w-30/100 md:h-9/10 rounded-xl bg-[#accda8]'>
+            <div className="shadow-[0_2px_0_0_#234120] h-9/10 w-45/100 md:h-4/10 md:w-9/10 rounded-2xl bg-[#d7ead5] bg-[url('/bg-friend.png')] bg-cover">
+              <p className='h-full w-full text-center flex justify-center items-center p-2 text-3xl md:text-5xl text-[#234120]'>Challange With Friend</p>
             </div>
-            <div className='flex-1 w-9/10 p-2 pt-4 flex flex-col gap-3 text-[1.25rem] text-[#0f2c0d]'>
-              <ul className='list-disc wrap-normal px-3 flex flex-col gap-1 [text-shadow:1px_1px_2px_#acdda8]'>
+            <div className='flex-1 w-9/10 p-2 pt-4 hidden md:flex flex-col gap-3 text-[1.25rem] text-[#0f2c0d]'>
+              <ul className='list-disc wrap-normal px-3 flex-col gap-1 [text-shadow:1px_1px_2px_#acdda8]'>
                 <li>
                   Guess the secret word withing 6 tries.
                 </li>
@@ -49,17 +49,17 @@ const GameMode = () => {
                 </li>
               </ul>
             </div>
-            <div className='flex w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button className='w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#acdda8]'>Play</button>
-              <button className='w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Help</button>
+            <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
+              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
-          <div className='shadow-[0_4px_0_0_#234120] flex flex-col items-center pt-3 justify-around w-30/100 h-9/10 rounded-xl bg-[#accda8]'>
-            <div className='shadow-[0_2px_0_0_#234120] h-4/10 w-9/10 rounded-2xl bg-[#d7ead5]'>
-              <p className='h-full w-full text-center flex items-center p-2 text-5xl text-[#234120]'>Practice Words</p>
+          <div className='shadow-[0_4px_0_0_#234120] flex flex-row md:flex-col items-evenly md:items-center pt-3 justify-evenly w-9/10 h-3/10 md:w-30/100 md:h-9/10 rounded-xl bg-[#accda8]'>
+            <div className="shadow-[0_2px_0_0_#234120] h-9/10 w-45/100 md:h-4/10 md:w-9/10 rounded-2xl bg-[#d7ead5] bg-[url('/bg-day.png')] bg-cover">
+              <p className='h-full w-full text-center flex items-center p-2 text-3xl md:text-5xl text-[#234120]'>Practice Words</p>
             </div>
-            <div className='flex-1 w-9/10 p-2 pt-4 flex flex-col gap-3 text-[1.25rem] text-[#0f2c0d]'>
-              <ul className='list-disc wrap-normal px-3 flex flex-col gap-1 [text-shadow:1px_1px_2px_#acdda8]'>
+            <div className='flex-1 w-9/10 p-2 pt-4 hidden md:flex flex-col gap-3 text-[1.25rem] text-[#0f2c0d]'>
+              <ul className='list-disc wrap-normal px-3 flex-col gap-1 [text-shadow:1px_1px_2px_#acdda8]'>
                 <li>
                   Guess as many words within a time limit.
                 </li>
@@ -68,9 +68,9 @@ const GameMode = () => {
                 </li>
               </ul>
             </div>
-            <div className='flex w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button className='w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#acdda8]'>Play</button>
-              <button className='w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Help</button>
+            <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
+              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
-import logo from '../assets/logo.svg'
+import logo from '/logo.svg'
 import Grid from '../components/Grid'
-import Header from '../components/Header'
 import { useContext } from 'react'
 import Context from '../context/Context'
 
