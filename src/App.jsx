@@ -4,10 +4,10 @@ import GamePage from './pages/GamePage'
 import Header from './components/Header'
 import LeaderBoard from './components/popUps/LeaderBoard'
 import { useContext, useState } from 'react'
-import Stastistics from './components/popUps/Stastistics'
 import Settings from './components/popUps/Settings'
 import Context from './context/Context'
 import GameMode from './components/popUps/GameMode'
+import Profile from './components/popUps/Profile'
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
       <div onClick={handleBgClick} className="relative flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
         {showPopUp === 'LeaderBoard' && <LeaderBoard />}
-        {showPopUp === 'Statistics' && <Stastistics />}
+        {showPopUp === 'Profile' && <Profile />}
         {showPopUp === 'Settings' && <Settings />}
         {showPopUp === 'GameMode' && <GameMode />}
         <Routes >
