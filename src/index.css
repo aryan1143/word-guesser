@@ -5,6 +5,15 @@ body {
   letter-spacing: 1px;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
 .filter-green {
   filter: brightness(0) saturate(100%) invert(19%) sepia(12%) saturate(1376%) hue-rotate(69deg) brightness(96%) contrast(90%);
 }
