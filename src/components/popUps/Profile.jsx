@@ -24,22 +24,22 @@ const Profile = () => {
               <img src="/defaultpfp.png" />
             </div>
             <div className='flex flex-col justify-center h-full md:h-fit w-fit'>
-              <p>Aryan Prajapati</p>
-              <p className='text-[calc(1rem+0.3vw)]'>Date: 12-Jan-2026</p>
+              <p className='[text-shadow:1px_2px_0_#acdda8]'>Aryan Prajapati</p>
+              <p className='text-[calc(1rem+0.3vw)] [text-shadow:1px_2px_0_#acdda8]'>Date: 12-Jan-2026</p>
               <div className='flex flex-row md:flex-col gap-2'>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
                   <img src="/streak.png" className='w-[calc(1.5rem+1vw)] -mt-1' />
-                  <p>5 Days</p>
+                  <p className='[text-shadow:1px_2px_0_#acdda8]'>5 Days</p>
                 </div>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
                   <img src="/rank.png" className='w-[calc(1.3rem+1vw)] -mt-1' />
-                  <p>Rank 3</p>
+                  <p className='[text-shadow:1px_2px_0_#acdda8]'>Rank 3</p>
                 </div>
               </div>
             </div>
           </div>
           <div className='flex flex-col h-68/100 w-full md:h-full md:w-65/100 p-5 bg-[#d7ead5]'>
-            <select className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 text-sm  md:text-xl rounded-md' name="period">
+            <select className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
               <option value="current">This Week</option>
               <option value="week">Last Week</option>
               <option value="month">Last Month</option>

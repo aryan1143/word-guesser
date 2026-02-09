@@ -24,7 +24,7 @@ function App() {
 
   return (
     <>
-      <div onClick={handleBgClick} className="relative flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
+      <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
         {showPopUp === 'LeaderBoard' && <LeaderBoard />}
         {showPopUp === 'Profile' && <Profile />}

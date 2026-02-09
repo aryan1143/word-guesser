@@ -61,16 +61,16 @@ export const options = {
     },
 };
 
-// Define your data
 const labels = ['3-Feb', '4-Feb', '5-Feb', '6-Feb', '7-Feb', 'Yesterday', 'Today'];
+const sampleData = [12, 19, 3, 5, 2, 3, 15];
 
 export const data = {
     labels,
     datasets: [
         {
             label: 'Words Guessed',
-            data: [12, 19, 3, 5, 2, 3, 15], // Your data points
-            backgroundColor: '#234120', // Color for the bars
+            data: sampleData,
+            backgroundColor: '#234120',
         },
     ],
 };
@@ -78,7 +78,7 @@ export const data = {
 // The main component
 export function BarChart() {
     return (
-        <div className='h-98/100 w-9/10'>
+        <div className='h-98/100 w-full'>
             <Bar options={options} data={data} />;
         </div>
     )
