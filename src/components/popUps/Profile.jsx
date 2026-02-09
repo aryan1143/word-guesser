@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context'
+import Chart from '../Chart'
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
@@ -37,8 +38,14 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div>
-
+          <div className='flex flex-col h-68/100 w-full md:h-full md:w-65/100 p-5 bg-[#d7ead5]'>
+            <select className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 text-sm  md:text-xl rounded-md' name="period">
+              <option value="current">This Week</option>
+              <option value="week">Last Week</option>
+              <option value="month">Last Month</option>
+              <option value="year">Last Year</option>
+            </select>
+            <Chart />
           </div>
         </div>
       </div>
