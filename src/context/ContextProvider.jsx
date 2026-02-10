@@ -5,7 +5,7 @@ import Context from "./Context";
 const ContextProvider = ({ children }) => {
     const [showPopUp, setShowPopUp] = useState(null);
     const [soundOn, setSoundOn] = useState(false);
-    console.log(showPopUp)
+
 
     const value = {
         showPopUp,
