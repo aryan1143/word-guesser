@@ -1,20 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Grid from '../components/Grid'
 import Keyboard from '../components/Keyboard'
+import WordsContext from '../context/wordsContext'
+import useHandleLetters from '../hooks/useHandleLetters'
 
 const GamePage = () => {
-    const allWords = [
-        'FELLO',
-        'FIREE',
-        '-----',
-        '-----',
-        '-----',
-        '-----'
-    ]
+    const {targetWord} = useContext(WordsContext);
+    const allWords = useHandleLetters();
+    console.log(allWords)
 
     return (
         <div className='mt-8 md:mt-0 flex flex-col items-center gap-5 md:gap-2 h-8/10 md:flex-1'>
-            <Grid isBigTiles={false} allWords={allWords} targetWord={'HELLO'}/>
+            <Grid isBigTiles={false} allWords={allWords} targetWord={'HELLO'} />
             <Keyboard />
         </div>
     )

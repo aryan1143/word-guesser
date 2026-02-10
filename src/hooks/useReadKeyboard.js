@@ -5,7 +5,6 @@ function useReadKeyboard(setKeyPressed) {
         const isValidKey = /^[a-zA-Z]$|^Enter$|^Backspace$/.test(e.key);
 
         if (isValidKey) {
-            console.log(e.key.toUpperCase());
             setKeyPressed(e.key.toUpperCase());
         }
     }

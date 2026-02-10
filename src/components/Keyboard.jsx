@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { MdOutlineBackspace } from "react-icons/md";
 import useReadKeyboard from '../hooks/useReadKeyboard';
+import WordsContext from '../context/wordsContext';
 
 const Keyboard = () => {
-  const [keyPressed, setKeyPressed] = useState(null);
+  const {setLetter} = useContext(WordsContext);
   const KeyboardRef = useRef(null);
-  useReadKeyboard(setKeyPressed);
+  useReadKeyboard(setLetter);
 
   const keysRow = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -14,7 +15,7 @@ const Keyboard = () => {
   ];
 
   function handleKeyClick(key){
-    setKeyPressed(key.toUpperCase())
+    setLetter(key.toUpperCase())
   }
 
   return (

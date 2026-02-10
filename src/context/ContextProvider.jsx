@@ -6,7 +6,6 @@ const ContextProvider = ({ children }) => {
     const [showPopUp, setShowPopUp] = useState(null);
     const [soundOn, setSoundOn] = useState(false);
 
-
     const value = {
         showPopUp,
         setShowPopUp,
