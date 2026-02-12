@@ -3,20 +3,23 @@ import WordsContext from "../context/wordsContext";
 
 function useKeysStateHandle(keysRow, allWords) {
     const [keysStateRow, setKeysStateRow] = useState([[], [], []]);
-    const { letter, targetWord } = useContext(WordsContext);
+    const { letter, targetWord, submitedRowNo } = useContext(WordsContext);
 
     useEffect(() => {
         const keysRowStatus = keysRow.map((keys) => {
             return keys.map((key) => {
                 let status = '';
-                allWords.forEach(word => {
+                allWords.forEach((word, i) => {
                     if (word === '-----') return;
+                    if(submitedRowNo < i) {
+                        return;
+                    };
                     if (!word.includes(key)) return;
                     if (!targetWord.includes(key)) {
                         if (status === '') {
                             status = 'N';
                         }
-                        return; 
+                        return;
                     }
                     let isGreenInThisWord = false;
                     [...word].forEach((l, i) => {
@@ -28,16 +31,16 @@ function useKeysStateHandle(keysRow, allWords) {
                     if (isGreenInThisWord) {
                         status = 'R';
                     } else if (status !== 'R') {
-                        status = 'F'; 
+                        status = 'F';
                     }
                 });
-                
+
                 return status;
             });
         });
-        
+
         setKeysStateRow(keysRowStatus);
-    }, [letter]); 
+    }, [letter, submitedRowNo]);
 
     return keysStateRow;
 }

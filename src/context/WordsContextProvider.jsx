@@ -4,13 +4,16 @@ import WordsContext from './wordsContext'
 const WordsContextProvider = ({ children }) => {
   const [letter, setLetter] = useState(null);
   const [targetWord, setTargetWord] = useState('GUESS');
+  const [submitedRowNo, setSubmitedRowNo] = useState(-1);
 
 
   const value = {
     letter,
     setLetter,
     targetWord,
-    setTargetWord
+    setTargetWord,
+    submitedRowNo,
+    setSubmitedRowNo
   }
 
   return (

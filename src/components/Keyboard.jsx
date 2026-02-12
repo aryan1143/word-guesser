@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { MdOutlineBackspace } from "react-icons/md";
 import useReadKeyboard from '../hooks/useReadKeyboard';
 import WordsContext from '../context/wordsContext';
-import useWordsStateHandler from '../hooks/useWordsStateHandler';
+import useWordsStateHandler from '../hooks/useTilesStateHandle';
 import useKeysStateHandle from '../hooks/useKeysStateHandle';
 
 const Keyboard = ({ allWords }) => {

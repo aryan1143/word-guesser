@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import Tile from './Tile'
-import useWordsStateHandler from '../hooks/useWordsStateHandler'
+import useTilesStateHandle from '../hooks/useTilesStateHandle';
 
 const Grid = ({ isBigTiles = false, allWords }) => {
 
   //Function to return the state of each tile i.e.(R: Right letter on right position, F: Right letter but wrong position, N: Letter is not present in the word)
-  const allWordsState = useWordsStateHandler(allWords);
+  const allWordsState = useTilesStateHandle(allWords);
 
   return (
     <div className={`grid w-fit grid-cols-5 grid-rows-6 ${isBigTiles ? 'gap-3' : 'gap-2'}`}>

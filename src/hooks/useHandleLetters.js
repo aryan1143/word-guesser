@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import WordsContext from "../context/wordsContext";
 
 function useHandleLetters() {
-    const { letter, setLetter } = useContext(WordsContext);
+    const { letter, setLetter, setSubmitedRowNo } = useContext(WordsContext);
     
     const [allWords, setAllWords] = useState([
         '-----', '-----', '-----', '-----', '-----', '-----'
@@ -17,6 +17,7 @@ function useHandleLetters() {
         if (letter === 'ENTER') {
             if (letterIndex === 5 && wordIndex < 6) {
                 setWordIndex((prev) => prev + 1);
+                setSubmitedRowNo((prev)=> prev + 1);
                 setLetterIndex(0); 
             }
             return;
