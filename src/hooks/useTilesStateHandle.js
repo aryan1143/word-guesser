@@ -7,7 +7,7 @@ function useTilesStateHandle(allWords) {
 
   useEffect(() => {
     const WordsState = allWords.map((word, i) => {
-      if(submitedRowNo < i) return '';
+      if(submitedRowNo <= i) return '';
       const state = word.split('').map((letter, index) => {
         if (letter === '-') return '';
         if (targetWord.includes(letter)) {

@@ -11,7 +11,7 @@ function useKeysStateHandle(keysRow, allWords) {
                 let status = '';
                 allWords.forEach((word, i) => {
                     if (word === '-----') return;
-                    if(submitedRowNo < i) {
+                    if(submitedRowNo <= i) {
                         return;
                     };
                     if (!word.includes(key)) return;
