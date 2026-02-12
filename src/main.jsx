@@ -5,15 +5,18 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import ContextProvider from './context/ContextProvider.jsx'
 import WordsContextProvider from './context/WordsContextProvider.jsx'
+import LoginContextProvider from './context/LoginContextProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <ContextProvider>
-        <WordsContextProvider>
-          <App />
-        </WordsContextProvider>
-      </ContextProvider>
+      <LoginContextProvider>
+        <ContextProvider>
+          <WordsContextProvider>
+            <App />
+          </WordsContextProvider>
+        </ContextProvider>
+      </LoginContextProvider>
     </BrowserRouter>
   </StrictMode>,
 )
