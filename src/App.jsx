@@ -8,10 +8,14 @@ import Settings from './components/popUps/Settings'
 import Context from './context/Context'
 import GameMode from './components/popUps/GameMode'
 import Profile from './components/popUps/Profile'
+import LoginContext from './context/LoginContext'
+import Login from './components/popUps/Login'
+import SignUp from './components/popUps/SignUp'
 
 
 function App() {
   const { showPopUp, setShowPopUp } = useContext(Context);
+  const { isLoggedIn } = useContext(LoginContext);
 
 
   function handleBgClick(e) {
@@ -26,8 +30,9 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
+        <SignUp />
         {showPopUp === 'LeaderBoard' && <LeaderBoard />}
-        {showPopUp === 'Profile' && <Profile />}
+        {showPopUp === 'Profile' && (isLoggedIn ? <Profile /> : <Login />)}
         {showPopUp === 'Settings' && <Settings />}
         {showPopUp === 'GameMode' && <GameMode />}
         <Routes >

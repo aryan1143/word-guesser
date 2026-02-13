@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import WordsContext from './wordsContext'
+import {useLocation } from 'react-router-dom';
 
 const WordsContextProvider = ({ children }) => {
   const [letter, setLetter] = useState(null);
   const [targetWord, setTargetWord] = useState('GUESS');
   const [submitedRowNo, setSubmitedRowNo] = useState(0);
 
+  const location = useLocation();
+  const locationPath = location.pathname;
 
+  useEffect(() => {
+    setSubmitedRowNo(0);
+  }, [locationPath])
+  
   const value = {
     letter,
     setLetter,
@@ -23,4 +30,4 @@ const WordsContextProvider = ({ children }) => {
   )
 }
 
-export default WordsContextProvider
+export default WordsContextProvider;

@@ -41,7 +41,7 @@ const HomePage = () => {
               <img src={logo} className='w-[calc(0.5rem+2vw)]' />
               <p className='text-3xl font-bold text-[#234120]'>W-GUESSER</p>
             </div>
-            <Grid isBigTiles={true} allWords={allWordsSample} targetWord={targetWord} />
+            <Grid isBigTiles={true} allWords={allWordsSample} targetWord={targetWord} isSample={true}/>
           </div>
         </div>
       </div>

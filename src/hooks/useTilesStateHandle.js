@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import WordsContext from "../context/wordsContext";
 
-function useTilesStateHandle(allWords) {
+function useTilesStateHandle(allWords, isSample = false) {
   const [allWordsState, setAllWordsState] = useState(['','','','','','']);
   const { targetWord, submitedRowNo, letter } = useContext(WordsContext);
 
   useEffect(() => {
     const WordsState = allWords.map((word, i) => {
-      if(submitedRowNo <= i) return '';
+      if((!isSample) && submitedRowNo <= i) return '';
       const state = word.split('').map((letter, index) => {
         if (letter === '-') return '';
         if (targetWord.includes(letter)) {
