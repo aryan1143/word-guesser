@@ -2,10 +2,22 @@ import React, { useContext } from 'react'
 import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context'
 import Chart from '../Chart'
+import { LuLogOut } from "react-icons/lu";
+import LoginContext from '../../context/LoginContext';
+import { setDataLocal } from '../../lib/localStorage';
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
+  const { setIsLoggedIn, setUserData } = useContext(LoginContext);
 
+  const handleLogOut = () => {
+    const result = confirm("Are you sure you want to logout.");
+    if (result) {
+      setIsLoggedIn(false);
+      setDataLocal("isLoggedIn", false);
+      setUserData(null);
+    }
+  }
 
   return (
     <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] backdrop-blur-xs`}>
@@ -19,7 +31,7 @@ const Profile = () => {
           </button>
         </div>
         <div className='overflow-hidden shadow-[0_4px_0_0_#234120] flex flex-col md:flex-row h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
-          <div className='text-2xl flex flex-row md:flex-col p-3 py-5 gap-3 justify-start items-center h-32/100 md:h-full w-full md:w-35/100 border-b-2 border-r-0 md:border-b-0 md:border-r-2 border-gray-600 shadow-[0px_2px_0_0_#acdda8] md:shadow-[2px_1px_0_0_#acdda8] text-[#234120]'>
+          <div className='text-2xl flex flex-row md:flex-col p-3 py-5 pb-1 gap-3 justify-start items-center h-32/100 md:h-full w-full md:w-35/100 border-b-2 border-r-0 md:border-b-0 md:border-r-2 border-gray-600 shadow-[0px_2px_0_0_#acdda8] md:shadow-[2px_1px_0_0_#acdda8] text-[#234120]'>
             <div className='md:w-8/10 h-8/10 md:h-fit aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
               <img src="/defaultpfp.png" />
             </div>
@@ -36,15 +48,24 @@ const Profile = () => {
                   <p className='[text-shadow:1px_2px_0_#acdda8]'>Rank 3</p>
                 </div>
               </div>
+              <button onClick={handleLogOut} className='md:flex hidden w-fit p-0.5 px-1 cursor-pointer self-center md:mt-5 rounded-md gap-1 justify-end items-center text-2xl text-[#acdda8] bg-[#234120]'>
+                <LuLogOut />
+                <p>Logout</p>
+              </button>
             </div>
           </div>
           <div className='flex flex-col h-68/100 w-full md:h-full md:w-65/100 p-5 bg-[#d7ead5]'>
-            <select className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
-              <option value="current">This Week</option>
-              <option value="week">Last Week</option>
-              <option value="month">Last Month</option>
-              <option value="year">Last Year</option>
-            </select>
+            <div className='flex justify-between w-full'>
+              <select className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
+                <option value="current">This Week</option>
+                <option value="week">Last Week</option>
+                <option value="month">Last Month</option>
+                <option value="year">Last Year</option>
+              </select>
+              <button onClick={handleLogOut} className='flex md:hidden w-fit p-1 cursor-pointer self-end md:self-center md:mt-5 rounded-md gap-1 justify-center items-center text-xl text-[#acdda8] bg-[#234120]'>
+                <LuLogOut />
+              </button>
+            </div>
             <Chart />
           </div>
         </div>

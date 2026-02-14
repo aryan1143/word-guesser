@@ -33,7 +33,6 @@ const Login = () => {
             if (userDocSnap.exists()) {
                 const userData = userDocSnap.data();
                 console.log("Retrieved User Data:", userData);
-
                 setUser(userData);
                 setShowPopUp(null);
             } else {
