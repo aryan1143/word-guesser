@@ -7,13 +7,14 @@ import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { app } from '../../lib/firebaseClient'
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import ShowLoginError from '../ShowLoginError';
+import { setDataLocal } from '../../lib/localStorage';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isRememberMe, setIsRememberMe] = useState(true);
-    const [authError, setAuthError] = useState('')
-    const [loading, setLoading] = useState(false)
+    const [authError, setAuthError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -40,6 +41,7 @@ const Login = () => {
             }
             setLoading(false);
             setIsLoggedIn(true);
+            setDataLocal("isLoggedIn", true);
         } catch (error) {
             setLoading(false)
             setAuthError(error);

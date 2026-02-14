@@ -3,7 +3,7 @@ import HomePage from './pages/HomePage'
 import GamePage from './pages/GamePage'
 import Header from './components/Header'
 import LeaderBoard from './components/popUps/LeaderBoard'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Settings from './components/popUps/Settings'
 import Context from './context/Context'
 import GameMode from './components/popUps/GameMode'
@@ -11,11 +11,21 @@ import Profile from './components/popUps/Profile'
 import LoginContext from './context/LoginContext'
 import Login from './components/popUps/Login'
 import SignUp from './components/popUps/SignUp'
+import { getDataLocal } from './lib/localStorage'
 
 
 function App() {
   const { showPopUp, setShowPopUp } = useContext(Context);
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+
+  useEffect(() => { 
+    const loggedIn = getDataLocal("isLoggedIn");
+    if (loggedIn) {
+      setIsLoggedIn(loggedIn);
+    }
+  }, [])
+  
+
 
 
   function handleBgClick(e) {
