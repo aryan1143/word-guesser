@@ -30,7 +30,8 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
-        <SignUp />
+        {showPopUp === 'SignUp' &&  <SignUp />}
+        {showPopUp === 'Login' && <Login />}
         {showPopUp === 'LeaderBoard' && <LeaderBoard />}
         {showPopUp === 'Profile' && (isLoggedIn ? <Profile /> : <Login />)}
         {showPopUp === 'Settings' && <Settings />}
