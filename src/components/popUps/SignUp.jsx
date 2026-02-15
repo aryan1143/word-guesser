@@ -14,6 +14,7 @@ const SignUp = () => {
     const [authError, setAuthError] = useState('');
 
     const { setShowPopUp } = useContext(Context);
+    const today = new Date().toISOString().split('T')[0];
 
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -29,10 +30,13 @@ const SignUp = () => {
                 email: email,
                 createdAt: new Date(),
                 name: '',
-                score: 0,
                 streak: 0,
                 pfpURL: ''
             });
+
+            await setDoc(doc(db, "users", user.uid, "stats", "history"), {
+                [today] : 0
+            })
 
             console.log("User registered and saved to DB!");
             setLoading(false);

@@ -19,7 +19,7 @@ const Login = () => {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const { setIsLoggedIn, setUser } = useContext(LoginContext);
+    const { setIsLoggedIn, setUser, setUserHistory } = useContext(LoginContext);
     const { setShowPopUp } = useContext(Context);
 
 
@@ -29,11 +29,17 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             const userDocRef = doc(db, "users", user.uid);
+            const userHistoryRef = doc(db, "users", user.uid, "stats", "history");
             const userDocSnap = await getDoc(userDocRef);
-            if (userDocSnap.exists()) {
+            const userHistorySnap = await getDoc(userHistoryRef);
+            if (userDocSnap.exists() && userHistorySnap.exists()) {
                 const userData = userDocSnap.data();
+                const userHistory = userHistorySnap.data();
                 console.log("Retrieved User Data:", userData);
+                console.log("retrived User History:", userHistory)
                 setUser(userData);
+                setUserHistory(userHistory);
+                setDataLocal("userData", userData);
                 setShowPopUp(null);
             } else {
                 console.log("No such document in Firestore!");

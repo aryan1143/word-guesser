@@ -8,14 +8,14 @@ import { setDataLocal } from '../../lib/localStorage';
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
-  const { setIsLoggedIn, setUserData } = useContext(LoginContext);
+  const { setIsLoggedIn, setUser } = useContext(LoginContext);
 
   const handleLogOut = () => {
     const result = confirm("Are you sure you want to logout.");
     if (result) {
       setIsLoggedIn(false);
       setDataLocal("isLoggedIn", false);
-      setUserData(null);
+      setUser(null);
     }
   }
 
