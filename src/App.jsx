@@ -12,6 +12,8 @@ import LoginContext from './context/LoginContext'
 import Login from './components/popUps/Login'
 import SignUp from './components/popUps/SignUp'
 import { getDataLocal } from './lib/localStorage'
+import PfpSelector from './components/popUps/PfpSelector'
+
 
 
 function App() {
@@ -19,6 +21,10 @@ function App() {
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
 
   useEffect(() => { 
+    const isNotFirstTimeVisit = getDataLocal("isNotFirstTimeVisit");
+    if (!isNotFirstTimeVisit) {
+      setShowPopUp("Login");
+    }
     const loggedIn = getDataLocal("isLoggedIn");
     if (loggedIn) {
       setIsLoggedIn(loggedIn);
@@ -40,6 +46,8 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
+        
+        {showPopUp === 'pfpSelect' &&  <PfpSelector />}
         {showPopUp === 'SignUp' &&  <SignUp />}
         {showPopUp === 'Login' && <Login />}
         {showPopUp === 'LeaderBoard' && <LeaderBoard />}

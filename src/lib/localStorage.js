@@ -7,3 +7,6 @@ export const getDataLocal = (key) => {
     return JSON.parse(data);
 }
 
+export const removeDataLocal = (key) => {
+    localStorage.removeItem(key);
+}

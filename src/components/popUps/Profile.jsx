@@ -1,23 +1,49 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context'
 import Chart from '../Chart'
 import { LuLogOut } from "react-icons/lu";
 import LoginContext from '../../context/LoginContext';
-import { setDataLocal } from '../../lib/localStorage';
+import { getDataLocal, removeDataLocal, setDataLocal } from '../../lib/localStorage';
+import { FaEdit } from "react-icons/fa";
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
-  const { setIsLoggedIn, setUser } = useContext(LoginContext);
+  const { setIsLoggedIn } = useContext(LoginContext);
+  const [formattedDate, setFormattedDate] = useState('__-__-____');
+  const [cleanName, setCleanName] = useState('');
+  const [pfpURL, setPfpURL] = useState('');
+  const [streak, setStreak] = useState(0);
+
 
   const handleLogOut = () => {
     const result = confirm("Are you sure you want to logout.");
     if (result) {
       setIsLoggedIn(false);
       setDataLocal("isLoggedIn", false);
-      setUser(null);
     }
   }
+
+  function changePfp() {
+    setShowPopUp("pfpSelect");
+  }
+
+  useEffect(() => {
+    const userData = getDataLocal("userData");
+    const date = new Date(userData.createdAt.seconds * 1000);
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    setPfpURL(userData.pfpURL);
+    setFormattedDate(date.toLocaleDateString('en-GB', options).replace(/ /g, '-'));
+    const rawName = userData.email.split('@')[0];
+    const cleanname = rawName
+      .replace(/[._]/g, ' ')
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+      setCleanName(userData.name ? userData.name : cleanname);
+      setStreak(userData.streak);
+  }, [])
+
 
   return (
     <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] backdrop-blur-xs`}>
@@ -32,25 +58,30 @@ const Profile = () => {
         </div>
         <div className='overflow-hidden shadow-[0_4px_0_0_#234120] flex flex-col md:flex-row h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
           <div className='text-2xl flex flex-row md:flex-col p-3 py-5 pb-1 gap-3 justify-start items-center h-32/100 md:h-full w-full md:w-35/100 border-b-2 border-r-0 md:border-b-0 md:border-r-2 border-gray-600 shadow-[0px_2px_0_0_#acdda8] md:shadow-[2px_1px_0_0_#acdda8] text-[#234120]'>
-            <div className='md:w-8/10 h-8/10 md:h-fit aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
-              <img src="/defaultpfp.png" />
+            <div className='relative flex justify-center items-center md:w-8/10 h-8/10 md:h-fit'>
+              <div className='md:w-full h-full md:h-fit aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
+                <img src={pfpURL} border="0" />
+              </div>
+              <button onClick={changePfp} className='absolute pl-0.5 pb-0.5 cursor-pointer text-xl flex items-center justify-center bg-[#acdda8] rounded-sm top-[86%] left-[70%] -translate-x-[50%] shadow-[1px_1px_0_0_#234120]'>
+                <FaEdit />
+              </button>
             </div>
-            <div className='flex flex-col justify-center h-full md:h-fit w-fit'>
-              <p className='[text-shadow:1px_2px_0_#acdda8]'>Aryan Prajapati</p>
-              <p className='text-[calc(1rem+0.3vw)] [text-shadow:1px_2px_0_#acdda8]'>Date: 12-Jan-2026</p>
+            <div className='flex flex-col md:items-center justify-center h-full md:h-fit w-fit'>
+              <p className='[text-shadow:1px_2px_0_#acdda8] md:text-3xl'>{cleanName}</p>
+              <p className='text-[calc(1rem+0.3vw)] [text-shadow:1px_2px_0_#acdda8]'>Joined: {formattedDate}</p>
               <div className='flex flex-row md:flex-col gap-2'>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
                   <img src="/streak.png" className='w-[calc(1.5rem+1vw)] -mt-1' />
-                  <p className='[text-shadow:1px_2px_0_#acdda8]'>5 Days</p>
+                  <p className='[text-shadow:1px_2px_0_#acdda8]'>{streak} Days</p>
                 </div>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
                   <img src="/rank.png" className='w-[calc(1.3rem+1vw)] -mt-1' />
-                  <p className='[text-shadow:1px_2px_0_#acdda8]'>Rank 3</p>
+                  <p className='[text-shadow:1px_2px_0_#acdda8]'>Rank --</p>
                 </div>
               </div>
-              <button onClick={handleLogOut} className='md:flex hidden w-fit p-0.5 px-1 cursor-pointer self-center md:mt-5 rounded-md gap-1 justify-end items-center text-2xl text-[#acdda8] bg-[#234120]'>
-                <LuLogOut />
+              <button onClick={handleLogOut} className='md:flex hidden w-fit p-0.5 px-2 cursor-pointer self-center md:mt-5 rounded-md gap-1 justify-end items-center text-2xl text-[#acdda8] bg-[#234120]'>
                 <p>Logout</p>
+                <LuLogOut />
               </button>
             </div>
           </div>

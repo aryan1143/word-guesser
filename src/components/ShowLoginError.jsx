@@ -12,6 +12,8 @@ const ShowLoginError = ({authError}) => {
             return <p className='text-red-700 text-balance text-center'>Please enter a valid email.</p>
         case "auth/email-already-in-use":
             return <p className='text-red-700 text-balance text-center'>This email is already in use.</p>
+        case "auth/invalid-credential":
+            return <p className='text-red-700 text-balance text-center'>Email or password is wrong.</p>
         default:
             return <p className='text-red-700 text-balance text-center'>Try again later.</p>
     }

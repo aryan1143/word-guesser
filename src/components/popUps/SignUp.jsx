@@ -31,7 +31,7 @@ const SignUp = () => {
                 createdAt: new Date(),
                 name: '',
                 streak: 0,
-                pfpURL: ''
+                pfpURL: 'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png'
             });
 
             await setDoc(doc(db, "users", user.uid, "stats", "history"), {
@@ -74,7 +74,7 @@ const SignUp = () => {
                             <p className='text-balance text-center'>Register to create an account in W-GUESSER</p>
                         }
                     </div>
-                    <div className='w-full h-7/10 md:h-65/100 p-3 pt-3 md:pt-5 flex flex-col items-center gap-5'>
+                    <div className='w-full h-7/10 md:h-65/100 p-3 pt-1 md:pt-5 flex flex-col items-center gap-5'>
                         <input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} id="email" placeholder='Enter a username...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
                         <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} id="pass" placeholder='Set a password...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
                         <button disabled={loading} onClick={handleRegister} className='p-2 mt-2 shadow-[2px_3px_0_0_#acdda8] cursor-pointer bg-[#234120] text-2xl text-[#acdda8] w-95/100'>{loading ? 'Please wait...' : 'Register'}</button>

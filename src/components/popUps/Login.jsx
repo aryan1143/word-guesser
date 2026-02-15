@@ -19,7 +19,7 @@ const Login = () => {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const { setIsLoggedIn, setUser, setUserHistory } = useContext(LoginContext);
+    const { setIsLoggedIn, setUserHistory } = useContext(LoginContext);
     const { setShowPopUp } = useContext(Context);
 
 
@@ -29,17 +29,17 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             const userDocRef = doc(db, "users", user.uid);
-            const userHistoryRef = doc(db, "users", user.uid, "stats", "history");
             const userDocSnap = await getDoc(userDocRef);
+            const userHistoryRef = doc(db, "users", user.uid, "stats", "history");
             const userHistorySnap = await getDoc(userHistoryRef);
             if (userDocSnap.exists() && userHistorySnap.exists()) {
                 const userData = userDocSnap.data();
-                const userHistory = userHistorySnap.data();
                 console.log("Retrieved User Data:", userData);
+                const userHistory = userHistorySnap.data();
                 console.log("retrived User History:", userHistory)
-                setUser(userData);
                 setUserHistory(userHistory);
                 setDataLocal("userData", userData);
+                setDataLocal("isNotFirstTimeVisit", true);
                 setShowPopUp(null);
             } else {
                 console.log("No such document in Firestore!");
@@ -49,7 +49,7 @@ const Login = () => {
             setDataLocal("isLoggedIn", true);
         } catch (error) {
             setLoading(false)
-            setAuthError(error);
+            setAuthError(error.code);
             setTimeout(() => {
                 setAuthError('');
             }, 7000);
@@ -76,7 +76,7 @@ const Login = () => {
                             <p className='text-balance text-center'>Login to unlock full experience of W-GUESSER</p>
                         }
                     </div>
-                    <div className='w-full h-7/10 p-3 pt-3 md:pt-5 flex flex-col items-center gap-5'>
+                    <div className='w-full h-7/10 p-3 pt-1 md:pt-5 flex flex-col items-center gap-5'>
                         <input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} id="email" placeholder='Enter your username...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
                         <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} id="pass" placeholder='Enter your password...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
                         <input className='hidden peer' value={isRememberMe} onChange={(e) => { setIsRememberMe(prev => !prev) }} type="checkbox" name="remember" id="remember" />
