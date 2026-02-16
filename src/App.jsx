@@ -13,6 +13,7 @@ import Login from './components/popUps/Login'
 import SignUp from './components/popUps/SignUp'
 import { getDataLocal } from './lib/localStorage'
 import PfpSelector from './components/popUps/PfpSelector'
+import Loader from './components/utils/Loader'
 
 
 
@@ -46,7 +47,6 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
-        
         {showPopUp === 'pfpSelect' &&  <PfpSelector />}
         {showPopUp === 'SignUp' &&  <SignUp />}
         {showPopUp === 'Login' && <Login />}
