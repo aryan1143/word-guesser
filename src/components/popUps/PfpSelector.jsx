@@ -5,22 +5,15 @@ import { setDataLocal } from '../../lib/localStorage';
 import Context from '../../context/Context';
 import { getAuth } from 'firebase/auth';
 import { app } from '../../lib/firebaseClient';
+import pfpImages from '../../lib/pfpImages.json'
 
 const PfpSelector = () => {
     const db = getFirestore();
-    const {setShowPopUp} = useContext(Context);
+    const { setShowPopUp } = useContext(Context);
     const auth = getAuth(app);
 
-    const pfps = [
-        'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png',
-        'https://i.ibb.co/nM3V2VxM/home.png',
-        'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png',
-        'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png',
-        'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png',
-        'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png',
-        'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png'
+    const pfps = pfpImages;
 
-    ];
 
     async function updatePfp(url) {
         const userId = auth.currentUser.uid
@@ -52,14 +45,23 @@ const PfpSelector = () => {
                         <img src={closeIcon} className='filter drop-shadow-[0_4px_0_#acdda8] filter-green size-5' alt="Close" />
                     </button>
                 </div>
-                <div className='p-5 shadow-[0_4px_0_0_#234120] grid grid-rows-4 grid-cols-3 md:grid-cols-5 h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
-                    {pfps.map((url, i) => {
+                <div className='p-3 shadow-[0_4px_0_0_#234120] overflow-y-scroll no-scrollbar gap-y-3 grid grid-cols-3 md:grid-cols-4 h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
+                    {pfps.normalPfp.map((obj) => {
                         return (
-                            <div key={i} onClick={() => { updatePfp(url) }} className='flex flex-col items-center justify-center hover:scale-105'>
+                            <div key={obj.name} onClick={() => { updatePfp(obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
                                 <div className='md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
-                                    <img src={url} border="0" />
+                                    <img src={obj.pfp} border="0" />
                                 </div>
-                                <p>Worrior</p>
+                                <p>{obj.name}</p>
+                            </div>)
+                    })}
+                    {pfps.achivementPfps.map((obj) => {
+                        return (
+                            <div key={obj.name} onClick={() => { updatePfp(obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
+                                <div className='md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
+                                    <img src={obj.pfp} border="0" />
+                                </div>
+                                <p>{obj.name}</p>
                             </div>)
                     })}
                 </div>

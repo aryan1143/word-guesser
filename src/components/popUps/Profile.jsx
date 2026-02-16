@@ -4,15 +4,15 @@ import Context from '../../context/Context'
 import Chart from '../Chart'
 import { LuLogOut } from "react-icons/lu";
 import LoginContext from '../../context/LoginContext';
-import { getDataLocal, removeDataLocal, setDataLocal } from '../../lib/localStorage';
+import { getDataLocal, setDataLocal } from '../../lib/localStorage';
 import { FaEdit } from "react-icons/fa";
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
   const { setIsLoggedIn } = useContext(LoginContext);
   const [formattedDate, setFormattedDate] = useState('__-__-____');
-  const [cleanName, setCleanName] = useState('');
-  const [pfpURL, setPfpURL] = useState('');
+  const [cleanName, setCleanName] = useState('name_');
+  const [pfpURL, setPfpURL] = useState('--');
   const [streak, setStreak] = useState(0);
 
 

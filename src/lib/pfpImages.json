@@ -1,0 +1,30 @@
+{
+  "achivementPfps": [
+    { "pfp": "https://i.ibb.co/21bD0Yjn/Gemini-Generated-Image-aqktehaqktehaqkt-1.png", "name": "The Oracle" },
+    { "pfp": "https://i.ibb.co/ccdgD40M/crosshair.jpg", "name": "The Sniper" },
+    { "pfp": "https://i.ibb.co/LXLQLNMf/bomb.jpg", "name": "Clutch King" },
+    { "pfp": "https://i.ibb.co/YBfMYHvK/speed.png", "name": "Speedster" },
+    { "pfp": "https://i.ibb.co/rfGjV9rX/unnamed.jpg", "name": "Streaker" },
+    { "pfp": "https://i.ibb.co/60cLn4W9/immortal.png", "name": "Immortal" },
+    { "pfp": "https://i.ibb.co/chGm4Xdh/Veteran.jpg", "name": "Veteran" },
+    { "pfp": "https://i.ibb.co/3Y91D6kQ/early-bird.jpg", "name": "Early Bird" },
+    { "pfp": "https://i.ibb.co/35cpst4T/risk-taker.jpg", "name": "Risk Taker" },
+    { "pfp": "https://i.ibb.co/m7Kgypx/lexicon.jpg", "name": "The Lexicon" },
+    { "pfp": "https://i.ibb.co/zCQX87t/architec.jpg", "name": "The Architec" },
+    { "pfp": "https://i.ibb.co/VcKJh0r6/skull.jpg", "name": "The Glitch" },
+    { "pfp": "https://i.ibb.co/zH2B8xBF/night-owl.jpg", "name": "Night Owl" },
+    { "pfp": "https://i.ibb.co/svTF1xF6/Palindrome.jpg", "name": "Palindrome" }
+  ],
+  "normalPfp": [
+    { "pfp": "https://i.ibb.co/q3TCvFcs/defaultpfp-1.png", "name": "Warrior" },
+    { "pfp": "https://i.ibb.co/Ng9fN8Kg/unnamed-1.jpg", "name": "Cyber-Cat" },
+    { "pfp": "https://i.ibb.co/W4jHnccB/unnamed-3.jpg", "name": "Astro-Dog" },
+    { "pfp": "https://i.ibb.co/p6D4BJ3b/unnamed-4.jpg", "name": "Helpful Bot" },
+    { "pfp": "https://i.ibb.co/8DXwHQdd/unnamed-5.jpg", "name": "Chill Alien" },
+    { "pfp": "https://i.ibb.co/bM9QcXhj/unnamed-6.jpg", "name": "Data Crystal" },
+    { "pfp": "https://i.ibb.co/BpVhHV6/unnamed-7.jpg", "name": "Boba Tea" },
+    { "pfp": "https://i.ibb.co/w3k1yQj/unnamed-8.jpg", "name": "Cyber Donut" },
+    { "pfp": "https://i.ibb.co/fY0qj3xn/unnamed-9.jpg", "name": "Cassette" },
+    { "pfp": "https://i.ibb.co/W4Wg4Q34/unnamed-10.jpg", "name": "Gamer Shades" }
+  ]
+}
