@@ -9,7 +9,6 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import useHandleStatsHistory from '../hooks/useHandleStatsHistory';
 
 ChartJS.register(
     CategoryScale,
@@ -48,7 +47,7 @@ export const options = {
         x: {
             ticks: {
                 color: '#234120',
-                labelOffset: 20
+                // labelOffset: 20
             }
         },
         y: {
@@ -63,8 +62,23 @@ export const options = {
     },
 };
 
-const labels = ['3-Feb', '4-Feb', '5-Feb', '6-Feb', '7-Feb', 'Yesterday', 'Today'];
-const sampleData = [12, 19, 3, 5, 2, 3, 15];
+const labels = [
+    'Mar 2025',
+    'Apr 2025',
+    'May 2025',
+    'Jun 2025',
+    'Jul 2025',
+    'Aug 2025',
+    'Sep 2025',
+    'Oct 2025',
+    'Nov 2025',
+    'Dec 2025',
+    'Jan 2026',
+    'Feb 2026'
+];
+
+const sampleData = [120, 95, 140, 110, 160, 130, 170, 150, 180, 200, 175, 190];
+
 
 export const data = {
     labels,

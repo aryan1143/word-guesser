@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import useGeneratePeriod from "./useGeneratePeriod"
 
 function useHandleStatsHistory() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
+    const period = useGeneratePeriod();
+    console.log(period)
 
     useEffect(() => {
         const auth = getAuth();
@@ -12,7 +15,6 @@ function useHandleStatsHistory() {
 
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                console.log("Auth initialized, fetching for:", user.uid);
                 const userHistoryRef = doc(db, "users", user.uid, "stats", "history");
                 try {
                     const userHistorySnap = await getDoc(userHistoryRef);
