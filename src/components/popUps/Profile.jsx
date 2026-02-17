@@ -6,7 +6,6 @@ import { LuLogOut } from "react-icons/lu";
 import LoginContext from '../../context/LoginContext';
 import { getDataLocal, removeDataLocal, setDataLocal } from '../../lib/localStorage';
 import { FaEdit } from "react-icons/fa";
-import useHandleStatsHistory from '../../hooks/useHandleStatsHistory';
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
