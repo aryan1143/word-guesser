@@ -4,8 +4,9 @@ import Context from '../../context/Context'
 import Chart from '../Chart'
 import { LuLogOut } from "react-icons/lu";
 import LoginContext from '../../context/LoginContext';
-import { getDataLocal, setDataLocal } from '../../lib/localStorage';
+import { getDataLocal, removeDataLocal, setDataLocal } from '../../lib/localStorage';
 import { FaEdit } from "react-icons/fa";
+import useHandleStatsHistory from '../../hooks/useHandleStatsHistory';
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
@@ -14,13 +15,14 @@ const Profile = () => {
   const [cleanName, setCleanName] = useState('name_');
   const [pfpURL, setPfpURL] = useState('--');
   const [streak, setStreak] = useState(0);
-
+  
 
   const handleLogOut = () => {
     const result = confirm("Are you sure you want to logout.");
     if (result) {
       setIsLoggedIn(false);
       setDataLocal("isLoggedIn", false);
+      removeDataLocal('userId');
     }
   }
 

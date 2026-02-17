@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -9,6 +9,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import useHandleStatsHistory from '../hooks/useHandleStatsHistory';
 
 ChartJS.register(
     CategoryScale,
@@ -18,6 +19,7 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
 
 ChartJS.defaults.font.family = '"Jersey 25"'
 

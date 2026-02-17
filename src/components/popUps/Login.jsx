@@ -39,6 +39,7 @@ const Login = () => {
                 console.log("retrived User History:", userHistory)
                 setUserHistory(userHistory);
                 setDataLocal("userData", userData);
+                setDataLocal("userId", user.uid);
                 setDataLocal("isNotFirstTimeVisit", true);
                 setShowPopUp(null);
             } else {

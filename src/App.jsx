@@ -13,7 +13,7 @@ import Login from './components/popUps/Login'
 import SignUp from './components/popUps/SignUp'
 import { getDataLocal } from './lib/localStorage'
 import PfpSelector from './components/popUps/PfpSelector'
-import Loader from './components/utils/Loader'
+import useHandleStatsHistory from './hooks/useHandleStatsHistory'
 
 
 
@@ -31,9 +31,8 @@ function App() {
       setIsLoggedIn(loggedIn);
     }
   }, [])
-  
 
-
+  useHandleStatsHistory();
 
   function handleBgClick(e) {
     const isInsidePopup = e.target.closest('.pop-up');
