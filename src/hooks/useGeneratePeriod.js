@@ -19,7 +19,7 @@ function useGeneratePeriod(p = 'week') {
                 const formattedDate = `${dateParts[0]}-${dateParts[1]}`
                 dates.push(formattedDate);
             }
-            dates.push('Today');
+            dates.push("Today");
             setPeriod(dates);
         } else if (p === 'month') {
             for (let i = 1; i < 4; i++) {

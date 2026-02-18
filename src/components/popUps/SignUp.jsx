@@ -35,7 +35,7 @@ const SignUp = () => {
             });
 
             await setDoc(doc(db, "users", user.uid, "stats", "history"), {
-                [today] : 0
+                [today]: 0
             })
 
             console.log("User registered and saved to DB!");
