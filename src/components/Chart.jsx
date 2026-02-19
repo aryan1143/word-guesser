@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useMemo } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,6 +10,8 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import useGeneratePeriodLabel from '../hooks/useGeneratePeriod';
+import useHandleStatsHistory from '../hooks/useHandleStatsHistory';
+import Loader from '../components/Loader'
 
 ChartJS.register(
     CategoryScale,
@@ -48,11 +50,10 @@ export const options = {
         x: {
             ticks: {
                 color: '#234120',
-                // labelOffset: 20
             }
         },
         y: {
-            beginAtZero: true, // Start the y-axis at zero
+            beginAtZero: true,
             ticks: {
                 color: '#234120',
                 font: {
@@ -63,43 +64,50 @@ export const options = {
     },
 };
 
-const labels = [
-    'Mar 2025',
-    'Apr 2025',
-    'May 2025',
-    'Jun 2025',
-    'Jul 2025',
-    'Aug 2025',
-    'Sep 2025',
-    'Oct 2025',
-    'Nov 2025',
-    'Dec 2025',
-    'Jan 2026',
-    'Feb 2026'
-];
 
-const sampleData = [120, 95, 140, 110, 160, 130, 170, 150, 180, 200, 175, 190];
+export function BarChart({ periodType }) {
+    const { period, periodLabel } = useGeneratePeriodLabel(periodType);
+    const { data, loading } = useHandleStatsHistory();
+
+    const labels = periodLabel;
+    const getValueForPeriod = (e) => {
+        if (periodType === 'week') {
+            return data?.[e] ?? 0;
+        }
+
+        if (periodType === 'month' || periodType === 'year') {
+            if (!Array.isArray(e)) return 0;
+
+            return e.reduce((total, s) => {
+                return total + (data?.[s] ?? 0);
+            }, 0);
+
+        }
 
 
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Words Guessed',
-            data: sampleData,
-            backgroundColor: '#234120',
-        },
-    ],
-};
+        return 0;
+    };
+    const periodData = useMemo(() => {
+        if (loading) return [];
+        return period.map(getValueForPeriod);
+    }, [period, data, loading, periodType]);
 
-// The main component
-export function BarChart() {
-    const period = useGeneratePeriodLabel('year');
-    console.log(period)
+    const barData = useMemo(() => ({
+        labels,
+        datasets: [
+            {
+                label: 'Words Guessed',
+                data: periodData,
+                backgroundColor: '#234120',
+            },
+        ],
+    }), [labels, periodData]);
+
 
     return (
-        <div className='h-98/100 w-full'>
-            <Bar options={options} data={data} />;
+        <div className='relative h-98/100 w-full'>
+            {loading ?
+                <Loader isBg={false} /> : <Bar options={options} data={barData} />}
         </div>
     )
 }

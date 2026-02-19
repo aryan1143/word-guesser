@@ -14,7 +14,8 @@ const Profile = () => {
   const [cleanName, setCleanName] = useState('name_');
   const [pfpURL, setPfpURL] = useState('--');
   const [streak, setStreak] = useState(0);
-  
+  const [periodType, setpPeriodType] = useState('week');
+
 
   const handleLogOut = () => {
     const result = confirm("Are you sure you want to logout.");
@@ -41,8 +42,8 @@ const Profile = () => {
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-      setCleanName(userData.name ? userData.name : cleanname);
-      setStreak(userData.streak);
+    setCleanName(userData.name ? userData.name : cleanname);
+    setStreak(userData.streak);
   }, [])
 
 
@@ -88,17 +89,16 @@ const Profile = () => {
           </div>
           <div className='flex flex-col h-68/100 w-full md:h-full md:w-65/100 p-5 bg-[#d7ead5]'>
             <div className='flex justify-between w-full'>
-              <select className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
-                <option value="current">This Week</option>
-                <option value="week">Last Week</option>
-                <option value="month">Last Month</option>
-                <option value="year">Last Year</option>
+              <select value={periodType} onChange={(e)=>setpPeriodType(e.target.value)} className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+                <option value="year">Past 12 Months</option>
               </select>
               <button onClick={handleLogOut} className='flex md:hidden w-fit p-1 cursor-pointer self-end md:self-center md:mt-5 rounded-md gap-1 justify-center items-center text-xl text-[#acdda8] bg-[#234120]'>
                 <LuLogOut />
               </button>
             </div>
-            <Chart />
+            <Chart periodType={periodType}/>
           </div>
         </div>
       </div>
