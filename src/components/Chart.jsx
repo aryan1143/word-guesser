@@ -9,6 +9,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import useGeneratePeriodLabel from '../hooks/useGeneratePeriod';
 
 ChartJS.register(
     CategoryScale,
@@ -93,6 +94,9 @@ export const data = {
 
 // The main component
 export function BarChart() {
+    const period = useGeneratePeriodLabel('year');
+    console.log(period)
+
     return (
         <div className='h-98/100 w-full'>
             <Bar options={options} data={data} />;

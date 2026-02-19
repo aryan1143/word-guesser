@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { deleteField, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-function useHandleStatsHistory(action = 'set', statsData = null) {
+function useHandleStatsHistory(action = 'get', statsData = null) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
     const today = new Date().toISOString().split('T')[0];
@@ -52,7 +52,7 @@ function useHandleStatsHistory(action = 'set', statsData = null) {
                 } catch (e) {
                     console.log(e);
                 }
-            } else {
+            } else if (!user) {
                 console.log("User is not logged in");
             }
             setLoading(false);
