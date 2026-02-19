@@ -68,7 +68,6 @@ export const options = {
 export function BarChart({ periodType }) {
     const { period, periodLabel } = useGeneratePeriodLabel(periodType);
     const { data, loading } = useHandleStatsHistory();
-
     const labels = periodLabel;
     const getValueForPeriod = (e) => {
         if (periodType === 'week') {
@@ -83,8 +82,6 @@ export function BarChart({ periodType }) {
             }, 0);
 
         }
-
-
         return 0;
     };
     const periodData = useMemo(() => {

@@ -3,7 +3,7 @@ import LoginContext from '../../context/LoginContext'
 import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, serverTimestamp, writeBatch } from 'firebase/firestore';
 import { app } from '../../lib/firebaseClient'
 import ShowLoginError from '../ShowLoginError';
 
@@ -14,29 +14,39 @@ const SignUp = () => {
     const [authError, setAuthError] = useState('');
 
     const { setShowPopUp } = useContext(Context);
-    const today = new Date().toISOString().split('T')[0];
 
     const auth = getAuth(app);
     const db = getFirestore(app);
 
     async function handleRegister() {
+        const today = new Date().toISOString().split('T')[0];
         try {
             setLoading(true);
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            await setDoc(doc(db, "users", user.uid), {
+            const batch = writeBatch(db);
+
+            const userRef = doc(db, "users", user.uid);
+            const historyRef = doc(db, "users", user.uid, "stats", "history");
+
+            batch.set(userRef, {
                 username: '',
                 email: email,
-                createdAt: new Date(),
+                createdAt: serverTimestamp(),
                 name: '',
                 streak: 0,
+                totalScore: 0,
+                weeklyScore: 0,
+                monthlyScore: 0,
                 pfpURL: 'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png'
             });
 
-            await setDoc(doc(db, "users", user.uid, "stats", "history"), {
+            batch.set(historyRef, {
                 [today]: 0
-            })
+            });
+
+            await batch.commit();
 
             console.log("User registered and saved to DB!");
             setLoading(false);

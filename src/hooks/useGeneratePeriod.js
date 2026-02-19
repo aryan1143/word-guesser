@@ -38,9 +38,9 @@ function useGeneratePeriodLabel(p = 'week') {
                 }
                 const week = [];
                 for (let j = 0; j < 7; j++) {
-                    d.setDate(d.getDate() - 1);
                     const date = d.toISOString().split('T')[0];
                     week.push(date);
+                    d.setDate(d.getDate() - 1);
                 }
                 dates.push(week);
             }
@@ -55,7 +55,7 @@ function useGeneratePeriodLabel(p = 'week') {
                     datesLabel.push('This Month')
                 } else {
                     datesLabel.push(
-                        d.toLocaleDateString('default', { month: 'short' })
+                        d.toLocaleDateString('default', { month: 'long' })
                     );
                 }
                 const month = [];
