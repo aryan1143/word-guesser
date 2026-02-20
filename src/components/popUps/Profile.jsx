@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context'
 import Chart from '../Chart'
@@ -6,18 +6,17 @@ import { LuLogOut } from "react-icons/lu";
 import LoginContext from '../../context/LoginContext';
 import { getDataLocal, removeDataLocal, setDataLocal } from '../../lib/localStorage';
 import { FaEdit } from "react-icons/fa";
+import useUpdateProfileData from '../../hooks/useUpdateProfileData';
+import Loader from '../Loader';
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
   const { setIsLoggedIn } = useContext(LoginContext);
-  const [formattedDate, setFormattedDate] = useState('__-__-____');
-  const [cleanName, setCleanName] = useState('name_');
-  const [pfpURL, setPfpURL] = useState('--');
-  const [streak, setStreak] = useState(0);
   const [periodType, setpPeriodType] = useState('week');
   const [isEditingName, setIsEditingName] = useState(false);
   const [name, setName] = useState('');
-
+  const userData = getDataLocal("userData");
+  const { updateProfile, loading, isSuccess } = useUpdateProfileData();
 
   const handleLogOut = () => {
     const result = confirm("Are you sure you want to logout.");
@@ -28,29 +27,42 @@ const Profile = () => {
     }
   }
 
-  function changePfp() {
-    setShowPopUp("pfpSelect");
-  }
-
-  function changeName() {
-    setIsEditingName(false);
-  }
-
-  useEffect(() => {
-    const userData = getDataLocal("userData");
+  const { formattedDate, pfpURL, cleanName, streak } = useMemo(() => {
     const date = new Date(userData.createdAt.seconds * 1000);
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    setPfpURL(userData.pfpURL);
-    setFormattedDate(date.toLocaleDateString('en-GB', options).replace(/ /g, '-'));
     const rawName = userData.email.split('@')[0];
     const cleanname = rawName
       .replace(/[._]/g, ' ')
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-    setCleanName(userData.name ? userData.name : cleanname);
-    setStreak(userData.streak);
-  }, [])
+    const pfp = userData.pfpURL;
+    return {
+      formattedDate: date.toLocaleDateString('en-GB', options).replace(/ /g, '-'),
+      pfpURL: pfp,
+      cleanName: userData.name ? userData.name : cleanname,
+      streak: userData.streak,
+    }
+  }, [userData]);
+
+  function changePfp() {
+    setShowPopUp("pfpSelect");
+  }
+
+  function changeName() {
+    if (name === cleanName) {
+      setIsEditingName(false);
+      return;
+    }
+    updateProfile('name', name);
+  }
+
+  useEffect(() => {
+    if (!loading && isSuccess) {
+      setIsEditingName(false);
+    }
+  }, [loading, isSuccess])
+
 
 
   return (
@@ -74,13 +86,13 @@ const Profile = () => {
                 <FaEdit />
               </button>
             </div>
-            <div className='flex flex-col md:items-center justify-center h-full md:h-fit w-fit'>
-              {isEditingName ? 
-              <div className='flex justify-center w-full px-0.5'>
-                <input className='px-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-8/10' type="text" name="name" value={name} onChange={e=>setName(e.target.value)} />
-                <button disabled={name === ''} className=' cursor-pointer disabled:bg-[#81ae7d] text-[#acdda8] font-bold bg-[#234120] px-2' onClick={changeName}>✓</button>
-              </div>
-              :
+            <div className='flex flex-col items-center justify-center h-full md:h-fit w-fit'>
+              {isEditingName ? loading ? <Loader /> :
+                <div className='flex justify-center w-full px-0.5'>
+                  <input className='px-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-8/10' type="text" name="name" value={name} onChange={e => setName(e.target.value)} />
+                  <button disabled={name === ''} className=' cursor-pointer disabled:bg-[#81ae7d] text-[#acdda8] font-bold bg-[#234120] px-2' onClick={changeName}>✓</button>
+                </div>
+                :
                 <div className='relative w-full flex justify-center'>
                   <p className='[text-shadow:1px_2px_0_#acdda8] md:text-3xl'>{cleanName}</p>
                   <button onClick={() => setIsEditingName(true)} className='absolute pl-0.5 pb-0.5 cursor-pointer text-sm flex items-center justify-center bg-[#acdda8] rounded-sm top-[0%] left-[90%] shadow-[1px_1px_0_0_#234120]'>
