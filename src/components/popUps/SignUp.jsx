@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import Context from '../../context/Context';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth'
 import { getFirestore, doc, setDoc, serverTimestamp, writeBatch } from 'firebase/firestore';
 import { app } from '../../lib/firebaseClient'
 import ShowLoginError from '../ShowLoginError';
@@ -23,6 +23,9 @@ const SignUp = () => {
             setLoading(true);
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+
+            await sendEmailVerification(user);
+
 
             const batch = writeBatch(db);
 
@@ -48,12 +51,30 @@ const SignUp = () => {
             await batch.commit();
 
             console.log("User registered and saved to DB!");
+            setShowPopUp('Verification');
             setLoading(false);
-            setShowPopUp('Login');
-
         } catch (error) {
-            console.log('error', error)
+            if (error.code === "auth/email-already-in-use") {
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    if (!user.emailVerified) {
+                        await sendEmailVerification(user);
+                        setShowPopUp('Verification');
+                    } else {
+                        setShowPopUp('Login');
+                    }
+                } catch (loginError) {
+                    setAuthError(loginError);
+                }
+                setLoading(false);
+                setTimeout(() => {
+                    setAuthError('');
+                }, 4000);
+                return;
+            }
             setLoading(false);
+            console.log('error', error)
             setAuthError(error.code);
             setTimeout(() => {
                 setAuthError('');

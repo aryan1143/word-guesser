@@ -14,6 +14,7 @@ import SignUp from './components/popUps/SignUp'
 import { getDataLocal } from './lib/localStorage'
 import PfpSelector from './components/popUps/PfpSelector'
 import useHandleStatsHistory from './hooks/useHandleStatsHistory'
+import Verification from './components/popUps/Verification'
 
 
 
@@ -21,7 +22,7 @@ function App() {
   const { showPopUp, setShowPopUp } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
 
-  useEffect(() => { 
+  useEffect(() => {
     const isNotFirstTimeVisit = getDataLocal("isNotFirstTimeVisit");
     if (!isNotFirstTimeVisit) {
       setShowPopUp("Login");
@@ -46,8 +47,9 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
-        {showPopUp === 'pfpSelect' &&  <PfpSelector />}
-        {showPopUp === 'SignUp' &&  <SignUp />}
+        {showPopUp === 'pfpSelect' && <PfpSelector />}
+        {showPopUp === 'SignUp' && <SignUp />}
+        {showPopUp === 'Verification' && <Verification />}
         {showPopUp === 'Login' && <Login />}
         {showPopUp === 'LeaderBoard' && <LeaderBoard />}
         {showPopUp === 'Profile' && (isLoggedIn ? <Profile /> : <Login />)}

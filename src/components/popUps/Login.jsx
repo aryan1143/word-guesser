@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LoginContext from '../../context/LoginContext'
 import Context from '../../context/Context';
 import { ImCheckboxUnchecked, ImCheckboxChecked } from "react-icons/im";
@@ -22,12 +22,15 @@ const Login = () => {
     const { setIsLoggedIn, setUserHistory } = useContext(LoginContext);
     const { setShowPopUp } = useContext(Context);
 
-
     async function handleLogin() {
         try {
             setLoading(true);
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+            if (!user.emailVerified) {
+                alert("Please verify your email first!");
+                return;
+            }
             const userDocRef = doc(db, "users", user.uid);
             const userDocSnap = await getDoc(userDocRef);
             const userHistoryRef = doc(db, "users", user.uid, "stats", "history");
@@ -62,7 +65,7 @@ const Login = () => {
             <div className={`flex flex-col items-center pop-up w-8/10 h-5/10 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-23/100`}>
                 <div className="w-full flex justify-between h-fit text-2xl items-center">
                     <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer ml-auto bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
-                        <RiCloseFill className='text-[#234120]'/>
+                        <RiCloseFill className='text-[#234120]' />
                     </button>
                 </div>
                 <div className='overflow-hidden shadow-[0_4px_0_0_#234120] flex flex-col h-full w-full items-center border border-[#0000004d] bg-[#d7ead5] rounded-tr-none  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
