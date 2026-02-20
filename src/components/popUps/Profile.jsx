@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import closeIcon from '/close-icon48.png'
+import { RiCloseFill } from "react-icons/ri";
 import Context from '../../context/Context'
 import Chart from '../Chart'
 import { LuLogOut } from "react-icons/lu";
@@ -73,8 +73,8 @@ const Profile = () => {
             Profile
           </p>
           <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
-            <img src={closeIcon} className='filter drop-shadow-[0_4px_0_#acdda8] filter-green size-5' alt="Close" />
-          </button>
+           <RiCloseFill className='text-[#234120]'/>
+           </button>
         </div>
         <div className='overflow-hidden shadow-[0_4px_0_0_#234120] flex flex-col md:flex-row h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
           <div className='text-2xl flex flex-row md:flex-col p-3 py-5 pb-1 gap-3 justify-start items-center h-32/100 md:h-full w-full md:w-35/100 border-b-2 border-r-0 md:border-b-0 md:border-r-2 border-gray-600 shadow-[0px_2px_0_0_#acdda8] md:shadow-[2px_1px_0_0_#acdda8] text-[#234120]'>
@@ -103,7 +103,7 @@ const Profile = () => {
               <p className='text-[calc(1rem+0.3vw)] [text-shadow:1px_2px_0_#acdda8]'>Joined: {formattedDate}</p>
               <div className='flex flex-row md:flex-col gap-2'>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
-                  <img src="/streak.png" className='w-[calc(1.5rem+1vw)] -mt-1' />
+                  <img src="/streak.png" className='w-[calc(1.5rem+1vw)] -mt-1 drop-shadow-[1px_2px_0_#acdda8]' />
                   <p className='[text-shadow:1px_2px_0_#acdda8]'>{streak} Days</p>
                 </div>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>

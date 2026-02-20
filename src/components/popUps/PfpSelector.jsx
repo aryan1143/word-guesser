@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react'
-import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context';
 import pfpImages from '../../lib/pfpImages.json';
 import { MdArrowBack } from "react-icons/md";
 import Loader from '../Loader';
 import { IoIosLock } from "react-icons/io";
 import useUpdateProfileData from '../../hooks/useUpdateProfileData';
+import { RiCloseFill } from 'react-icons/ri';
 
 const PfpSelector = () => {
     const { setShowPopUp } = useContext(Context);
 
     const pfps = pfpImages;
-    const {updateProfile, loading, isSuccess} = useUpdateProfileData();
+    const { updateProfile, loading, isSuccess } = useUpdateProfileData();
     if (!loading && isSuccess) {
         setShowPopUp('Profile');
     }
@@ -28,7 +28,7 @@ const PfpSelector = () => {
                         Select PFP
                     </p>
                     <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
-                        <img src={closeIcon} className='filter drop-shadow-[0_4px_0_#acdda8] filter-green size-5' alt="Close" />
+                        <RiCloseFill className='text-[#234120]' />
                     </button>
                 </div>
                 {loading && <Loader />}
@@ -42,7 +42,7 @@ const PfpSelector = () => {
                                         <img src={obj.pfp} border="0" />
                                         <div className='flex justify-start text-xl items-center flex-col absolute bottom-0 left-0 w-full h-4/10 bg-[#d6c1e0c1]'>
                                             <p className='-mt-1.5'>Locked</p>
-                                            <IoIosLock className='-mt-1'/>
+                                            <IoIosLock className='-mt-1' />
                                         </div>
                                     </div>
                                     <p>{obj.name}</p>
@@ -58,7 +58,7 @@ const PfpSelector = () => {
                                         <img src={obj.pfp} border="0" />
                                         <div className='flex justify-start text-xl items-center flex-col absolute bottom-0 left-0 w-full h-4/10 bg-[#acdda8b1]'>
                                             <p className='-mt-1.5'>Locked</p>
-                                            <IoIosLock className='-mt-1'/>
+                                            <IoIosLock className='-mt-1' />
                                         </div>
                                     </div>
                                     <p>{obj.name}</p>

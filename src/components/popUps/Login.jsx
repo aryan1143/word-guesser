@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import LoginContext from '../../context/LoginContext'
-import closeIcon from '/close-icon48.png'
 import Context from '../../context/Context';
 import { ImCheckboxUnchecked, ImCheckboxChecked } from "react-icons/im";
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
@@ -8,6 +7,7 @@ import { app } from '../../lib/firebaseClient'
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import ShowLoginError from '../ShowLoginError';
 import { setDataLocal } from '../../lib/localStorage';
+import { RiCloseFill } from 'react-icons/ri';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -62,7 +62,7 @@ const Login = () => {
             <div className={`flex flex-col items-center pop-up w-8/10 h-5/10 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-23/100`}>
                 <div className="w-full flex justify-between h-fit text-2xl items-center">
                     <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer ml-auto bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
-                        <img src={closeIcon} className='filter drop-shadow-[0_4px_0_#acdda8] filter-green size-5' alt="Close" />
+                        <RiCloseFill className='text-[#234120]'/>
                     </button>
                 </div>
                 <div className='overflow-hidden shadow-[0_4px_0_0_#234120] flex flex-col h-full w-full items-center border border-[#0000004d] bg-[#d7ead5] rounded-tr-none  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
