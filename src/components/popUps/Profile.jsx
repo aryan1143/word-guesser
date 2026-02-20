@@ -15,6 +15,8 @@ const Profile = () => {
   const [pfpURL, setPfpURL] = useState('--');
   const [streak, setStreak] = useState(0);
   const [periodType, setpPeriodType] = useState('week');
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [name, setName] = useState('');
 
 
   const handleLogOut = () => {
@@ -28,6 +30,10 @@ const Profile = () => {
 
   function changePfp() {
     setShowPopUp("pfpSelect");
+  }
+
+  function changeName() {
+    setIsEditingName(false);
   }
 
   useEffect(() => {
@@ -69,7 +75,19 @@ const Profile = () => {
               </button>
             </div>
             <div className='flex flex-col md:items-center justify-center h-full md:h-fit w-fit'>
-              <p className='[text-shadow:1px_2px_0_#acdda8] md:text-3xl'>{cleanName}</p>
+              {isEditingName ? 
+              <div className='flex justify-center w-full px-0.5'>
+                <input className='px-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-8/10' type="text" name="name" value={name} onChange={e=>setName(e.target.value)} />
+                <button disabled={name === ''} className=' cursor-pointer disabled:bg-[#81ae7d] text-[#acdda8] font-bold bg-[#234120] px-2' onClick={changeName}>✓</button>
+              </div>
+              :
+                <div className='relative w-full flex justify-center'>
+                  <p className='[text-shadow:1px_2px_0_#acdda8] md:text-3xl'>{cleanName}</p>
+                  <button onClick={() => setIsEditingName(true)} className='absolute pl-0.5 pb-0.5 cursor-pointer text-sm flex items-center justify-center bg-[#acdda8] rounded-sm top-[0%] left-[90%] shadow-[1px_1px_0_0_#234120]'>
+                    <FaEdit />
+                  </button>
+                </div>
+              }
               <p className='text-[calc(1rem+0.3vw)] [text-shadow:1px_2px_0_#acdda8]'>Joined: {formattedDate}</p>
               <div className='flex flex-row md:flex-col gap-2'>
                 <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
@@ -89,7 +107,7 @@ const Profile = () => {
           </div>
           <div className='flex flex-col h-68/100 w-full md:h-full md:w-65/100 p-5 bg-[#d7ead5]'>
             <div className='flex justify-between w-full'>
-              <select value={periodType} onChange={(e)=>setpPeriodType(e.target.value)} className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
+              <select value={periodType} onChange={(e) => setpPeriodType(e.target.value)} className='w-fit text-[#acdda8] bg-[#234120] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md' name="period">
                 <option value="week">This Week</option>
                 <option value="month">This Month</option>
                 <option value="year">Past 12 Months</option>
@@ -98,7 +116,7 @@ const Profile = () => {
                 <LuLogOut />
               </button>
             </div>
-            <Chart periodType={periodType}/>
+            <Chart periodType={periodType} />
           </div>
         </div>
       </div>

@@ -1,44 +1,21 @@
 import React, { useContext, useState } from 'react'
 import closeIcon from '/close-icon48.png'
-import { getFirestore, doc, updateDoc, getDoc } from "firebase/firestore";
-import { setDataLocal } from '../../lib/localStorage';
 import Context from '../../context/Context';
-import { getAuth } from 'firebase/auth';
-import { app } from '../../lib/firebaseClient';
 import pfpImages from '../../lib/pfpImages.json';
 import { MdArrowBack } from "react-icons/md";
 import Loader from '../Loader';
 import { IoIosLock } from "react-icons/io";
+import useUpdateProfileData from '../../hooks/useUpdateProfileData';
 
 const PfpSelector = () => {
-    const db = getFirestore();
     const { setShowPopUp } = useContext(Context);
-    const auth = getAuth(app);
-    const [loading, setLoading] = useState(false);
 
     const pfps = pfpImages;
-
-
-    async function updatePfp(url) {
-        const userId = auth.currentUser.uid
-        const userRef = doc(db, "users", userId);
-        setLoading(true);
-        try {
-            await updateDoc(userRef, {
-                pfpURL: url
-            });
-            console.log("Profile updated!");
-            const userDocSnap = await getDoc(userRef);
-            const userData = userDocSnap.data();
-            setDataLocal("userData", userData);
-            setShowPopUp("Profile");
-            setLoading(false);
-        } catch (error) {
-            console.log(error)
-            setLoading(false);
-            alert("Something went wrong.");
-        }
+    const {updateProfile, loading, isSuccess} = useUpdateProfileData();
+    if (!loading && isSuccess) {
+        setShowPopUp('Profile');
     }
+
 
     return (
         <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] backdrop-blur-xs`}>
@@ -60,7 +37,7 @@ const PfpSelector = () => {
                     <div className='gap-y-3 pb-1 grid grid-cols-3 md:grid-cols-4'>
                         {pfps.normalPfp.map((obj) => {
                             return (
-                                <div key={obj.name} onClick={() => { updatePfp(obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
+                                <div key={obj.name} onClick={() => { updateProfile('pfpURL', obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
                                     <div className='relative md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
                                         <img src={obj.pfp} border="0" />
                                         <div className='flex justify-start text-xl items-center flex-col absolute bottom-0 left-0 w-full h-4/10 bg-[#d6c1e0c1]'>
@@ -76,7 +53,7 @@ const PfpSelector = () => {
                     <div className='gap-y-3 grid grid-cols-3 md:grid-cols-4'>
                         {pfps.achivementPfps.map((obj) => {
                             return (
-                                <div key={obj.name} onClick={() => { updatePfp(obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
+                                <div key={obj.name} onClick={() => { updateProfile('pfpURL', obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
                                     <div className='relative md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
                                         <img src={obj.pfp} border="0" />
                                         <div className='flex justify-start text-xl items-center flex-col absolute bottom-0 left-0 w-full h-4/10 bg-[#acdda8b1]'>
