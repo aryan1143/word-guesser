@@ -15,6 +15,7 @@ import { getDataLocal } from './lib/localStorage'
 import PfpSelector from './components/popUps/PfpSelector'
 import useHandleStatsHistory from './hooks/useHandleStatsHistory'
 import Verification from './components/popUps/Verification'
+import CustomAlertConfirm from './components/CustomAlertConfirm'
 
 
 

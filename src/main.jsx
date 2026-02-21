@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import ContextProvider from './context/ContextProvider.jsx'
 import WordsContextProvider from './context/WordsContextProvider.jsx'
 import LoginContextProvider from './context/LoginContextProvider.jsx'
+import ConfirmContextProvider from './context/ConfirmContextProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')).render(
       <LoginContextProvider>
         <ContextProvider>
           <WordsContextProvider>
-            <App />
+            <ConfirmContextProvider >
+              <App />
+            </ConfirmContextProvider>
           </WordsContextProvider>
         </ContextProvider>
       </LoginContextProvider>

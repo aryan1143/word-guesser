@@ -8,10 +8,12 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import ShowLoginError from '../ShowLoginError';
 import { setDataLocal } from '../../lib/localStorage';
 import { RiCloseFill } from 'react-icons/ri';
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPass, setShowPass] = useState(false);
     const [isRememberMe, setIsRememberMe] = useState(true);
     const [authError, setAuthError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -50,7 +52,9 @@ const Login = () => {
             }
             setLoading(false);
             setIsLoggedIn(true);
-            setDataLocal("isLoggedIn", true);
+            if (isRememberMe) {
+                setDataLocal("isLoggedIn", true);
+            }
         } catch (error) {
             setLoading(false)
             setAuthError(error.code);
@@ -61,7 +65,7 @@ const Login = () => {
     }
 
     return (
-        <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] backdrop-blur-xs`}>
+        <div className={`text-[#234120] absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] backdrop-blur-xs`}>
             <div className={`flex flex-col items-center pop-up w-8/10 h-5/10 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-23/100`}>
                 <div className="w-full flex justify-between h-fit text-2xl items-center">
                     <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer ml-auto bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
@@ -82,8 +86,13 @@ const Login = () => {
                     </div>
                     <div className='w-full h-7/10 p-3 pt-1 md:pt-5 flex flex-col items-center gap-5'>
                         <input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} id="email" placeholder='Enter your username...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
-                        <input type="password" value={password} onChange={(e) => { setPassword(e.target.value) }} id="pass" placeholder='Enter your password...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
-                        <input className='hidden peer' value={isRememberMe} onChange={(e) => { setIsRememberMe(prev => !prev) }} type="checkbox" name="remember" id="remember" />
+                        <div className='relative flex w-95/100 justify-start'>
+                            <input type={showPass ? "text" : "password"} value={password} onChange={(e) => { setPassword(e.target.value) }} id="pass" placeholder='Enter your password...' className='p-2 pr-8 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-full' />
+                            <button onClick={() => { setShowPass(prev => !prev) }} className='absolute cursor-pointer text-[#234120] text-xl right-[2%] top-[50%] -translate-y-[50%]'>
+                                {showPass ? <IoEyeOff /> : <IoEye />}
+                            </button>
+                        </div>
+                        <input className='hidden peer' value={isRememberMe} onChange={() => { setIsRememberMe(prev => !prev) }} type="checkbox" name="remember" id="remember" />
                         <label className='flex items-center gap-2 w-95/100 text-[#234120] cursor-pointer' htmlFor="remember">{isRememberMe ? <ImCheckboxChecked /> : <ImCheckboxUnchecked />}Remember Me</label>
                         <button disabled={loading} onClick={handleLogin} className='p-2 mt-2 shadow-[2px_3px_0_0_#acdda8] cursor-pointer bg-[#234120] text-2xl text-[#acdda8] w-95/100'>{loading ? 'Please wait...' : 'Login'}</button>
                         <p className='text-[#234120] -mt-2 md:mt-0'>Don't have an account <span onClick={() => { setShowPopUp('SignUp') }} className='bg-[#acdda8] p-0.5 shadow-[1px_2px_0_0_#234120] cursor-pointer'>Register</span></p>
