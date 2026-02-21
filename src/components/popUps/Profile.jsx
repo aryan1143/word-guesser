@@ -8,6 +8,7 @@ import { getDataLocal, removeDataLocal, setDataLocal } from '../../lib/localStor
 import { FaEdit } from "react-icons/fa";
 import useUpdateProfileData from '../../hooks/useUpdateProfileData';
 import Loader from '../Loader';
+import useDialog from '../../hooks/useDialog';
 
 const Profile = () => {
   const { setShowPopUp } = useContext(Context);
@@ -17,9 +18,10 @@ const Profile = () => {
   const [name, setName] = useState('');
   const userData = getDataLocal("userData");
   const { updateProfile, loading, isSuccess } = useUpdateProfileData();
+  const {confirmBox} = useDialog();
 
-  const handleLogOut = () => {
-    const result = confirm("Are you sure you want to logout.");
+  const handleLogOut = async () => {
+    const result = await confirmBox("Are you sure you want to logout.");
     if (result) {
       setIsLoggedIn(false);
       setDataLocal("isLoggedIn", false);
@@ -94,8 +96,8 @@ const Profile = () => {
                 </div>
                 :
                 <div className='relative w-full flex justify-center'>
-                  <p className='[text-shadow:1px_2px_0_#acdda8] md:text-3xl'>{cleanName}</p>
-                  <button onClick={() => setIsEditingName(true)} className='absolute pl-0.5 pb-0.5 cursor-pointer text-sm flex items-center justify-center bg-[#acdda8] rounded-sm top-[0%] left-[90%] shadow-[1px_1px_0_0_#234120]'>
+                  <p className='[text-shadow:1px_2px_0_#acdda8] text-center md:text-2xl'>{cleanName}</p>
+                  <button onClick={() => setIsEditingName(true)} className='absolute pl-0.5 pb-0.5 cursor-pointer text-sm flex items-center justify-center bg-[#acdda8] rounded-sm top-[0%] -right-[1%] shadow-[1px_1px_0_0_#234120]'>
                     <FaEdit />
                   </button>
                 </div>

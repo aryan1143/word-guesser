@@ -3,12 +3,14 @@ import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { setDataLocal } from "../lib/localStorage";
 import { app } from "../lib/firebaseClient";
+import useDialog from "./useDialog";
 
 export default function useUpdateProfileData() {
     const db = getFirestore();
     const auth = getAuth(app);
     const [loading, setLoading] = useState(false);
     const [isSuccess, setisSuccess] = useState(false);
+    const {alertBox} = useDialog();
 
     async function updateProfile(key, value) {
         setLoading(true);
@@ -25,7 +27,7 @@ export default function useUpdateProfileData() {
         } catch (error) {
             setisSuccess(false);
             console.log(error)
-            alert("Something went wrong.");
+            alertBox("Something went wrong.");
         } finally {
             setLoading(false)
         }

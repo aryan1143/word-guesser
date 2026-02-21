@@ -49,7 +49,7 @@ const ConfirmContextProvider = ({ children }) => {
     }
 
     const handleOnCancel = () => {
-        if (confirmState.resolve) confirmBox.resolve(false);
+        if (confirmState.resolve) confirmState.resolve(false);
         closeDialog();
     }
 

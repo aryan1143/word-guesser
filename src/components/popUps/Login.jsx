@@ -9,6 +9,7 @@ import ShowLoginError from '../ShowLoginError';
 import { setDataLocal } from '../../lib/localStorage';
 import { RiCloseFill } from 'react-icons/ri';
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import useDialog from '../../hooks/useDialog';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -23,6 +24,7 @@ const Login = () => {
 
     const { setIsLoggedIn, setUserHistory } = useContext(LoginContext);
     const { setShowPopUp } = useContext(Context);
+    const {alertBox} = useDialog();
 
     async function handleLogin() {
         try {
@@ -30,7 +32,8 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             if (!user.emailVerified) {
-                alert("Please verify your email first!");
+                alertBox("Please register again to verify your email first!");
+                setLoading(false);
                 return;
             }
             const userDocRef = doc(db, "users", user.uid);
@@ -85,7 +88,7 @@ const Login = () => {
                         }
                     </div>
                     <div className='w-full h-7/10 p-3 pt-1 md:pt-5 flex flex-col items-center gap-5'>
-                        <input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} id="email" placeholder='Enter your username...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
+                        <input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} id="email" placeholder='Enter your email...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
                         <div className='relative flex w-95/100 justify-start'>
                             <input type={showPass ? "text" : "password"} value={password} onChange={(e) => { setPassword(e.target.value) }} id="pass" placeholder='Enter your password...' className='p-2 pr-8 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-full' />
                             <button onClick={() => { setShowPass(prev => !prev) }} className='absolute cursor-pointer text-[#234120] text-xl right-[2%] top-[50%] -translate-y-[50%]'>
