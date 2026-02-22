@@ -40,7 +40,7 @@ const SignUp = () => {
                 createdAt: serverTimestamp(),
                 name: '',
                 streak: 0,
-                totalScore: 0,
+                dailyScore: 0,
                 weeklyScore: 0,
                 monthlyScore: 0,
                 pfpURL: 'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png'
