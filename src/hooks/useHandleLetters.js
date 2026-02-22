@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import WordsContext from "../context/wordsContext";
+import compareWord from "../components/utils/compareWord";
 
 function useHandleLetters() {
     const { letter, setLetter, setSubmitedRowNo, submitedRowNo } = useContext(WordsContext);
@@ -15,8 +16,10 @@ function useHandleLetters() {
 
         if (letter === 'ENTER') {
             if (letterIndex === 5 && submitedRowNo < 6) {
-                setSubmitedRowNo((prev)=> prev + 1);
-                setLetterIndex(0); 
+                if (compareWord(allWords[submitedRowNo])) {
+                    setSubmitedRowNo((prev)=> prev + 1);
+                    setLetterIndex(0); 
+                }
             }
             return;
         }

@@ -3,9 +3,16 @@ import Grid from '../components/Grid'
 import Keyboard from '../components/Keyboard'
 import WordsContext from '../context/wordsContext'
 import useHandleLetters from '../hooks/useHandleLetters'
+import { randomWord } from '../components/utils/wordUtil'
 
 const GamePage = () => {
-    const {targetWord} = useContext(WordsContext);
+    const {setTargetWord} = useContext(WordsContext);
+    useEffect(() => {
+        const word = randomWord();
+      setTargetWord(word);
+      console.log(word)
+    }, [])
+    
     const allWords = useHandleLetters();
     return (
         <div className='mt-8 md:mt-0 flex flex-col items-center gap-5 md:gap-2 h-8/10 md:flex-1'>

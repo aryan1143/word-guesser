@@ -4,7 +4,7 @@ import {useLocation } from 'react-router-dom';
 
 const WordsContextProvider = ({ children }) => {
   const [letter, setLetter] = useState(null);
-  const [targetWord, setTargetWord] = useState('GUESS');
+  const [targetWord, setTargetWord] = useState('FIGHT');
   const [submitedRowNo, setSubmitedRowNo] = useState(0);
 
   const location = useLocation();
