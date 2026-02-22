@@ -3,13 +3,11 @@ import WordsContext from "../context/wordsContext";
 import compareWord from "../components/utils/compareWord";
 
 function useHandleLetters() {
-    const { letter, setLetter, setSubmitedRowNo, submitedRowNo } = useContext(WordsContext);
+    const { letter, setLetter, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
     
     const [allWords, setAllWords] = useState([
         '-----', '-----', '-----', '-----', '-----', '-----'
     ]);
-
-    const [letterIndex, setLetterIndex] = useState(0);
 
     useEffect(() => {
         if (!letter) return;
@@ -19,8 +17,14 @@ function useHandleLetters() {
                 if (compareWord(allWords[submitedRowNo])) {
                     setSubmitedRowNo((prev)=> prev + 1);
                     setLetterIndex(0); 
+                } else {
+                    setIsShaking(true);
+                    setTimeout(() => {
+                        setIsShaking(false);
+                    }, 300);
                 }
             }
+            setLetter(null);
             return;
         }
 
@@ -45,6 +49,10 @@ function useHandleLetters() {
 
             setAllWords(newGrid);
             setLetterIndex((prev) => prev + 1);
+            setIsBubbling(true);
+            setTimeout(() => {
+                setIsBubbling(false);
+            }, 200);
         }
         setLetter(null);
     }, [letter]);
