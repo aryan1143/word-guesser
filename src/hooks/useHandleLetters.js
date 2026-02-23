@@ -11,7 +11,6 @@ function useHandleLetters() {
         if (!letter) return;
 
         if (letter === 'ENTER') {
-            console.log(letterIndex, submitedRowNo, showPopUp)
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
                 setShowPopUp('lost');
                 setSubmitedRowNo(0);

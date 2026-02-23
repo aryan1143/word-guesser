@@ -7,7 +7,7 @@ import Loader from '../Loader';
 
 const Verification = () => {
     const auth = getAuth(app);
-    const { setShowPopUp } = useContext(Context);
+    const { setShowPopUp, showToastMessege } = useContext(Context);
     const [loading, setLoading] = useState(false);
     const [messege, setMessege] = useState(null);
 
@@ -17,7 +17,7 @@ const Verification = () => {
         if (auth.currentUser) {
                 await auth.currentUser.reload();
                 if (auth.currentUser.emailVerified) {
-                    console.log("Verified!");
+                    showToastMessege('Verified ✅')
                     setShowPopUp('Login');
                     setLoading(false);
                 } else {

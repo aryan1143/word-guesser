@@ -18,6 +18,37 @@ body {
   filter: brightness(0) saturate(100%) invert(19%) sepia(12%) saturate(1376%) hue-rotate(69deg) brightness(96%) contrast(90%);
 }
 
+
+.toast {
+  animation: toast 4s ease-in-out forwards;
+}
+
+@keyframes toast {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.5);
+    transform: translateY(-70%);
+  }
+
+  10% {
+    opacity: 1;
+    transform: scaleX(1);
+    transform: translateY(0);
+  }
+
+  90% {
+    opacity: 1;
+    transform: scaleX(1);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(0.5);
+    transform: translateY(-70%);
+  }
+}
+
 .bubble {
   animation: bubble 0.1s ease-out forwards;
 }

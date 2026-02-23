@@ -8,12 +8,13 @@ import useUpdateProfileData from '../../hooks/useUpdateProfileData';
 import { RiCloseFill } from 'react-icons/ri';
 
 const PfpSelector = () => {
-    const { setShowPopUp } = useContext(Context);
+    const { setShowPopUp, showToastMessege } = useContext(Context);
 
     const pfps = pfpImages;
     const { updateProfile, loading, isSuccess } = useUpdateProfileData();
     if (!loading && isSuccess) {
         setShowPopUp('Profile');
+        showToastMessege('PFP changed ✅')
     }
 
 

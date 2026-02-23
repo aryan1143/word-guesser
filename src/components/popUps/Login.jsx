@@ -23,7 +23,7 @@ const Login = () => {
     const db = getFirestore(app);
 
     const { setIsLoggedIn, setUserHistory } = useContext(LoginContext);
-    const { setShowPopUp } = useContext(Context);
+    const { setShowPopUp, showToastMessege } = useContext(Context);
     const {alertBox} = useDialog();
 
     async function handleLogin() {
@@ -50,6 +50,7 @@ const Login = () => {
                 setDataLocal("userId", user.uid);
                 setDataLocal("isNotFirstTimeVisit", true);
                 setShowPopUp(null);
+                showToastMessege('Login Suceesful ✅')
             } else {
                 console.log("No such document in Firestore!");
             }

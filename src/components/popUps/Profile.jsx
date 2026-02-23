@@ -11,7 +11,7 @@ import Loader from '../Loader';
 import useDialog from '../../hooks/useDialog';
 
 const Profile = () => {
-  const { setShowPopUp } = useContext(Context);
+  const { setShowPopUp, showToastMessege } = useContext(Context);
   const { setIsLoggedIn } = useContext(LoginContext);
   const [periodType, setpPeriodType] = useState('week');
   const [isEditingName, setIsEditingName] = useState(false);
@@ -54,6 +54,7 @@ const Profile = () => {
   function changeName() {
     if (name === cleanName) {
       setIsEditingName(false);
+      showToastMessege('Name Changed ✅')
       return;
     }
     updateProfile('name', name);
@@ -62,6 +63,7 @@ const Profile = () => {
   useEffect(() => {
     if (!loading && isSuccess) {
       setIsEditingName(false);
+      showToastMessege('Name Changed ✅')
     }
   }, [loading, isSuccess])
 
@@ -91,7 +93,7 @@ const Profile = () => {
             <div className='flex flex-col items-center justify-center h-full md:h-fit w-fit'>
               {isEditingName ? loading ? <Loader /> :
                 <div className='flex justify-center w-full px-0.5'>
-                  <input className='px-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-8/10' type="text" name="name" value={name} onChange={e => setName(e.target.value)} />
+                  <input className='px-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-8/10' type="text" name="name" value={name || cleanName} onChange={e => setName(e.target.value)} />
                   <button disabled={name === ''} className=' cursor-pointer disabled:bg-[#81ae7d] text-[#acdda8] font-bold bg-[#234120] px-2' onClick={changeName}>✓</button>
                 </div>
                 :
