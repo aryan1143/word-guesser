@@ -3,7 +3,7 @@ import HomePage from './pages/HomePage'
 import GamePage from './pages/GamePage'
 import Header from './components/Header'
 import LeaderBoard from './components/popUps/LeaderBoard'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import Settings from './components/popUps/Settings'
 import Context from './context/Context'
 import GameMode from './components/popUps/GameMode'
@@ -15,7 +15,7 @@ import { getDataLocal } from './lib/localStorage'
 import PfpSelector from './components/popUps/PfpSelector'
 import useHandleStatsHistory from './hooks/useHandleStatsHistory'
 import Verification from './components/popUps/Verification'
-import CustomAlertConfirm from './components/CustomAlertConfirm'
+import WinOrLost from './components/popUps/WinOrLost'
 
 
 
@@ -48,6 +48,7 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
+        {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' && <WinOrLost status='lost' />}
         {showPopUp === 'pfpSelect' && <PfpSelector />}
         {showPopUp === 'SignUp' && <SignUp />}
         {showPopUp === 'Verification' && <Verification />}

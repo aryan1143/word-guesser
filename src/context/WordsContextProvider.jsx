@@ -5,6 +5,9 @@ import { useLocation } from 'react-router-dom';
 const WordsContextProvider = ({ children }) => {
   const [letter, setLetter] = useState(null);
   const [targetWord, setTargetWord] = useState('FIGHT');
+  const [allWords, setAllWords] = useState([
+    '-----', '-----', '-----', '-----', '-----', '-----'
+  ]);
   const [submitedRowNo, setSubmitedRowNo] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
@@ -21,6 +24,8 @@ const WordsContextProvider = ({ children }) => {
     setLetter,
     targetWord,
     setTargetWord,
+    allWords,
+    setAllWords,
     submitedRowNo,
     setSubmitedRowNo,
     letterIndex,

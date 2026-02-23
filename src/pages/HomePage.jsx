@@ -3,10 +3,13 @@ import logo from '/logo.svg'
 import Grid from '../components/Grid'
 import { useContext } from 'react'
 import Context from '../context/Context'
+import { randomWord } from '../components/utils/wordUtil'
+import WordsContext from '../context/wordsContext'
 
 const HomePage = () => {
 
-  const {setShowPopUp} = useContext(Context);
+  const { setShowPopUp } = useContext(Context);
+  const {setTargetWord, setAllWords} = useContext(WordsContext);
 
   const targetWord = 'GUESS';
   const allWordsSample = [
@@ -18,6 +21,15 @@ const HomePage = () => {
     '-----'
   ]
 
+  function handleOnClick() {
+    const word = randomWord();
+    setTargetWord(word);
+    setShowPopUp(null);
+    setAllWords([
+      '-----', '-----', '-----', '-----', '-----', '-----'
+    ]);
+    console.log(word)
+  }
 
   return (
     <>
@@ -31,8 +43,8 @@ const HomePage = () => {
             </div>
           </div>
           <div className='flex flex-col md:flex-row justify-start p-5 items-center w-9/10 py-8 gap-7'>
-            <Link to='/game-page' className='shadow-[0_4px_0_0_#acdda8] px-[min(7rem,(calc(1rem+4vw)))] py-4 bg-[#325b2e] flex justify-center items-center text-2xl md:text-5xl min-h-9 min-w-60 md:min-h-18 font-bold text-[#d6fad3] rounded-4xl cursor-pointer hover:bg-[#294b26] active:translate-y-0.5 duration-95'>Play</Link>
-            <button onClick={()=>{setShowPopUp((prev)=>(prev === 'GameMode' ? null : 'GameMode'))}}  className='pop-up-button shadow-[0_3px_0_0_#234120] px-[min(7rem,(calc(0.5rem+1vw)))] py-4 bg-[#acdda8] text-2xl md:text-5xl min-h-9 min-w-60 md:min-h-18 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] active:translate-0.5 duration-95'>Game Mode</button>
+            <Link onClick={handleOnClick} to='/game-page' className='shadow-[0_4px_0_0_#acdda8] px-[min(7rem,(calc(1rem+4vw)))] py-4 bg-[#325b2e] flex justify-center items-center text-2xl md:text-5xl min-h-9 min-w-60 md:min-h-18 font-bold text-[#d6fad3] rounded-4xl cursor-pointer hover:bg-[#294b26] active:translate-y-0.5 duration-95'>Play</Link>
+            <button onClick={() => { setShowPopUp((prev) => (prev === 'GameMode' ? null : 'GameMode')) }} className='pop-up-button shadow-[0_3px_0_0_#234120] px-[min(7rem,(calc(0.5rem+1vw)))] py-4 bg-[#acdda8] text-2xl md:text-5xl min-h-9 min-w-60 md:min-h-18 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] active:translate-0.5 duration-95'>Game Mode</button>
           </div>
         </div>
         <div className='w-4/10 h-full hidden md:flex flex-col items-end'>
@@ -41,7 +53,7 @@ const HomePage = () => {
               <img src={logo} className='w-[calc(0.5rem+2vw)]' />
               <p className='text-3xl font-bold text-[#234120]'>W-GUESSER</p>
             </div>
-            <Grid isBigTiles={true} allWords={allWordsSample} targetWord={targetWord} isSample={true}/>
+            <Grid isBigTiles={true} sampleWords={allWordsSample} targetWord={targetWord} isSample={true} />
           </div>
         </div>
       </div>

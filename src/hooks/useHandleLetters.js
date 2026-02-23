@@ -1,18 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import WordsContext from "../context/wordsContext";
 import compareWord from "../components/utils/compareWord";
+import Context from "../context/Context";
 
 function useHandleLetters() {
-    const { letter, setLetter, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
-    
-    const [allWords, setAllWords] = useState([
-        '-----', '-----', '-----', '-----', '-----', '-----'
-    ]);
+    const { letter, setLetter, allWords, targetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
+    const {showPopUp, setShowPopUp} = useContext(Context);
 
     useEffect(() => {
         if (!letter) return;
 
         if (letter === 'ENTER') {
+            console.log(letterIndex, submitedRowNo, showPopUp)
+            if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
+                setShowPopUp('lost');
+                setSubmitedRowNo(0);
+                setLetterIndex(0);
+                return;
+            }
             if (letterIndex === 5 && submitedRowNo < 6) {
                 if (compareWord(allWords[submitedRowNo])) {
                     setSubmitedRowNo((prev)=> prev + 1);
