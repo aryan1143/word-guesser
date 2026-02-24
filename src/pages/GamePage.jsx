@@ -7,11 +7,6 @@ import { randomWord } from '../components/utils/wordUtil'
 
 const GamePage = () => {
     const {setTargetWord} = useContext(WordsContext);
-    useEffect(() => {
-        const word = randomWord();
-      setTargetWord(word);
-      console.log(word)
-    }, [])
     
     const allWords = useHandleLetters();
     return (

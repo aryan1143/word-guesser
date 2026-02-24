@@ -1,9 +1,28 @@
 import React, { useContext } from 'react'
 import Context from '../../context/Context'
 import { RiCloseFill } from 'react-icons/ri';
+import getDailyWordle from '../utils/getDailyWordle';
+import WordsContext from '../../context/wordsContext';
+import {useNavigate} from 'react-router-dom'
+
 
 const GameMode = () => {
   const { setShowPopUp } = useContext(Context);
+  const { setTargetWord } = useContext(WordsContext);
+  const navigate = useNavigate();
+
+  function handlePlay(mode) {
+    if (mode === 'day') {
+      const wordle = getDailyWordle();
+      setTargetWord(wordle);
+      navigate('/game-page');
+      setShowPopUp(null);     
+    } else if (mode === 'challange') {
+      
+    } else if (mode === 'practice') {
+      
+    }
+  }
 
 
   return (
@@ -31,7 +50,7 @@ const GameMode = () => {
               </ul>
             </div>
             <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button onClick={()=>handlePlay('day')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
               <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
@@ -50,7 +69,7 @@ const GameMode = () => {
               </ul>
             </div>
             <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button onClick={()=>handlePlay('challange')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
               <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
@@ -69,7 +88,7 @@ const GameMode = () => {
               </ul>
             </div>
             <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button onClick={()=>handlePlay('practice')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
               <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>

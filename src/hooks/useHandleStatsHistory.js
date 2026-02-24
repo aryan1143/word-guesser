@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteField, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { deleteField, doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function useHandleStatsHistory(action = 'get', statsData = null) {
