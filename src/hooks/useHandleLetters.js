@@ -9,6 +9,9 @@ function useHandleLetters() {
 
     useEffect(() => {
         if (!letter) return;
+        if (showPopUp) {
+            return;
+        }
 
         if (letter === 'ENTER') {
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
