@@ -1,7 +1,8 @@
 import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, getFirestore, onSnapshot, runTransaction, serverTimestamp, updateDoc } from "firebase/firestore";
 import { app } from "../lib/firebaseClient";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getDataLocal } from "../lib/localStorage";
+import Context from "../context/Context";
 
 export default function usechallengeWordle() {
     const [loading, setLoading] = useState(false);
@@ -13,7 +14,9 @@ export default function usechallengeWordle() {
     const uid = getDataLocal('userId');
     const db = getFirestore(app);
 
-    async function createChallenge(wordleIndex = 0, isTimed = false, duration = 0) {
+    const { showToastMessege } = useContext(Context);
+
+    async function createChallenge({ wordleIndex = 0, isTimed = false, duration = 0 }) {
         setLoading(true);
         try {
             const baseURL = window.location.origin;
@@ -31,22 +34,7 @@ export default function usechallengeWordle() {
             });
             setChallengeId(ref.id);
             setChallengeURL(`${baseURL}/challenge/${ref.id}`);
-        } catch (e) {
-            setError(e.code);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    async function getChallengeInfo(challengeId) {
-        setLoading(true);
-        try {
-            const ref = doc(db, "challenges", challengeId);
-            const snap = await getDoc(ref);
-            if (!snap.exists()) throw new Error("Challenge-not-found");
-            setChallengeId(challengeId);
-            const data = snap.data();
-            setChallengeData(data);
+            showToastMessege("Challenge Created Succesfully ✅")
         } catch (e) {
             setChallengeStatus(e.message);
         } finally {
@@ -133,7 +121,7 @@ export default function usechallengeWordle() {
 
             await updateDoc(ref, {
                 [field]: "left",
-                status: "abondened",
+                status: "abondoned",
             });
 
         } catch (e) {
@@ -148,13 +136,16 @@ export default function usechallengeWordle() {
         const ref = doc(db, "challenges", challengeId);
 
         const unsubscribe = onSnapshot(ref, snap => {
-            
-            if (!snap.exists()) return;
+
+            if (!snap.exists()) {
+                setChallengeStatus("not-found");
+                return;
+            }
 
             const data = snap.data();
             setChallengeData(data);
 
-            if (data.player2 === "joined" && data.status === "ready") {
+            if (data.status === "ready") {
                 setChallengeStatus("opponent-joined");
             }
 
@@ -181,6 +172,5 @@ export default function usechallengeWordle() {
         acceptChallenge,
         startChallenge,
         exitChallenge,
-        getChallengeInfo
     };
 }

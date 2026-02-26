@@ -14,7 +14,7 @@ const ContextProvider = ({ children }) => {
         setTimeout(() => {
             setShowToast(false);
             setToastMessege('');
-        }, 5000);
+        }, 2500);
     }
 
     const value = {

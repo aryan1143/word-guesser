@@ -17,6 +17,7 @@ import useHandleStatsHistory from './hooks/useHandleStatsHistory'
 import Verification from './components/popUps/Verification'
 import WinOrLost from './components/popUps/WinOrLost'
 import Toast from './components/popUps/Toast'
+import Challenge from './components/popUps/Challenge'
 
 
 
@@ -49,6 +50,7 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
+        <Challenge />
         {showToast && <Toast text={toastMessege}/>}
         {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' && <WinOrLost status='lost' />}
         {showPopUp === 'pfpSelect' && <PfpSelector />}
