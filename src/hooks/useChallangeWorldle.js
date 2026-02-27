@@ -13,6 +13,7 @@ export default function usechallengeWordle() {
     const [challengeId, setChallengeId] = useState(null);
     const uid = getDataLocal('userId');
     const db = getFirestore(app);
+    const userData = getDataLocal('userData');
 
     const { showToastMessege } = useContext(Context);
 
@@ -31,6 +32,8 @@ export default function usechallengeWordle() {
                 status: "waiting",
                 player1: "joined",
                 player2: "empty",
+                player1Name: userData.name,
+                player2Name: 'empty'
             });
             setChallengeId(ref.id);
             setChallengeURL(`${baseURL}/challenge/${ref.id}`);
@@ -69,6 +72,7 @@ export default function usechallengeWordle() {
                     players: arrayUnion(uid),
                     player2: "joined",
                     status: "ready",
+                    player2Name: userData.name
                 });
             });
 
@@ -133,6 +137,7 @@ export default function usechallengeWordle() {
 
     useEffect(() => {
         if (!challengeId) return;
+        setLoading(true);
         const ref = doc(db, "challenges", challengeId);
 
         const unsubscribe = onSnapshot(ref, snap => {
@@ -144,6 +149,9 @@ export default function usechallengeWordle() {
 
             const data = snap.data();
             setChallengeData(data);
+            if (data) {
+                setLoading(false);
+            }
 
             if (data.status === "ready") {
                 setChallengeStatus("opponent-joined");
@@ -157,7 +165,6 @@ export default function usechallengeWordle() {
                 setChallengeStatus("player-left");
             }
         })
-
         return () => unsubscribe();
     }, [challengeId])
 
@@ -172,5 +179,6 @@ export default function usechallengeWordle() {
         acceptChallenge,
         startChallenge,
         exitChallenge,
+        setChallengeId
     };
 }

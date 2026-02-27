@@ -7,6 +7,7 @@ const ContextProvider = ({ children }) => {
     const [soundOn, setSoundOn] = useState(false);
     const [showToast, setShowToast] = useState(false);
     const [toastMessege, setToastMessege] = useState('');
+    const [showCreateChallenge, setShowCreateChallenge] = useState(false);
 
     function showToastMessege (text) {
         setShowToast(true);
@@ -24,7 +25,9 @@ const ContextProvider = ({ children }) => {
         setSoundOn,
         showToast,
         toastMessege,
-        showToastMessege
+        showToastMessege,
+        showCreateChallenge,
+        setShowCreateChallenge
     }
 
     return (

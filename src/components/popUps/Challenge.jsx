@@ -6,6 +6,8 @@ import { FaClipboard, FaClipboardCheck } from "react-icons/fa";
 import Context from '../../context/Context';
 import usechallengeWordle from '../../hooks/useChallangeWorldle';
 import { getWordByIndex, getWordIndex } from '../utils/getWordleOrIndex';
+import { useLocation, useParams } from 'react-router-dom';
+import Loader from '../Loader';
 
 const Challenge = () => {
     const [isTimed, setIsTimed] = useState(false);
@@ -14,6 +16,17 @@ const Challenge = () => {
     const [isWrongWordle, setIsWrongWordle] = useState(false);
     const [word, setWord] = useState('');
     const [duration, setDuration] = useState(30);
+
+    const { challengeId } = useParams();
+    const locationPath = useLocation().pathname;
+    useEffect(() => {
+        console.log(challengeId)
+        if (locationPath.includes('challenge')) {
+            setChallengeId(challengeId);
+        }
+    }, []);
+
+
 
     const {
         loading,
@@ -24,11 +37,12 @@ const Challenge = () => {
         createChallenge,
         acceptChallenge,
         startChallenge,
-        exitChallenge
+        exitChallenge,
+        setChallengeId
 
     } = usechallengeWordle();
 
-    const { showToastMessege } = useContext(Context);
+    const { showToastMessege, showCreateChallenge } = useContext(Context);
 
     function handleClose(action) {
 
@@ -55,7 +69,7 @@ const Challenge = () => {
         }
 
         if (isTimed) {
-            createChallenge({isTimed: isTimed, duration: duration});
+            createChallenge({ isTimed: isTimed, duration: duration });
         } else {
             const wordleIndex = getWordIndex(word);
             createChallenge({ wordleIndex });
@@ -99,69 +113,9 @@ const Challenge = () => {
                     </button>
                 </div>
                 <div className='overflow-hidden shadow-[0_4px_0_0_#234120] p-3 flex flex-col h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
-                    <form className='w-full h-15/100 flex justify-around gap-5 px-2'>
-                        <div className='flex-1'>
-                            <input
-                                className='peer sr-only'
-                                id="customWordle"
-                                checked={isTimed === false}
-                                value="false"
-                                type="radio"
-                                name='type'
-                                onChange={(e) => setIsTimed(e.target.value === "true")}
-                            />
-                            <label
-                                className='flex-1 py-1 bg-[#acdda8] shadow-[2px_3px_0_0_#234120] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] peer-checked:shadow-[2px_3px_0_0_#acdda8] peer-checked:text-[#acdda8] cursor-pointer transition-colors duration-100'
-                                htmlFor="customWordle"
-                            >
-                                Custom Wordle
-                            </label>
-                        </div>
-                        <div className='flex-1'>
-                            <input
-                                className='peer sr-only'
-                                id="timedWordle"
-                                checked={isTimed === true}
-                                value="true"
-                                type="radio"
-                                name='type'
-                                onChange={(e) => setIsTimed(e.target.value === "true")}
-                            />
-                            <label
-                                className='flex-1 py-1 bg-[#acdda8] shadow-[2px_3px_0_0_#234120] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] peer-checked:shadow-[2px_3px_0_0_#acdda8] peer-checked:text-[#acdda8] cursor-pointer transition-colors duration-100'
-                                htmlFor="timedWordle"
-                            >
-                                Timed Wordle
-                            </label>
-                        </div>
-                    </form>
-                    <div className='w-full h-15/100 flex flex-col items-center justify-center'>
-                        {isTimed ?
-                            <select value={duration} onChange={(e) => setDuration(Number(e.target.value))} name="duration" className='w-fit h-fit p-2 px-8 bg-[#234120] text-xl text-[#acdda8]'>
-                                <option value="30">30 Sec</option>
-                                <option value="60">60 Sec</option>
-                                <option value="90">90 Sec</option>
-                                <option value="120">120 Sec</option>
-                            </select>
-                            :
-                            <input type="text" value={word} onChange={(e) => handleWordleInput(e.target.value.toUpperCase())} id="wordleInput" placeholder='Enter a 5 letter word...' className={`p-2 text-2xl text-[#234120] focus:outline-0 bg-[#acdda8] ${isWrongWordle ? 'border-[#b10000] shake' : 'border-[#234120]'} border-b-2 w-95/100`} />
-                        }
-
-                    </div>
-                    <div className='w-full flex-1 flex justify-center items-center'>
-                        <div className='relative w-8/10 h-7/10 border-2 border-[#234120] flex flex-col shadow-[2px_3px_0_0_#acdda8]'>
-                            <button onClick={handleCopy} className={`absolute top-1 left-[75%] md:left-[80%] w-fit h-fit flex justify-end p-1 items-center text-[#234120] cursor-pointer ${!challengeURL && 'text-gray-400'}`}>
-                                {copied ? <FaClipboardCheck /> : <FaClipboard />}
-                                <p>{copied ? 'Copied' : 'Copy'}</p>
-                            </button>
-                            <div className='w-full flex-1 flex justify-center items-center p-3 text-[#234120] text-xl'>
-                                <p onClick={handleCopy} className={`w-full text-center text-balance line-clamp-2 ${challengeURL ? "cursor-pointer hover:underline" : "text-gray-400"}`}>{challengeURL ? challengeURL : 'Create challenge to get challenge link'}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='h-15/100 w-full mt-auto'>
-                        <button onClick={handleCreateChallenge} disabled={!isTimed && isDisabled || loading } className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl'>{loading ? 'Creating Challenge' : 'Create Challenge'}</button>
-                    </div>
+                    {loading ? <Loader isBg={false} /> :
+                        locationPath.includes('challenge') && <AcceptChallengeUI challengeData={challengeData} />}
+                    {showCreateChallenge && !locationPath.includes('challenge') && <CreateChallengeUI isTimed={isTimed} word={word} isWrongWordle={isWrongWordle} challengeURL={challengeURL} copied={copied} isDisabled={isDisabled} loading={loading} duration={duration} handleWordleInput={handleWordleInput} setIsTimed={setIsTimed} setDuration={setDuration} handleCreateChallenge={handleCreateChallenge} handleCopy={handleCopy} />}
                 </div>
             </div>
         </div>
@@ -169,3 +123,110 @@ const Challenge = () => {
 }
 
 export default Challenge
+
+
+const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challengeURL, copied, handleCreateChallenge, isDisabled, loading, setIsTimed, setDuration, duration, handleWordleInput }) => {
+    return (
+        <>
+            <form className='w-full h-15/100 flex justify-around gap-5 px-2'>
+                <div className='flex-1'>
+                    <input
+                        className='peer sr-only'
+                        id="customWordle"
+                        checked={isTimed === false}
+                        value="false"
+                        type="radio"
+                        name='type'
+                        onChange={(e) => setIsTimed(e.target.value === "true")}
+                    />
+                    <label
+                        className='flex-1 py-1 bg-[#acdda8] shadow-[2px_3px_0_0_#234120] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] peer-checked:shadow-[2px_3px_0_0_#acdda8] peer-checked:text-[#acdda8] cursor-pointer transition-colors duration-100'
+                        htmlFor="customWordle"
+                    >
+                        Custom Wordle
+                    </label>
+                </div>
+                <div className='flex-1'>
+                    <input
+                        className='peer sr-only'
+                        id="timedWordle"
+                        checked={isTimed === true}
+                        value="true"
+                        type="radio"
+                        name='type'
+                        onChange={(e) => setIsTimed(e.target.value === "true")}
+                    />
+                    <label
+                        className='flex-1 py-1 bg-[#acdda8] shadow-[2px_3px_0_0_#234120] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] peer-checked:shadow-[2px_3px_0_0_#acdda8] peer-checked:text-[#acdda8] cursor-pointer transition-colors duration-100'
+                        htmlFor="timedWordle"
+                    >
+                        Timed Wordle
+                    </label>
+                </div>
+            </form>
+            <div className='w-full h-15/100 flex flex-col items-center justify-center'>
+                {isTimed ?
+                    <select value={duration} onChange={(e) => setDuration(Number(e.target.value))} name="duration" className='w-fit h-fit p-2 px-8 bg-[#234120] text-xl text-[#acdda8]'>
+                        <option value="30">30 Sec</option>
+                        <option value="60">60 Sec</option>
+                        <option value="90">90 Sec</option>
+                        <option value="120">120 Sec</option>
+                    </select>
+                    :
+                    <input type="text" value={word} onChange={(e) => handleWordleInput(e.target.value.toUpperCase())} id="wordleInput" placeholder='Enter a 5 letter word...' className={`p-2 text-2xl text-[#234120] focus:outline-0 bg-[#acdda8] ${isWrongWordle ? 'border-[#b10000] shake' : 'border-[#234120]'} border-b-2 w-95/100`} />
+                }
+
+            </div>
+            <div className='w-full flex-1 flex justify-center items-center'>
+                <div className='relative w-8/10 h-7/10 border-2 border-[#234120] flex flex-col shadow-[2px_3px_0_0_#acdda8]'>
+                    <button onClick={handleCopy} className={`absolute top-1 left-[75%] md:left-[80%] w-fit h-fit flex justify-end p-1 items-center text-[#234120] cursor-pointer ${!challengeURL && 'text-gray-400'}`}>
+                        {copied ? <FaClipboardCheck /> : <FaClipboard />}
+                        <p>{copied ? 'Copied' : 'Copy'}</p>
+                    </button>
+                    <div className='w-full flex-1 flex justify-center items-center p-3 text-[#234120] text-xl'>
+                        <p onClick={handleCopy} className={`w-full text-center text-balance line-clamp-2 ${challengeURL ? "cursor-pointer hover:underline" : "text-gray-400"}`}>{challengeURL ? challengeURL : 'Create challenge to get challenge link'}</p>
+                    </div>
+                </div>
+            </div>
+            <div className='h-15/100 w-full mt-auto'>
+                <button onClick={handleCreateChallenge} disabled={!isTimed && isDisabled || loading} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl'>{loading ? 'Creating Challenge' : 'Create Challenge'}</button>
+            </div>
+        </>
+    )
+}
+
+const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept }) => {
+    return (
+        <div className='flex w-full h-full flex-col text-[#234120] mt-3 [text-shadow:1px_2px_0_#acdda8]'>
+            <div className='w-full h-15/100 flex justify-center gap-2 text-3xl'>
+                <img src="/logo.png" className='h-6/10' />
+                <h3>Wordle Challange</h3>
+            </div>
+            <div className='w-full flex flex-col gap-3 text-2xl items-center'>
+                <p> {'Challenge By: '}
+                    <span className='underline'>
+                        {challengeData ? challengeData.player1Name : 'Player'}
+                    </span>
+                </p>
+                <p> {'Challenge Type: '}
+                    <span className='underline'>
+                        {challengeData && challengeData.isTimed ? 'Timed Wordle' : 'Custom Wordle'}
+                    </span>
+                </p>
+                {challengeData && challengeData.isTimed &&
+                    <p> {'Challenge Duration: '}
+                        <span className='underline'>
+                            {challengeData && challengeData.isTimed ? challengeData.duration + 'sec' : '0sec'}
+                        </span>
+                    </p>
+                }
+
+            </div>
+            <p className='my-auto px-3 text-2xl text-center text-balance text-[#3e613b]'>Do you want to play the wordle challenge?</p>
+            <div className='w-full h-15/100 flex justify-around gap-2 mt-auto'>
+                <button onClick={handleCancel} className='w-full h-8/10 bg-[#acdda8] text-[#234120] text-2xl shadow-[1px_2px_0_#234120]'>Cancel</button>
+                <button onClick={handleAccept} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl shadow-[1px_2px_0_#acdda8]'>Accept</button>
+            </div>
+        </div>
+    )
+}

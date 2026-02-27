@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 
 
 const GameMode = () => {
-  const { setShowPopUp } = useContext(Context);
+  const { setShowPopUp, setShowCreateChallenge } = useContext(Context);
   const { setTargetWord } = useContext(WordsContext);
   const navigate = useNavigate();
 
@@ -18,7 +18,8 @@ const GameMode = () => {
       navigate('/game-page');
       setShowPopUp(null);     
     } else if (mode === 'challange') {
-      
+      setShowCreateChallenge(true);
+      setShowPopUp(null);
     } else if (mode === 'practice') {
       
     }
