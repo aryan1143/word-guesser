@@ -6,8 +6,10 @@ import { FaClipboard, FaClipboardCheck } from "react-icons/fa";
 import Context from '../../context/Context';
 import usechallengeWordle from '../../hooks/useChallangeWorldle';
 import { getWordByIndex, getWordIndex } from '../utils/getWordleOrIndex';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../Loader';
+import WordsContext from '../../context/WordsContext'
+import { getDataLocal } from '../../lib/localStorage';
 
 const Challenge = () => {
     const [isTimed, setIsTimed] = useState(false);
@@ -16,17 +18,12 @@ const Challenge = () => {
     const [isWrongWordle, setIsWrongWordle] = useState(false);
     const [word, setWord] = useState('');
     const [duration, setDuration] = useState(30);
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [justCreated, setJustCreated] = useState(false);
 
     const { challengeId } = useParams();
     const locationPath = useLocation().pathname;
-    useEffect(() => {
-        console.log(challengeId)
-        if (locationPath.includes('challenge')) {
-            setChallengeId(challengeId);
-        }
-    }, []);
-
-
+    const navigate = useNavigate();
 
     const {
         loading,
@@ -39,13 +36,27 @@ const Challenge = () => {
         startChallenge,
         exitChallenge,
         setChallengeId
-
     } = usechallengeWordle();
 
     const { showToastMessege, showCreateChallenge } = useContext(Context);
+    const { setTargetWord } = useContext(WordsContext);
+    const userId = getDataLocal('userId');
+    const ongoingChallengeId = getDataLocal('challengeId');
+
+    useEffect(() => {
+        if (ongoingChallengeId) {
+            console.log(ongoingChallengeId)
+            setChallengeId(ongoingChallengeId);
+            return;
+        }
+        if (locationPath.includes('challenge')) {
+            setChallengeId(challengeId);
+        }
+    }, [])
+    
 
     function handleClose(action) {
-
+        // Add your close logic here
     }
 
     function handleWordleInput(value) {
@@ -74,7 +85,7 @@ const Challenge = () => {
             const wordleIndex = getWordIndex(word);
             createChallenge({ wordleIndex });
         }
-
+        setJustCreated(true);
     }
 
     async function handleCopy() {
@@ -83,19 +94,75 @@ const Challenge = () => {
             await navigator.clipboard.writeText(challengeURL);
             showToastMessege("Link copied! 📋")
             setCopied(true);
-            setTimeout(() => {
-                setCopied(false);
-            }, 2500);
         } catch (err) {
             showToastMessege("Failed to copy ❌");
         }
     }
 
+    function handleCancel() {
+        navigate('/');
+        setChallengeId(null);
+    }
+
+    function handleAccept() {
+        if (!challengeData) return;
+        if (challengeData.isTimed) return;
+        const wordle = getWordByIndex(challengeData.wordleIndex)
+        setTargetWord(wordle);
+        console.log(wordle)
+        navigate('/game-page');
+    }
+
     useEffect(() => {
-        console.log(challengeData);
-        console.log(challengeStatus);
-        console.log(challengeURL)
+        console.log(challengeData)
+        if (challengeData) {
+            if (challengeData.createdBy === userId) {
+                setIsWaiting(true);
+            }
+        }
     }, [challengeData, challengeStatus, challengeURL])
+
+    const renderChallengeState = () => {
+        const isChallengePath = locationPath.includes('challenge');
+
+        if (isWaiting) {
+            if (justCreated && copied) {
+                return <WaitingUi />;
+            } else if (!justCreated) {
+                return <WaitingUi />;            }
+        }
+
+        if (isChallengePath) {
+            if (loading) return <Loader isBg={false} />;
+            return (
+                <AcceptChallengeUI 
+                    challengeData={challengeData} 
+                    handleAccept={handleAccept} 
+                    handleCancel={handleCancel} 
+                />
+            );
+        }
+        if (showCreateChallenge) {
+            return (
+                <CreateChallengeUI 
+                    isTimed={isTimed} 
+                    word={word} 
+                    isWrongWordle={isWrongWordle} 
+                    challengeURL={challengeURL} 
+                    copied={copied} 
+                    isDisabled={isDisabled} 
+                    loading={loading} 
+                    duration={duration} 
+                    handleWordleInput={handleWordleInput} 
+                    setIsTimed={setIsTimed} 
+                    setDuration={setDuration} 
+                    handleCreateChallenge={handleCreateChallenge} 
+                    handleCopy={handleCopy} 
+                />
+            );
+        }
+        return null;
+    };
 
 
     return (
@@ -106,16 +173,15 @@ const Challenge = () => {
                         <button className='cursor-pointer' onClick={() => handleClose('back')}>
                             <MdArrowBack />
                         </button>
-                        Challange With Friends
+                        Challenge With Friends
                     </p>
                     <button onClick={() => handleClose('close')} className='cursor-pointer bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
                         <RiCloseFill className='text-[#234120]' />
                     </button>
                 </div>
+                
                 <div className='overflow-hidden shadow-[0_4px_0_0_#234120] p-3 flex flex-col h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
-                    {loading ? <Loader isBg={false} /> :
-                        locationPath.includes('challenge') && <AcceptChallengeUI challengeData={challengeData} />}
-                    {showCreateChallenge && !locationPath.includes('challenge') && <CreateChallengeUI isTimed={isTimed} word={word} isWrongWordle={isWrongWordle} challengeURL={challengeURL} copied={copied} isDisabled={isDisabled} loading={loading} duration={duration} handleWordleInput={handleWordleInput} setIsTimed={setIsTimed} setDuration={setDuration} handleCreateChallenge={handleCreateChallenge} handleCopy={handleCopy} />}
+                    {renderChallengeState()}
                 </div>
             </div>
         </div>
@@ -123,6 +189,7 @@ const Challenge = () => {
 }
 
 export default Challenge
+
 
 
 const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challengeURL, copied, handleCreateChallenge, isDisabled, loading, setIsTimed, setDuration, duration, handleWordleInput }) => {
@@ -189,7 +256,7 @@ const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challenge
                 </div>
             </div>
             <div className='h-15/100 w-full mt-auto'>
-                <button onClick={handleCreateChallenge} disabled={!isTimed && isDisabled || loading} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl'>{loading ? 'Creating Challenge' : 'Create Challenge'}</button>
+                <button onClick={handleCreateChallenge} disabled={!isTimed && isDisabled || loading} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl'>{loading ? 'Creating Challenge...' : 'Create Challenge'}</button>
             </div>
         </>
     )
@@ -226,6 +293,18 @@ const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept }) => {
             <div className='w-full h-15/100 flex justify-around gap-2 mt-auto'>
                 <button onClick={handleCancel} className='w-full h-8/10 bg-[#acdda8] text-[#234120] text-2xl shadow-[1px_2px_0_#234120]'>Cancel</button>
                 <button onClick={handleAccept} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl shadow-[1px_2px_0_#acdda8]'>Accept</button>
+            </div>
+        </div>
+    )
+}
+
+const WaitingUi = () => {
+    return (
+        <div className='w-full h-full flex flex-col gap-5 justify-center items-center text-4xl text-[#234120] [text-shadow:1px_2px_0_#acdda8]'>
+            <h3 className='text-center text-balance'>Waiting for other players to join...</h3>
+            <div className='relative h-2/10 flex justify-center items-center'>
+                1/2
+                <div className='absolute top-[50%] left-[50%] -translate-[50%] spin h-full aspect-square flex justify-center items-center'></div>
             </div>
         </div>
     )

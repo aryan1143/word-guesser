@@ -15,5 +15,5 @@ export function getWordByIndex(index) {
         return null;
     }
 
-    return allWordles[index];
+    return allWordles[index].toUpperCase();
 }

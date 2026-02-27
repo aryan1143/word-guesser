@@ -1,12 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import Grid from '../components/Grid'
 import Keyboard from '../components/Keyboard'
-import WordsContext from '../context/wordsContext'
 import useHandleLetters from '../hooks/useHandleLetters'
-import { randomWord } from '../components/utils/wordUtil'
 
 const GamePage = () => {
-    const {setTargetWord} = useContext(WordsContext);
     
     const allWords = useHandleLetters();
     return (

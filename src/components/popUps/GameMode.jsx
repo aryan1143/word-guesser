@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import Context from '../../context/Context'
 import { RiCloseFill } from 'react-icons/ri';
 import getDailyWordle from '../utils/getDailyWordle';
-import WordsContext from '../../context/wordsContext';
+import WordsContext from '../../context/WordsContext';
 import {useNavigate} from 'react-router-dom'
 
 

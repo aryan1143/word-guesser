@@ -1,7 +1,7 @@
 import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, getFirestore, onSnapshot, runTransaction, serverTimestamp, updateDoc } from "firebase/firestore";
 import { app } from "../lib/firebaseClient";
 import { useContext, useEffect, useState } from "react";
-import { getDataLocal } from "../lib/localStorage";
+import { getDataLocal, removeDataLocal, setDataLocal } from "../lib/localStorage";
 import Context from "../context/Context";
 
 export default function usechallengeWordle() {
@@ -38,6 +38,7 @@ export default function usechallengeWordle() {
             setChallengeId(ref.id);
             setChallengeURL(`${baseURL}/challenge/${ref.id}`);
             showToastMessege("Challenge Created Succesfully ✅")
+            setDataLocal('challengeId', ref.id);
         } catch (e) {
             setChallengeStatus(e.message);
         } finally {
@@ -114,6 +115,7 @@ export default function usechallengeWordle() {
 
             if (isFinished) {
                 await deleteDoc(ref);
+                removeDataLocal('challengeId');
                 return;
             }
 
@@ -127,6 +129,7 @@ export default function usechallengeWordle() {
                 [field]: "left",
                 status: "abondoned",
             });
+            removeDataLocal('challengeId', challengeId);
 
         } catch (e) {
             setError(e.code);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import WordsContext from './wordsContext'
+import WordsContext from './WordsContext'
 import { useLocation } from 'react-router-dom';
 
 const WordsContextProvider = ({ children }) => {
