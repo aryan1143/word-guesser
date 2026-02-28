@@ -112,15 +112,15 @@ export default function usechallengeWordle() {
 
         try {
             const ref = doc(db, "challenges", challengeId);
+            const snap = await getDoc(ref);
+            const data = snap.data();
 
-            if (isFinished) {
+            if (isFinished || data.players.length <= 1) {
                 await deleteDoc(ref);
-                removeDataLocal('challengeId');
+                showToastMessege('Challenge Deleted ✅')
                 return;
             }
 
-            const snap = await getDoc(ref);
-            const data = snap.data();
 
             const isHost = data.createdBy === uid;
             const field = isHost ? "player1" : "player2";
@@ -129,12 +129,14 @@ export default function usechallengeWordle() {
                 [field]: "left",
                 status: "abondoned",
             });
-            removeDataLocal('challengeId', challengeId);
-
+            removeDataLocal('challengeId');
+            showToastMessege('Challenge Leaved ✅')
         } catch (e) {
+            console.log(e)
             setError(e.code);
         } finally {
             setLoading(false);
+            removeDataLocal('challengeId');
         }
     }
 

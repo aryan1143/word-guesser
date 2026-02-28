@@ -9,7 +9,8 @@ import { getWordByIndex, getWordIndex } from '../utils/getWordleOrIndex';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../Loader';
 import WordsContext from '../../context/WordsContext'
-import { getDataLocal } from '../../lib/localStorage';
+import { getDataLocal, removeDataLocal } from '../../lib/localStorage';
+import useDialog from '../../hooks/useDialog';
 
 const Challenge = () => {
     const [isTimed, setIsTimed] = useState(false);
@@ -24,6 +25,7 @@ const Challenge = () => {
     const { challengeId } = useParams();
     const locationPath = useLocation().pathname;
     const navigate = useNavigate();
+     const {confirmBox} = useDialog();
 
     const {
         loading,
@@ -38,7 +40,7 @@ const Challenge = () => {
         setChallengeId
     } = usechallengeWordle();
 
-    const { showToastMessege, showCreateChallenge } = useContext(Context);
+    const { showToastMessege, showCreateChallenge, setShowPopUp, setShowCreateChallenge } = useContext(Context);
     const { setTargetWord } = useContext(WordsContext);
     const userId = getDataLocal('userId');
     const ongoingChallengeId = getDataLocal('challengeId');
@@ -53,10 +55,24 @@ const Challenge = () => {
             setChallengeId(challengeId);
         }
     }, [])
-    
 
-    function handleClose(action) {
-        // Add your close logic here
+
+    async function handleClose(action) {
+        if (challengeData.players.includes(userId)) {
+            const result = await confirmBox('Are you sure you want to leave the challenge!');
+            if (result) {
+                exitChallenge(challengeId || ongoingChallengeId);
+            } else {
+                return;
+            }
+        }
+        if (action === 'close') {
+            setShowPopUp(false);
+            setShowCreateChallenge(false);
+        } else if (action === 'back') {
+            setShowPopUp('GameMode');
+            setShowCreateChallenge(false);
+        }
     }
 
     function handleWordleInput(value) {
@@ -106,21 +122,31 @@ const Challenge = () => {
 
     function handleAccept() {
         if (!challengeData) return;
-        if (challengeData.isTimed) return;
-        const wordle = getWordByIndex(challengeData.wordleIndex)
-        setTargetWord(wordle);
-        console.log(wordle)
-        navigate('/game-page');
+        acceptChallenge(challengeId);
     }
 
     useEffect(() => {
-        console.log(challengeData)
         if (challengeData) {
+            if (challengeData.players.length >= 2 && challengeData.status === 'ready') {
+                startChallenge(challengeId);
+                setIsWaiting(false);
+                return;
+            }
+
+            if (challengeData.status === 'active') {
+                if (challengeData.isTimed) return;
+                const wordle = getWordByIndex(challengeData.wordleIndex)
+                setTargetWord(wordle);
+                navigate('/game-page');
+                return;
+            }
+
+
             if (challengeData.createdBy === userId) {
                 setIsWaiting(true);
             }
         }
-    }, [challengeData, challengeStatus, challengeURL])
+    }, [challengeData])
 
     const renderChallengeState = () => {
         const isChallengePath = locationPath.includes('challenge');
@@ -129,35 +155,36 @@ const Challenge = () => {
             if (justCreated && copied) {
                 return <WaitingUi />;
             } else if (!justCreated) {
-                return <WaitingUi />;            }
+                return <WaitingUi />;
+            }
         }
 
         if (isChallengePath) {
             if (loading) return <Loader isBg={false} />;
             return (
-                <AcceptChallengeUI 
-                    challengeData={challengeData} 
-                    handleAccept={handleAccept} 
-                    handleCancel={handleCancel} 
+                <AcceptChallengeUI
+                    challengeData={challengeData}
+                    handleAccept={handleAccept}
+                    handleCancel={handleCancel}
                 />
             );
         }
         if (showCreateChallenge) {
             return (
-                <CreateChallengeUI 
-                    isTimed={isTimed} 
-                    word={word} 
-                    isWrongWordle={isWrongWordle} 
-                    challengeURL={challengeURL} 
-                    copied={copied} 
-                    isDisabled={isDisabled} 
-                    loading={loading} 
-                    duration={duration} 
-                    handleWordleInput={handleWordleInput} 
-                    setIsTimed={setIsTimed} 
-                    setDuration={setDuration} 
-                    handleCreateChallenge={handleCreateChallenge} 
-                    handleCopy={handleCopy} 
+                <CreateChallengeUI
+                    isTimed={isTimed}
+                    word={word}
+                    isWrongWordle={isWrongWordle}
+                    challengeURL={challengeURL}
+                    copied={copied}
+                    isDisabled={isDisabled}
+                    loading={loading}
+                    duration={duration}
+                    handleWordleInput={handleWordleInput}
+                    setIsTimed={setIsTimed}
+                    setDuration={setDuration}
+                    handleCreateChallenge={handleCreateChallenge}
+                    handleCopy={handleCopy}
                 />
             );
         }
@@ -179,7 +206,7 @@ const Challenge = () => {
                         <RiCloseFill className='text-[#234120]' />
                     </button>
                 </div>
-                
+
                 <div className='overflow-hidden shadow-[0_4px_0_0_#234120] p-3 flex flex-col h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
                     {renderChallengeState()}
                 </div>
