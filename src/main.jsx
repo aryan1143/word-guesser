@@ -7,6 +7,7 @@ import ContextProvider from './context/ContextProvider.jsx'
 import WordsContextProvider from './context/WordsContextProvider.jsx'
 import LoginContextProvider from './context/LoginContextProvider.jsx'
 import ConfirmContextProvider from './context/ConfirmContextProvider.jsx'
+import { ChallengeProvider } from './context/ChallengeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')).render(
         <ContextProvider>
           <WordsContextProvider>
             <ConfirmContextProvider >
-              <App />
+              <ChallengeProvider >
+                <App />
+              </ChallengeProvider>
             </ConfirmContextProvider>
           </WordsContextProvider>
         </ContextProvider>

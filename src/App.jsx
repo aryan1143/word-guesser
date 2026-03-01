@@ -22,17 +22,23 @@ import Challenge from './components/popUps/Challenge'
 
 
 function App() {
-  const { showPopUp, setShowPopUp , showToast, toastMessege, showCreateChallenge} = useContext(Context);
+  const { showPopUp, setShowPopUp , showToast, toastMessege, showCreateChallenge, setChallengeId} = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+  const challengeId = getDataLocal('challengeId');
 
   useEffect(() => {
     const isNotFirstTimeVisit = getDataLocal("isNotFirstTimeVisit");
     if (!isNotFirstTimeVisit) {
       setShowPopUp("Login");
     }
+
     const loggedIn = getDataLocal("isLoggedIn");
     if (loggedIn) {
       setIsLoggedIn(loggedIn);
+    }
+
+    if (challengeId) {
+      setChallengeId(challengeId);
     }
   }, [])
 

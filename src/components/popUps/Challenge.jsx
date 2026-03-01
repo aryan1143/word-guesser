@@ -11,6 +11,7 @@ import Loader from '../Loader';
 import WordsContext from '../../context/WordsContext'
 import { getDataLocal, removeDataLocal } from '../../lib/localStorage';
 import useDialog from '../../hooks/useDialog';
+import ChallengeContext from '../../context/ChallengeContext';
 
 const Challenge = () => {
     const [isTimed, setIsTimed] = useState(false);
@@ -22,39 +23,28 @@ const Challenge = () => {
     const [isWaiting, setIsWaiting] = useState(false);
     const [justCreated, setJustCreated] = useState(false);
 
-    const { challengeId } = useParams();
+    const { challengeId: paramsChallengeId } = useParams();
     const locationPath = useLocation().pathname;
     const navigate = useNavigate();
-     const {confirmBox} = useDialog();
+    const { confirmBox } = useDialog();
+    const { challengeId } = useContext(Context);
 
     const {
-        loading,
-        error,
-        challengeURL,
-        challengeStatus,
-        challengeData,
-        createChallenge,
-        acceptChallenge,
-        startChallenge,
-        exitChallenge,
-        setChallengeId
-    } = usechallengeWordle();
+        createChallengeLoading, acceptChallengeLoading, startChallengeLoading, exitChallengeLoading, challengeDataLoading,
+        error, challengeURL, challengeStatus, challengeData,
+        createChallenge, acceptChallenge, startChallenge, exitChallenge,
+    } = useContext(ChallengeContext);
 
-    const { showToastMessege, showCreateChallenge, setShowPopUp, setShowCreateChallenge } = useContext(Context);
-    const { setTargetWord } = useContext(WordsContext);
+    const { showToastMessege, showCreateChallenge, setShowPopUp, setShowCreateChallenge, setChallengeId } = useContext(Context);
     const userId = getDataLocal('userId');
     const ongoingChallengeId = getDataLocal('challengeId');
 
     useEffect(() => {
-        if (ongoingChallengeId) {
-            console.log(ongoingChallengeId)
-            setChallengeId(ongoingChallengeId);
-            return;
+        if (locationPath.includes('challenge') && paramsChallengeId) {
+            setChallengeId(paramsChallengeId);
         }
-        if (locationPath.includes('challenge')) {
-            setChallengeId(challengeId);
-        }
-    }, [])
+    }, [locationPath, paramsChallengeId, setChallengeId]);
+
 
 
     async function handleClose(action) {
@@ -69,9 +59,11 @@ const Challenge = () => {
         if (action === 'close') {
             setShowPopUp(false);
             setShowCreateChallenge(false);
+            navigate('/');
         } else if (action === 'back') {
             setShowPopUp('GameMode');
             setShowCreateChallenge(false);
+            navigate('/');
         }
     }
 
@@ -133,15 +125,6 @@ const Challenge = () => {
                 return;
             }
 
-            if (challengeData.status === 'active') {
-                if (challengeData.isTimed) return;
-                const wordle = getWordByIndex(challengeData.wordleIndex)
-                setTargetWord(wordle);
-                navigate('/game-page');
-                return;
-            }
-
-
             if (challengeData.createdBy === userId) {
                 setIsWaiting(true);
             }
@@ -151,6 +134,7 @@ const Challenge = () => {
     const renderChallengeState = () => {
         const isChallengePath = locationPath.includes('challenge');
 
+        if (challengeDataLoading) return <Loader isBg={false} />;
         if (isWaiting) {
             if (justCreated && copied) {
                 return <WaitingUi />;
@@ -160,7 +144,6 @@ const Challenge = () => {
         }
 
         if (isChallengePath) {
-            if (loading) return <Loader isBg={false} />;
             return (
                 <AcceptChallengeUI
                     challengeData={challengeData}
@@ -178,7 +161,7 @@ const Challenge = () => {
                     challengeURL={challengeURL}
                     copied={copied}
                     isDisabled={isDisabled}
-                    loading={loading}
+                    loading={createChallengeLoading}
                     duration={duration}
                     handleWordleInput={handleWordleInput}
                     setIsTimed={setIsTimed}

@@ -1,24 +1,27 @@
-import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, getFirestore, onSnapshot, runTransaction, serverTimestamp, updateDoc } from "firebase/firestore";
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getFirestore, onSnapshot, runTransaction, serverTimestamp, updateDoc } from "firebase/firestore";
 import { app } from "../lib/firebaseClient";
 import { useContext, useEffect, useState } from "react";
 import { getDataLocal, removeDataLocal, setDataLocal } from "../lib/localStorage";
 import Context from "../context/Context";
 
 export default function usechallengeWordle() {
-    const [loading, setLoading] = useState(false);
+    const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
+    const [acceptChallengeLoading, setAcceptChallengeLoading] = useState(false);
+    const [startChallengeLoading, setStartChallengeLoading] = useState(false);
+    const [exitChallengeLoading, setExitChallengeLoading] = useState(false);
+    const [challengeDataLoading, setChallengeDataLoading] = useState(false);
     const [error, setError] = useState(null);
     const [challengeStatus, setChallengeStatus] = useState(null);
     const [challengeURL, setChallengeURL] = useState(null);
     const [challengeData, setChallengeData] = useState(null);
-    const [challengeId, setChallengeId] = useState(null);
     const uid = getDataLocal('userId');
     const db = getFirestore(app);
     const userData = getDataLocal('userData');
 
-    const { showToastMessege } = useContext(Context);
+    const { showToastMessege, challengeId, setChallengeId } = useContext(Context);
 
     async function createChallenge({ wordleIndex = 0, isTimed = false, duration = 0 }) {
-        setLoading(true);
+        setCreateChallengeLoading(true);
         try {
             const baseURL = window.location.origin;
 
@@ -42,12 +45,12 @@ export default function usechallengeWordle() {
         } catch (e) {
             setChallengeStatus(e.message);
         } finally {
-            setLoading(false);
+            setCreateChallengeLoading(false);
         }
     }
 
     async function acceptChallenge(challengeId) {
-        setLoading(true);
+        setAcceptChallengeLoading(true);
 
         try {
             const ref = doc(db, "challenges", challengeId);
@@ -80,12 +83,12 @@ export default function usechallengeWordle() {
         } catch (e) {
             setChallengeStatus(e.message);
         } finally {
-            setLoading(false);
+            setAcceptChallengeLoading(false);
         }
     }
 
     async function startChallenge(challengeId) {
-        setLoading(true);
+        setStartChallengeLoading(true);
 
         try {
             const ref = doc(db, "challenges", challengeId);
@@ -103,12 +106,12 @@ export default function usechallengeWordle() {
         } catch (e) {
             setError(e.code);
         } finally {
-            setLoading(false);
+            setStartChallengeLoading(false);
         }
     }
 
     async function exitChallenge(challengeId, isFinished = false) {
-        setLoading(true);
+        setExitChallengeLoading(true);
 
         try {
             const ref = doc(db, "challenges", challengeId);
@@ -128,6 +131,7 @@ export default function usechallengeWordle() {
             await updateDoc(ref, {
                 [field]: "left",
                 status: "abondoned",
+                players: arrayRemove(uid)
             });
             removeDataLocal('challengeId');
             showToastMessege('Challenge Leaved ✅')
@@ -135,14 +139,17 @@ export default function usechallengeWordle() {
             console.log(e)
             setError(e.code);
         } finally {
-            setLoading(false);
+            setExitChallengeLoading(false);
             removeDataLocal('challengeId');
+            setChallengeId(null);
+            setChallengeData(null);
+            setChallengeURL(null);
         }
     }
 
     useEffect(() => {
         if (!challengeId) return;
-        setLoading(true);
+        setChallengeDataLoading(true);
         const ref = doc(db, "challenges", challengeId);
 
         const unsubscribe = onSnapshot(ref, snap => {
@@ -155,7 +162,7 @@ export default function usechallengeWordle() {
             const data = snap.data();
             setChallengeData(data);
             if (data) {
-                setLoading(false);
+                setChallengeDataLoading(false);
             }
 
             if (data.status === "ready") {
@@ -175,7 +182,11 @@ export default function usechallengeWordle() {
 
 
     return {
-        loading,
+        createChallengeLoading,
+        acceptChallengeLoading,
+        startChallengeLoading,
+        exitChallengeLoading,
+        challengeDataLoading,
         error,
         challengeURL,
         challengeStatus,
