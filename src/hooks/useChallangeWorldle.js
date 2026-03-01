@@ -80,6 +80,7 @@ export default function usechallengeWordle() {
                 });
             });
 
+            setDataLocal('challengeId', challengeId);
         } catch (e) {
             setChallengeStatus(e.message);
         } finally {
@@ -120,7 +121,7 @@ export default function usechallengeWordle() {
 
             if (isFinished || data.players.length <= 1) {
                 await deleteDoc(ref);
-                showToastMessege('Challenge Deleted ✅')
+                isFinished ? showToastMessege('Challenge Ended ✅') : showToastMessege('Challenge Deleted ✅');
                 return;
             }
 
@@ -155,6 +156,7 @@ export default function usechallengeWordle() {
         const unsubscribe = onSnapshot(ref, snap => {
 
             if (!snap.exists()) {
+                removeDataLocal('challengeId');
                 setChallengeStatus("not-found");
                 return;
             }
@@ -166,15 +168,19 @@ export default function usechallengeWordle() {
             }
 
             if (data.status === "ready") {
-                setChallengeStatus("opponent-joined");
+                showToastMessege("Opponent joined");
             }
 
             if (data.status === "active") {
-                setChallengeStatus("game-started");
+                showToastMessege("Game started ✅");
             }
 
             if (data.player1 === "left" || data.player2 === "left") {
-                setChallengeStatus("player-left");
+                if (data.uid === uid) {
+                    showToastMessege('You left 🚨')
+                } else {
+                    showToastMessege("Player left 🚨");
+                }
             }
         })
         return () => unsubscribe();

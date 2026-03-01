@@ -4,12 +4,10 @@ import { RiCloseFill } from 'react-icons/ri'
 import compareWord from '../utils/compareWord'
 import { FaClipboard, FaClipboardCheck } from "react-icons/fa";
 import Context from '../../context/Context';
-import usechallengeWordle from '../../hooks/useChallangeWorldle';
-import { getWordByIndex, getWordIndex } from '../utils/getWordleOrIndex';
+import { getWordIndex } from '../utils/getWordleOrIndex';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../Loader';
-import WordsContext from '../../context/WordsContext'
-import { getDataLocal, removeDataLocal } from '../../lib/localStorage';
+import { getDataLocal} from '../../lib/localStorage';
 import useDialog from '../../hooks/useDialog';
 import ChallengeContext from '../../context/ChallengeContext';
 
@@ -134,7 +132,7 @@ const Challenge = () => {
     const renderChallengeState = () => {
         const isChallengePath = locationPath.includes('challenge');
 
-        if (challengeDataLoading) return <Loader isBg={false} />;
+        if (challengeDataLoading || acceptChallengeLoading) return <Loader isBg={false} />;
         if (isWaiting) {
             if (justCreated && copied) {
                 return <WaitingUi />;

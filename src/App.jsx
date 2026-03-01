@@ -22,7 +22,7 @@ import Challenge from './components/popUps/Challenge'
 
 
 function App() {
-  const { showPopUp, setShowPopUp , showToast, toastMessege, showCreateChallenge, setChallengeId} = useContext(Context);
+  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setChallengeId } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
 
@@ -57,7 +57,6 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
-        {showToast && <Toast text={toastMessege}/>}
         <Routes >
           <Route path='/' element={<HomePage />} />
           <Route path='/game-page' element={<GamePage />} />
@@ -67,6 +66,7 @@ function App() {
           </>
           } />
         </Routes>
+        {showToast && <Toast text={toastMessege} />}
         {showCreateChallenge && <Challenge />}
         {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' && <WinOrLost status='lost' />}
         {showPopUp === 'pfpSelect' && <PfpSelector />}
