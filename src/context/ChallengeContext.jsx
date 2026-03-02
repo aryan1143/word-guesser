@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect } from 'react';
-import usechallengeWordle from '../hooks/useChallangeWorldle';
+import useChallengeWordle from '../hooks/useChallengeWordle';
 import WordsContext from './WordsContext';
 import Context from './Context';
 import { getDataLocal } from '../lib/localStorage';
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const ChallengeContext = createContext();
 
 export const ChallengeProvider = ({ children }) => {
-    const challengeState = usechallengeWordle(); 
+    const challengeState = useChallengeWordle(); 
     const { challengeData } = challengeState;
 
     const { setChallengeId, setShowPopUp, setShowCreateChallenge } = useContext(Context);
@@ -27,7 +27,7 @@ export const ChallengeProvider = ({ children }) => {
     useEffect(() => {
         if (challengeData && challengeData.status === 'active') {
             if (!challengeData.isTimed) {
-                const wordle = getWordByIndex(challengeData.wordleIndex);
+                const wordle = getWordByIndex(challengeData.wordle1Index);
                 setTargetWord(wordle);
                 navigate('/game-page');
                 setShowCreateChallenge(false);

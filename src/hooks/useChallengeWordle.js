@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { getDataLocal, removeDataLocal, setDataLocal } from "../lib/localStorage";
 import Context from "../context/Context";
 
-export default function usechallengeWordle() {
+export default function useChallengeWordle() {
     const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
     const [acceptChallengeLoading, setAcceptChallengeLoading] = useState(false);
     const [startChallengeLoading, setStartChallengeLoading] = useState(false);
@@ -20,7 +20,7 @@ export default function usechallengeWordle() {
 
     const { showToastMessege, challengeId, setChallengeId } = useContext(Context);
 
-    async function createChallenge({ wordleIndex = 0, isTimed = false, duration = 0 }) {
+    async function createChallenge({ wordle1Index = 0, wordle2Index = 0, isTimed = false, duration = 0 }) {
         setCreateChallengeLoading(true);
         try {
             const baseURL = window.location.origin;
@@ -31,7 +31,8 @@ export default function usechallengeWordle() {
                 players: [uid],
                 isTimed,
                 duration,
-                wordleIndex,
+                wordle1Index,
+                wordle2Index,
                 status: "waiting",
                 player1: "joined",
                 player2: "empty",

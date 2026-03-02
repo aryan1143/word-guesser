@@ -46,6 +46,10 @@ const Challenge = () => {
 
 
     async function handleClose(action) {
+        if (!challengeId) {
+            action === 'close' ? setShowPopUp(null) : setShowPopUp('GameMode');
+            setShowCreateChallenge(false);
+        }
         if (challengeData.players.includes(userId)) {
             const result = await confirmBox('Are you sure you want to leave the challenge!');
             if (result) {
@@ -88,8 +92,8 @@ const Challenge = () => {
         if (isTimed) {
             createChallenge({ isTimed: isTimed, duration: duration });
         } else {
-            const wordleIndex = getWordIndex(word);
-            createChallenge({ wordleIndex });
+            const wordle1Index = getWordIndex(word);
+            createChallenge({ wordle1Index });
         }
         setJustCreated(true);
     }
@@ -166,6 +170,7 @@ const Challenge = () => {
                     setDuration={setDuration}
                     handleCreateChallenge={handleCreateChallenge}
                     handleCopy={handleCopy}
+                    challengeId={challengeId}
                 />
             );
         }
@@ -200,7 +205,7 @@ export default Challenge
 
 
 
-const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challengeURL, copied, handleCreateChallenge, isDisabled, loading, setIsTimed, setDuration, duration, handleWordleInput }) => {
+const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challengeURL, copied, handleCreateChallenge, isDisabled, loading, setIsTimed, setDuration, duration, handleWordleInput, challengeId }) => {
     return (
         <>
             <form className='w-full h-15/100 flex justify-around gap-5 px-2'>
@@ -264,7 +269,7 @@ const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challenge
                 </div>
             </div>
             <div className='h-15/100 w-full mt-auto'>
-                <button onClick={handleCreateChallenge} disabled={!isTimed && isDisabled || loading} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl'>{loading ? 'Creating Challenge...' : 'Create Challenge'}</button>
+                <button onClick={handleCreateChallenge} disabled={!isTimed && isDisabled || loading || challengeId} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl'>{loading ? 'Creating Challenge...' : 'Create Challenge'}</button>
             </div>
         </>
     )
