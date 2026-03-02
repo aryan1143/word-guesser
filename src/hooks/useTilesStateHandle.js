@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import WordsContext from "../context/wordsContext";
-import Context from "../context/Context";
+import WordsContext from "../context/WordsContext";
+import Context from "../context/Context"; 
 
 function useTilesStateHandle(allWords, isSample = false) {
-  const [allWordsState, setAllWordsState] = useState(['','','','','','']);
   const {setShowPopUp} = useContext(Context);
-  const { targetWord, submitedRowNo, setSubmitedRowNo, setLetterIndex, letter } = useContext(WordsContext);
+  const { targetWord, submitedRowNo, setSubmitedRowNo, setLetterIndex, letter, allWordsState, setAllWordsState } = useContext(WordsContext);
 
   const target = isSample ? 'GUESS' : targetWord;
 

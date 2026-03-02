@@ -5,11 +5,16 @@ import { useContext } from 'react'
 import Context from '../context/Context'
 import { randomWord } from '../components/utils/wordUtil'
 import WordsContext from '../context/WordsContext'
+import { getDataLocal, removeDataLocal } from '../lib/localStorage'
+import useDialog from '../hooks/useDialog'
+import usechallengeWordle from '../hooks/useChallangeWorldle'
 
 const HomePage = () => {
 
   const { setShowPopUp } = useContext(Context);
-  const {setTargetWord, setAllWords} = useContext(WordsContext);
+  const {setTargetWord, setAllWords, setAllWordsState, setSubmitedRowNo, setLetterIndex} = useContext(WordsContext);
+  const {confirmBox} = useDialog();
+  const {exitChallenge} = usechallengeWordle();
 
   const targetWord = 'GUESS';
   const allWordsSample = [
@@ -21,14 +26,25 @@ const HomePage = () => {
     '-----'
   ]
 
-  function handleOnClick() {
-    const word = randomWord();
-    setTargetWord(word);
-    setShowPopUp(null);
-    setAllWords([
-      '-----', '-----', '-----', '-----', '-----', '-----'
-    ]);
-    console.log(word)
+  const challengeId = getDataLocal('challengeId');
+
+  async function handleOnClick() {
+    if (challengeId) {
+      const result = await confirmBox('Previous challenge is ongoing, want to continue ?');
+      if (result) return;
+      exitChallenge();
+      removeDataLocal('challengeId');
+      const word = randomWord();
+      setTargetWord(word);
+      setShowPopUp(null);
+      setAllWords([
+        '-----', '-----', '-----', '-----', '-----', '-----'
+      ]);
+      setAllWordsState(['', '', '', '', '', '']);
+      setLetterIndex(0);
+      setSubmitedRowNo(0);
+      console.log(word)
+    }
   }
 
   return (

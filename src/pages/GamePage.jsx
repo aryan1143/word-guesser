@@ -2,14 +2,16 @@ import React, { useContext, useEffect } from 'react'
 import Grid from '../components/Grid'
 import Keyboard from '../components/Keyboard'
 import useHandleLetters from '../hooks/useHandleLetters'
+import WordsContext from '../context/WordsContext'
 
 const GamePage = () => {
-    
-    const allWords = useHandleLetters();
+
+    const { allWords } = useContext(WordsContext);
+    useHandleLetters();
     return (
         <div className='mt-8 md:mt-0 flex flex-col items-center gap-5 md:gap-2 h-8/10 md:flex-1'>
             <Grid isBigTiles={false} allWords={allWords} />
-            <Keyboard allWords={allWords}/>
+            <Keyboard allWords={allWords} />
         </div>
     )
 }

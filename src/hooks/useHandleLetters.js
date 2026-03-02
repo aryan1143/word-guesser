@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import WordsContext from "../context/wordsContext";
+import WordsContext from "../context/WordsContext";
 import compareWord from "../components/utils/compareWord";
 import Context from "../context/Context";
 

@@ -176,7 +176,7 @@ export default function usechallengeWordle() {
             }
 
             if (data.player1 === "left" || data.player2 === "left") {
-                if (data.uid === uid) {
+                if ((data.createdBy === uid && data.player1 === 'left') || (data.createdBy !== uid && data.player2 === 'left')) {
                     showToastMessege('You left 🚨')
                 } else {
                     showToastMessege("Player left 🚨");

@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react'
 import Tile from './Tile'
 import useTilesStateHandle from '../hooks/useTilesStateHandle';
-import WordsContext from '../context/wordsContext';
+import WordsContext from '../context/WordsContext';
 
 const Grid = ({ isBigTiles = false, isSample = false, sampleWords}) => {
   
-  const {submitedRowNo, isShaking, letterIndex, isBubbling, allWords} = useContext(WordsContext);
+  const {submitedRowNo, isShaking, letterIndex, isBubbling, allWords, allWordsState} = useContext(WordsContext);
   const words = isSample ? sampleWords : allWords;
-  const allWordsState = useTilesStateHandle(words, isSample);
+  useTilesStateHandle(words, isSample);
 
   return (
     <div className={`grid w-fit grid-cols-5 grid-rows-6 ${isBigTiles ? 'gap-3' : 'gap-2'}`}>

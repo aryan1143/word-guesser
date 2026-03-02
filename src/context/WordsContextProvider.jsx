@@ -8,16 +8,13 @@ const WordsContextProvider = ({ children }) => {
   const [allWords, setAllWords] = useState([
     '-----', '-----', '-----', '-----', '-----', '-----'
   ]);
+  const [allWordsState, setAllWordsState] = useState(['', '', '', '', '', '']);
   const [submitedRowNo, setSubmitedRowNo] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [isBubbling, setIsBubbling] = useState(false);
   const location = useLocation();
   const locationPath = location.pathname;
-
-  useEffect(() => {
-    setSubmitedRowNo(0);
-  }, [locationPath])
 
   const value = {
     letter,
@@ -26,6 +23,8 @@ const WordsContextProvider = ({ children }) => {
     setTargetWord,
     allWords,
     setAllWords,
+    allWordsState,
+    setAllWordsState,
     submitedRowNo,
     setSubmitedRowNo,
     letterIndex,
