@@ -4,7 +4,7 @@ import Grid from '../components/Grid'
 import { useContext } from 'react'
 import Context from '../context/Context'
 import { randomWord } from '../components/utils/wordUtil'
-import WordsContext from '../context/wordsContext'
+import WordsContext from '../context/WordsContext'
 
 const HomePage = () => {
 

@@ -9,6 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import useUpdateProfileData from '../../hooks/useUpdateProfileData';
 import Loader from '../Loader';
 import useDialog from '../../hooks/useDialog';
+import { getAuth, signOut } from 'firebase/auth';
 
 const Profile = () => {
   const { setShowPopUp, showToastMessege } = useContext(Context);
@@ -18,14 +19,21 @@ const Profile = () => {
   const [name, setName] = useState('');
   const userData = getDataLocal("userData");
   const { updateProfile, loading, isSuccess } = useUpdateProfileData();
-  const {confirmBox} = useDialog();
+  const { confirmBox } = useDialog();
 
   const handleLogOut = async () => {
     const result = await confirmBox("Are you sure you want to logout.");
     if (result) {
-      setIsLoggedIn(false);
-      setDataLocal("isLoggedIn", false);
-      removeDataLocal('userId');
+      const auth = getAuth();
+      try {
+        signOut(auth);
+        setIsLoggedIn(false);
+        setDataLocal("isLoggedIn", false);
+        removeDataLocal('userId');
+        showToastMessege('Logged out ✅');
+      } catch (error) {
+        showToastMessege('Something went wrong🚨')
+      }
     }
   }
 
@@ -77,8 +85,8 @@ const Profile = () => {
             Profile
           </p>
           <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
-           <RiCloseFill className='text-[#234120]'/>
-           </button>
+            <RiCloseFill className='text-[#234120]' />
+          </button>
         </div>
         <div className='overflow-hidden shadow-[0_4px_0_0_#234120] flex flex-col md:flex-row h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
           <div className='text-2xl flex flex-row md:flex-col p-3 py-5 pb-1 gap-3 justify-start items-center h-32/100 md:h-full w-full md:w-35/100 border-b-2 border-r-0 md:border-b-0 md:border-r-2 border-gray-600 shadow-[0px_2px_0_0_#acdda8] md:shadow-[2px_1px_0_0_#acdda8] text-[#234120]'>
