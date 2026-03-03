@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import WordsContext from "../context/wordsContext";
+import WordsContext from "../context/WordsContext";
 
 function useKeysStateHandle(keysRow, allWords) {
     const [keysStateRow, setKeysStateRow] = useState([[], [], []]);

@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react'
-import { RiCloseFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 import { randomWord } from '../utils/wordUtil';
-import WordsContext from '../../context/wordsContext';
+import WordsContext from '../../context/WordsContext';
 import Context from '../../context/Context';
 import WonLogo from '/won.jpg';
 import LostLogo from '/lost.jpg';

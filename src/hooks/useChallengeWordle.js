@@ -50,7 +50,7 @@ export default function useChallengeWordle() {
         }
     }
 
-    async function acceptChallenge(challengeId) {
+    async function acceptChallenge(challengeId, wordle2Index) {
         setAcceptChallengeLoading(true);
 
         try {
@@ -74,6 +74,7 @@ export default function useChallengeWordle() {
                 }
 
                 transaction.update(ref, {
+                    wordle2Index: wordle2Index,
                     players: arrayUnion(uid),
                     player2: "joined",
                     status: "ready",

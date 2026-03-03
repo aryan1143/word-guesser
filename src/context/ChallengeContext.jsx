@@ -12,6 +12,8 @@ export const ChallengeProvider = ({ children }) => {
     const challengeState = useChallengeWordle(); 
     const { challengeData } = challengeState;
 
+    const userId = getDataLocal('userId');
+
     const { setChallengeId, setShowPopUp, setShowCreateChallenge } = useContext(Context);
     const { setTargetWord } = useContext(WordsContext);
 
@@ -27,7 +29,8 @@ export const ChallengeProvider = ({ children }) => {
     useEffect(() => {
         if (challengeData && challengeData.status === 'active') {
             if (!challengeData.isTimed) {
-                const wordle = getWordByIndex(challengeData.wordle1Index);
+                const wordleIndex = challengeData.createdBy === userId ? challengeData.wordle2Index : challengeData.wordle1Index;
+                const wordle = getWordByIndex(wordleIndex);
                 setTargetWord(wordle);
                 navigate('/game-page');
                 setShowCreateChallenge(false);

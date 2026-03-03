@@ -7,7 +7,7 @@ import Context from '../../context/Context';
 import { getWordIndex } from '../utils/getWordleOrIndex';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../Loader';
-import { getDataLocal} from '../../lib/localStorage';
+import { getDataLocal } from '../../lib/localStorage';
 import useDialog from '../../hooks/useDialog';
 import ChallengeContext from '../../context/ChallengeContext';
 
@@ -43,7 +43,7 @@ const Challenge = () => {
         }
     }, [locationPath, paramsChallengeId, setChallengeId]);
 
-
+    console.log(challengeStatus)
 
     async function handleClose(action) {
         if (!challengeId) {
@@ -96,6 +96,7 @@ const Challenge = () => {
             createChallenge({ wordle1Index });
         }
         setJustCreated(true);
+        setWord(null);
     }
 
     async function handleCopy() {
@@ -116,6 +117,15 @@ const Challenge = () => {
 
     function handleAccept() {
         if (!challengeData) return;
+        if (!compareWord(word) && (!isTimed)) {
+            setIsWrongWordle(true);
+            showToastMessege("Word is not in list❌")
+            return;
+        }
+        if (!isTimed) {
+            const wordle2Index = getWordIndex(word);
+            acceptChallenge(challengeId, wordle2Index);
+        }
         acceptChallenge(challengeId);
     }
 
@@ -151,6 +161,10 @@ const Challenge = () => {
                     challengeData={challengeData}
                     handleAccept={handleAccept}
                     handleCancel={handleCancel}
+                    word={word}
+                    isWrongWordle={isWrongWordle}
+                    handleWordleInput={handleWordleInput}
+                    isDisabled={isDisabled}
                 />
             );
         }
@@ -275,7 +289,7 @@ const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challenge
     )
 }
 
-const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept }) => {
+const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept, word, handleWordleInput, isWrongWordle, isDisabled }) => {
     return (
         <div className='flex w-full h-full flex-col text-[#234120] mt-3 [text-shadow:1px_2px_0_#acdda8]'>
             <div className='w-full h-15/100 flex justify-center gap-2 text-3xl'>
@@ -300,12 +314,12 @@ const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept }) => {
                         </span>
                     </p>
                 }
-
             </div>
+            <input type="text" value={word} onChange={(e) => handleWordleInput(e.target.value.toUpperCase())} id="wordleInput" placeholder='Enter a wordle for opponent...' className={`p-2 m-auto text-2xl text-[#234120] focus:outline-0 bg-[#acdda8] ${isWrongWordle ? 'border-[#b10000] shake' : 'border-[#234120]'} border-b-2 w-75/100`} />
             <p className='my-auto px-3 text-2xl text-center text-balance text-[#3e613b]'>Do you want to play the wordle challenge?</p>
             <div className='w-full h-15/100 flex justify-around gap-2 mt-auto'>
                 <button onClick={handleCancel} className='w-full h-8/10 bg-[#acdda8] text-[#234120] text-2xl shadow-[1px_2px_0_#234120]'>Cancel</button>
-                <button onClick={handleAccept} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl shadow-[1px_2px_0_#acdda8]'>Accept</button>
+                <button disabled={isDisabled} onClick={handleAccept} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl shadow-[1px_2px_0_#acdda8]'>Accept</button>
             </div>
         </div>
     )

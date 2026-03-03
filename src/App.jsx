@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import GamePage from './pages/GamePage'
 import Header from './components/Header'
@@ -18,6 +18,7 @@ import Verification from './components/popUps/Verification'
 import WinOrLost from './components/popUps/WinOrLost'
 import Toast from './components/popUps/Toast'
 import Challenge from './components/popUps/Challenge'
+import useChallengeWordle from './hooks/useChallengeWordle'
 
 
 
@@ -25,6 +26,8 @@ function App() {
   const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setChallengeId } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
+  const {challengeData} = useChallengeWordle();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const isNotFirstTimeVisit = getDataLocal("isNotFirstTimeVisit");
@@ -41,6 +44,15 @@ function App() {
       setChallengeId(challengeId);
     }
   }, [])
+
+  useEffect(() => {
+    if(!challengeData) return;
+
+    if (challengeData.status === 'active') {
+      navigate('/');
+    }
+  }, [challengeData])
+  
 
 
   useHandleStatsHistory();
