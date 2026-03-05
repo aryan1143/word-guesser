@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import WordsContext from "../context/WordsContext";
 import compareWord from "../components/utils/compareWord";
 import Context from "../context/Context";
+import { randomWord } from "../components/utils/wordUtil";
 
 function useHandleLetters() {
-    const { letter, setLetter, allWords, targetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
-    const {showPopUp, setShowPopUp} = useContext(Context);
+    const { letter, setLetter, setAllWordsState, allWords, targetWord, setTargetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
+    const { showPopUp, setShowPopUp, isTimed, showToastMessege } = useContext(Context);
 
     useEffect(() => {
         if (!letter) return;
@@ -15,15 +16,25 @@ function useHandleLetters() {
 
         if (letter === 'ENTER') {
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
-                setShowPopUp('lost');
                 setSubmitedRowNo(0);
                 setLetterIndex(0);
+                if (isTimed) {
+                    const wordle = randomWord();
+                    setTargetWord(wordle);
+                    showToastMessege('Wrong Guesses ❌');
+                    setAllWords([
+                        '-----', '-----', '-----', '-----', '-----', '-----'
+                    ]);
+                    setAllWordsState(['', '', '', '', '', '']);
+                    return;
+                }
+                setShowPopUp('lost');
                 return;
             }
             if (letterIndex === 5 && submitedRowNo < 6) {
                 if (compareWord(allWords[submitedRowNo])) {
-                    setSubmitedRowNo((prev)=> prev + 1);
-                    setLetterIndex(0); 
+                    setSubmitedRowNo((prev) => prev + 1);
+                    setLetterIndex(0);
                 } else {
                     setIsShaking(true);
                     setTimeout(() => {
@@ -41,7 +52,7 @@ function useHandleLetters() {
                 const currentWordArr = newGrid[submitedRowNo].split('');
                 currentWordArr[letterIndex - 1] = '-';
                 newGrid[submitedRowNo] = currentWordArr.join('');
-                
+
                 setAllWords(newGrid);
                 setLetterIndex((prev) => prev - 1);
                 setLetter(null);

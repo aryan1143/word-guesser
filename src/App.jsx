@@ -19,15 +19,18 @@ import WinOrLost from './components/popUps/WinOrLost'
 import Toast from './components/popUps/Toast'
 import Challenge from './components/popUps/Challenge'
 import useChallengeWordle from './hooks/useChallengeWordle'
+import GetDuration from './components/popUps/GetDuration'
 
 
 
 function App() {
-  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setChallengeId } = useContext(Context);
+  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
   const {challengeData} = useChallengeWordle();
   const navigate = useNavigate();
+
+  const userId = getDataLocal('userId');
 
   useEffect(() => {
     const isNotFirstTimeVisit = getDataLocal("isNotFirstTimeVisit");
@@ -47,6 +50,10 @@ function App() {
 
   useEffect(() => {
     if(!challengeData) return;
+
+    if (challengeData.status === 'waiting' && challengeData.createdBy === userId) {
+      setShowCreateChallenge(true);
+    }
 
     if (challengeData.status === 'active') {
       navigate('/');
@@ -80,6 +87,7 @@ function App() {
         </Routes>
         {showToast && <Toast text={toastMessege} />}
         {showCreateChallenge && <Challenge />}
+        {showPopUp === 'GetDuration' &&  <GetDuration />}
         {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' && <WinOrLost status='lost' />}
         {showPopUp === 'pfpSelect' && <PfpSelector />}
         {showPopUp === 'SignUp' && <SignUp />}

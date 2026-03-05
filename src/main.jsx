@@ -8,6 +8,7 @@ import WordsContextProvider from './context/WordsContextProvider.jsx'
 import LoginContextProvider from './context/LoginContextProvider.jsx'
 import ConfirmContextProvider from './context/ConfirmContextProvider.jsx'
 import { ChallengeProvider } from './context/ChallengeContext.jsx'
+import { TimerProvider } from './context/TimerContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,9 +17,11 @@ createRoot(document.getElementById('root')).render(
         <ContextProvider>
           <WordsContextProvider>
             <ConfirmContextProvider >
-              <ChallengeProvider >
-                <App />
-              </ChallengeProvider>
+              <TimerProvider >
+                <ChallengeProvider >
+                  <App />
+                </ChallengeProvider>
+              </TimerProvider>
             </ConfirmContextProvider>
           </WordsContextProvider>
         </ContextProvider>

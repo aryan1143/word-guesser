@@ -4,19 +4,23 @@ import { MdOutlineLeaderboard, MdArrowBack } from "react-icons/md";
 import { RiSettingsLine } from "react-icons/ri";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GiSoundOff } from "react-icons/gi";
-import { GiSoundOn } from "react-icons/gi";
+import { GiSoundOn, GiSandsOfTime } from "react-icons/gi";
+import { MdTimer } from "react-icons/md";
 import Context from '../context/Context';
 import useDialog from '../hooks/useDialog';
 import ChallengeContext from '../context/ChallengeContext';
+import { useGlobalTimer } from '../context/TimerContext';
 
 const Header = () => {
-  const { setShowPopUp, setSoundOn, soundOn, challengeId } = useContext(Context);
+  const { setShowPopUp, setSoundOn, soundOn, challengeId, isTimed } = useContext(Context);
   const { isLoggedIn } = useContext(LoginContext);
-  const {exitChallenge} = useContext(ChallengeContext);
+  const { exitChallenge } = useContext(ChallengeContext);
   const location = useLocation();
   const navigate = useNavigate();
   const locationPath = location.pathname;
-  const {confirmBox} = useDialog();
+  const { confirmBox } = useDialog();
+
+  const { remainingTime } = useGlobalTimer();
 
   async function handleLeaveChallenge() {
     if (!challengeId) return;
@@ -37,10 +41,17 @@ const Header = () => {
           <Link to='/' className={`${locationPath !== '/' ? 'animate-main-up' : 'animate-down hidden'} flex gap-1 justify-center items-center`}><MdArrowBack /> Back</Link>
         }
       </div>
-      <div onClick={() => { setShowPopUp((prev) => (prev === 'LeaderBoard' ? null : 'LeaderBoard')) }} className='pop-up-button shadow-[0_3px_0_0_#234120] flex gap-2 ml-auto items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] duration-95 '>
-        <MdOutlineLeaderboard />
-        <p>Leaderboard</p>
-      </div>
+      {isTimed ?
+        <div className='pop-up-button shadow-[0_3px_0_0_#234120] flex gap-1 ml-auto items-center justify-center w-[calc(7rem+7vw)] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl hover:bg-[#9ac596] duration-95 '>
+          <MdTimer />
+          <p>Timer: {remainingTime}</p>
+        </div>
+        :
+        <div onClick={() => { setShowPopUp((prev) => (prev === 'LeaderBoard' ? null : 'LeaderBoard')) }} className='pop-up-button shadow-[0_3px_0_0_#234120] flex gap-2 ml-auto items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] duration-95 '>
+          <MdOutlineLeaderboard />
+          <p>Leaderboard</p>
+        </div>
+      }
       <div onClick={() => { setSoundOn((prev) => (!prev)) }} className='pop-up-button shadow-[0_3px_0_0_#234120] flex ml-0 gap-2 items-center w-[calc(1rem+2vw)] h-[calc(1rem+2vw)] justify-center px-2 py-2 bg-[#acdda8] text-[calc(1.3rem+0.8vw)] min-w-10 min-h-10 font-bold text-[#234120] rounded-[50%] cursor-pointer hover:bg-[#9ac596] duration-95 '>
         {soundOn ? <GiSoundOn /> : <GiSoundOff />}
       </div>

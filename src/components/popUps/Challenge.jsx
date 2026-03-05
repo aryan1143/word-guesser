@@ -43,7 +43,6 @@ const Challenge = () => {
         }
     }, [locationPath, paramsChallengeId, setChallengeId]);
 
-    console.log(challengeStatus)
 
     async function handleClose(action) {
         if (!challengeId) {
@@ -151,7 +150,10 @@ const Challenge = () => {
             if (justCreated && copied) {
                 return <WaitingUi />;
             } else if (!justCreated) {
-                return <WaitingUi />;
+                return <WaitingUi
+                    startChallengeLoading={startChallengeLoading}
+                    challengePlayersNo={challengeData && challengeData.players.length}
+                />;
             }
         }
 
@@ -325,14 +327,15 @@ const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept, word, ha
     )
 }
 
-const WaitingUi = () => {
+const WaitingUi = ({startChallengeLoading, challengePlayersNo}) => {
     return (
         <div className='w-full h-full flex flex-col gap-5 justify-center items-center text-4xl text-[#234120] [text-shadow:1px_2px_0_#acdda8]'>
             <h3 className='text-center text-balance'>Waiting for other players to join...</h3>
             <div className='relative h-2/10 flex justify-center items-center'>
-                1/2
+                {challengePlayersNo || 1}/2
                 <div className='absolute top-[50%] left-[50%] -translate-[50%] spin h-full aspect-square flex justify-center items-center'></div>
             </div>
+            {startChallengeLoading && <p>Starting...</p>}
         </div>
     )
 }

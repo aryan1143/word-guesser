@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import Context from "./Context";
 
 const TimerContext = createContext();
 
@@ -6,6 +7,8 @@ export function TimerProvider({ children }) {
     const [duration, setDuration] = useState(90);
     const [remainingSeconds, setRemainingSeconds] = useState(180);
     const [isRunning, setIsRunning] = useState(false);
+
+    const {setIsTimed}= useContext(Context);
 
     useEffect(() => {
         let intervalId;
@@ -15,6 +18,7 @@ export function TimerProvider({ children }) {
                     if (prev <= 1) {
                         clearInterval(intervalId);
                         setIsRunning(false);
+                        setIsTimed(false);
                         return 0;
                     }
                     return prev - 1;
@@ -47,7 +51,7 @@ export function TimerProvider({ children }) {
     return (
         <TimerContext.Provider value={{ 
             remainingTime, isAboutToEnd, remainingSeconds, 
-            startTimer, pauseTimer, resetTimer, isRunning 
+            startTimer, pauseTimer, resetTimer, isRunning, duration
         }}>
             {children}
         </TimerContext.Provider>

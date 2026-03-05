@@ -9,6 +9,7 @@ const ContextProvider = ({ children }) => {
     const [toastMessege, setToastMessege] = useState('');
     const [showCreateChallenge, setShowCreateChallenge] = useState(false);
     const [challengeId, setChallengeId] = useState(null);
+    const [isTimed, setIsTimed] = useState(false);
 
     function showToastMessege (text) {
         setShowToast(true);
@@ -30,7 +31,9 @@ const ContextProvider = ({ children }) => {
         showCreateChallenge,
         setShowCreateChallenge,
         challengeId,
-        setChallengeId
+        setChallengeId,
+        isTimed,
+        setIsTimed,
     }
 
     return (

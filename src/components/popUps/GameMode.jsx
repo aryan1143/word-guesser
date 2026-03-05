@@ -3,7 +3,7 @@ import Context from '../../context/Context'
 import { RiCloseFill } from 'react-icons/ri';
 import getDailyWordle from '../utils/getDailyWordle';
 import WordsContext from '../../context/WordsContext';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const GameMode = () => {
@@ -16,12 +16,12 @@ const GameMode = () => {
       const wordle = getDailyWordle();
       setTargetWord(wordle);
       navigate('/game-page');
-      setShowPopUp(null);     
+      setShowPopUp(null);
     } else if (mode === 'challange') {
       setShowCreateChallenge(true);
       setShowPopUp(null);
     } else if (mode === 'practice') {
-      
+      setShowPopUp('GetDuration');
     }
   }
 
@@ -32,7 +32,7 @@ const GameMode = () => {
         <div className="w-full flex justify-between h-fit text-2xl items-center">
           <p className='bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] [text-shadow:1px_2px_0_#acdda8] bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 border-[#0000004d] text-[#234120]'>Game Mode</p>
           <button onClick={() => { setShowPopUp(null) }} className='cursor-pointer bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] h-full bg-[#d7ead5] border border-b-0 rounded-b-none rounded-xl px-2 p-1 flex items-center border-[#0000004d]'>
-            <RiCloseFill className='text-[#234120]'/>
+            <RiCloseFill className='text-[#234120]' />
           </button>
         </div>
         <div className='shadow-[0_4px_0_0_#234120] flex flex-col md:flex-row h-full w-full gap-2 md:gap-5 justify-center items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
@@ -51,7 +51,7 @@ const GameMode = () => {
               </ul>
             </div>
             <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button onClick={()=>handlePlay('day')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button onClick={() => handlePlay('day')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
               <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
@@ -70,7 +70,7 @@ const GameMode = () => {
               </ul>
             </div>
             <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button onClick={()=>handlePlay('challange')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button onClick={() => handlePlay('challange')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
               <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
@@ -89,7 +89,7 @@ const GameMode = () => {
               </ul>
             </div>
             <div className='flex flex-col md:flex-row w-45/100 md:w-full justify-around p-3 pb-5 gap-3 text-xl'>
-              <button onClick={()=>handlePlay('practice')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
+              <button onClick={() => handlePlay('practice')} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play</button>
               <button className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Detail</button>
             </div>
           </div>
