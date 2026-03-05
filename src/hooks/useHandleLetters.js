@@ -3,10 +3,13 @@ import WordsContext from "../context/WordsContext";
 import compareWord from "../components/utils/compareWord";
 import Context from "../context/Context";
 import { randomWord } from "../components/utils/wordUtil";
+import useWonOrLost from "./useWonOrLost";
 
 function useHandleLetters() {
     const { letter, setLetter, setAllWordsState, allWords, targetWord, setTargetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
     const { showPopUp, setShowPopUp, isTimed, showToastMessege } = useContext(Context);
+
+    const handleGameOver = useWonOrLost();
 
     useEffect(() => {
         if (!letter) return;
@@ -16,20 +19,7 @@ function useHandleLetters() {
 
         if (letter === 'ENTER') {
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
-                setSubmitedRowNo(0);
-                setLetterIndex(0);
-                if (isTimed) {
-                    const wordle = randomWord();
-                    setTargetWord(wordle);
-                    showToastMessege('Wrong Guesses ❌');
-                    setAllWords([
-                        '-----', '-----', '-----', '-----', '-----', '-----'
-                    ]);
-                    setAllWordsState(['', '', '', '', '', '']);
-                    return;
-                }
-                setShowPopUp('lost');
-                return;
+                handleGameOver('lost');
             }
             if (letterIndex === 5 && submitedRowNo < 6) {
                 if (compareWord(allWords[submitedRowNo])) {
