@@ -20,6 +20,7 @@ function useHandleLetters() {
         if (letter === 'ENTER') {
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
                 handleGameOver('lost');
+                return;
             }
             if (letterIndex === 5 && submitedRowNo < 6) {
                 if (compareWord(allWords[submitedRowNo])) {

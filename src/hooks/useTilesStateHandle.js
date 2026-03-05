@@ -16,6 +16,7 @@ function useTilesStateHandle(allWords, isSample = false) {
     const WordsState = allWords.map((word, i) => {
       if (word === targetWord && submitedRowNo === (i + 1)) {
         handleGameOver('won');
+        return;
       }
       if ((!isSample) && submitedRowNo <= i) return '';
       const state = word.split('').map((letter, index) => {

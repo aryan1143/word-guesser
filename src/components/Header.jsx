@@ -20,7 +20,7 @@ const Header = () => {
   const locationPath = location.pathname;
   const { confirmBox } = useDialog();
 
-  const { remainingTime } = useGlobalTimer();
+  const { remainingTime, pauseTimer, resumeTimer, isRunning } = useGlobalTimer();
 
   async function handleLeaveChallenge() {
     if (!challengeId) return;
@@ -31,6 +31,17 @@ const Header = () => {
     }
   }
 
+  async function handleBack() {
+    const result = await confirmBox('Are you sure you want to leave wordle!');
+    if (result) {
+      navigate('/');
+    }
+  }
+
+  function handleTimerClick() {
+    isRunning ? pauseTimer() : resumeTimer();
+  }
+
   return (
     <div className='flex z-50 gap-2 w-screen max-w-540 pt-2 md:pt-3 px-2 md-px-5'>
       <div className='shadow-[0_3px_0_0_#234120] flex gap-2 items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl cursor-pointer hover:bg-[#9ac596] duration-95 '>
@@ -38,11 +49,11 @@ const Header = () => {
         {challengeId ?
           <button className={`${locationPath !== '/' ? 'animate-main-up' : 'animate-down hidden'} flex gap-1 justify-center items-center`} onClick={handleLeaveChallenge}><MdArrowBack /> Leave</button>
           :
-          <Link to='/' className={`${locationPath !== '/' ? 'animate-main-up' : 'animate-down hidden'} flex gap-1 justify-center items-center`}><MdArrowBack /> Back</Link>
+          <button onClick={handleBack} className={`${locationPath !== '/' ? 'animate-main-up' : 'animate-down hidden'} flex gap-1 justify-center items-center`}><MdArrowBack /> Back</button>
         }
       </div>
       {isTimed ?
-        <div className='pop-up-button shadow-[0_3px_0_0_#234120] flex gap-1 ml-auto items-center justify-center w-[calc(7rem+7vw)] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] rounded-4xl hover:bg-[#9ac596] duration-95 '>
+        <div onClick={handleTimerClick} className={`pop-up-button shadow-[0_3px_0_0_#234120] flex gap-1 ml-auto items-center justify-center w-[calc(7rem+7vw)] py-1 bg-[#acdda8] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold ${isRunning ? 'text-[#234120]' : 'text-[#234120c5]'} rounded-4xl hover:bg-[#9ac596] duration-95 `}>
           <MdTimer />
           <p>Timer: {remainingTime}</p>
         </div>

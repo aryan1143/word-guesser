@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import logo from '/logo.svg'
 import Grid from '../components/Grid'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import Context from '../context/Context'
 import { randomWord } from '../components/utils/wordUtil'
 import WordsContext from '../context/WordsContext'
@@ -11,10 +11,15 @@ import useChallengeWordle from '../hooks/useChallengeWordle'
 
 const HomePage = () => {
 
-  const { setShowPopUp } = useContext(Context);
+  const { setShowPopUp, setIsTimed } = useContext(Context);
   const {setTargetWord, setAllWords, setAllWordsState, setSubmitedRowNo, setLetterIndex} = useContext(WordsContext);
   const {confirmBox} = useDialog();
   const {exitChallenge} = useChallengeWordle();
+
+  useEffect(() => {
+    setIsTimed(false);
+  }, [])
+  
 
   const targetWord = 'GUESS';
   const allWordsSample = [

@@ -8,7 +8,7 @@ export function TimerProvider({ children }) {
     const [remainingSeconds, setRemainingSeconds] = useState(180);
     const [isRunning, setIsRunning] = useState(false);
 
-    const {setIsTimed}= useContext(Context);
+    const { setIsTimed, showToastMessege } = useContext(Context);
 
     useEffect(() => {
         let intervalId;
@@ -36,8 +36,16 @@ export function TimerProvider({ children }) {
         setIsRunning(true);
     };
 
-    const pauseTimer = () => setIsRunning(false);
-    
+    const pauseTimer = () => {
+        setIsRunning(false);
+        showToastMessege('Timer Paused!')
+    }
+
+    const resumeTimer = () => {
+        setIsRunning(true);
+        showToastMessege('Timer Resumed!')
+    }
+
     const resetTimer = () => {
         setIsRunning(false);
         setRemainingSeconds(duration);
@@ -49,9 +57,9 @@ export function TimerProvider({ children }) {
     const remainingTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
     return (
-        <TimerContext.Provider value={{ 
-            remainingTime, isAboutToEnd, remainingSeconds, 
-            startTimer, pauseTimer, resetTimer, isRunning, duration
+        <TimerContext.Provider value={{
+            remainingTime, isAboutToEnd, remainingSeconds,
+            startTimer, pauseTimer, resumeTimer, resetTimer, isRunning, duration
         }}>
             {children}
         </TimerContext.Provider>

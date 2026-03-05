@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import WordsContext from "../context/WordsContext";
 import Context from "../context/Context";
+import { randomWord } from "../components/utils/wordUtil";
 
-export default function useWonOrLost(status) {
+export default function useWonOrLost() {
     const {setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo, setTargetWord}= useContext(WordsContext);
     const {showToastMessege, setShowPopUp, isTimed} = useContext(Context);
     const handleGameOver = (status) => {
@@ -11,7 +12,7 @@ export default function useWonOrLost(status) {
         if (isTimed) {
             const wordle = randomWord();
             setTargetWord(wordle);
-            status === 'won' ? showToastMessege('Right Guess ✅') : showToastMessege('Wrong Guesses ❌');
+            status === 'won' ? showToastMessege('Right Guess ✅') : showToastMessege('Wrong Guess ❌');
             setAllWords([
                 '-----', '-----', '-----', '-----', '-----', '-----'
             ]);
