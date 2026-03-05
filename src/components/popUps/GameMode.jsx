@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const GameMode = () => {
-  const { setShowPopUp, setShowCreateChallenge } = useContext(Context);
+  const { setShowPopUp, setShowCreateChallenge, setInDailyWordle } = useContext(Context);
   const { setTargetWord } = useContext(WordsContext);
   const navigate = useNavigate();
 
@@ -16,6 +16,7 @@ const GameMode = () => {
       const wordle = getDailyWordle();
       setTargetWord(wordle);
       navigate('/game-page');
+      setInDailyWordle(true);
       setShowPopUp(null);
     } else if (mode === 'challange') {
       setShowCreateChallenge(true);

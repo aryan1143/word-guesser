@@ -8,16 +8,22 @@ import WordsContext from '../context/WordsContext'
 import { getDataLocal, removeDataLocal } from '../lib/localStorage'
 import useDialog from '../hooks/useDialog'
 import useChallengeWordle from '../hooks/useChallengeWordle'
+import { useGlobalTimer } from '../context/TimerContext'
 
 const HomePage = () => {
 
-  const { setShowPopUp, setIsTimed } = useContext(Context);
+  const { setShowPopUp, setIsTimed, setInDailyWordle } = useContext(Context);
   const {setTargetWord, setAllWords, setAllWordsState, setSubmitedRowNo, setLetterIndex} = useContext(WordsContext);
   const {confirmBox} = useDialog();
+
   const {exitChallenge} = useChallengeWordle();
+
+  const {resetTimer} = useGlobalTimer();
 
   useEffect(() => {
     setIsTimed(false);
+    resetTimer();
+    setInDailyWordle(false);
   }, [])
   
 

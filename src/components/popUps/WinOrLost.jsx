@@ -8,10 +8,10 @@ import LostLogo from '/lost.jpg';
 
 const WinOrLost = ({ status = 'lost' }) => {
 
-    
+
 
     const { setTargetWord, targetWord, setAllWords } = useContext(WordsContext);
-    const { setShowPopUp } = useContext(Context);
+    const { setShowPopUp, inDailyWordle } = useContext(Context);
 
     function handleOnClick() {
         const word = randomWord();
@@ -34,7 +34,7 @@ const WinOrLost = ({ status = 'lost' }) => {
                 <div className='overflow-hidden p-3 shadow-[0_4px_0_0_#234120] flex flex-col h-full w-full items-center border rounded-t-none border-[#0000004d] bg-[#d7ead5]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] bg-size-[30px_30px]'>
                     <div className='w-full mb-auto'>
                         {status === 'won' ?
-                            <img className='w-full' src={WonLogo}/>
+                            <img className='w-full' src={WonLogo} />
                             :
                             <img className='w-full' src={LostLogo} />
                         }
@@ -51,7 +51,7 @@ const WinOrLost = ({ status = 'lost' }) => {
                     </div>
                     <div className='w-full flex justify-around mt-auto gap-2 text-2xl'>
                         <Link onClick={handleOnClick} to={'/'} className='flex justify-center items-center flex-1 md:w-[6vw] h-[calc(1rem+3vh)] md:h-[calc(1.2rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>Home</Link>
-                        <button onClick={handleOnClick} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] md:h-[calc(1.2rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play Again</button>
+                        {!inDailyWordle && <button onClick={handleOnClick} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] md:h-[calc(1.2rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>Play Again</button>}
                     </div>
                 </div>
             </div>

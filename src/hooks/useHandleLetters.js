@@ -2,12 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import WordsContext from "../context/WordsContext";
 import compareWord from "../components/utils/compareWord";
 import Context from "../context/Context";
-import { randomWord } from "../components/utils/wordUtil";
 import useWonOrLost from "./useWonOrLost";
 
 function useHandleLetters() {
-    const { letter, setLetter, setAllWordsState, allWords, targetWord, setTargetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
-    const { showPopUp, setShowPopUp, isTimed, showToastMessege } = useContext(Context);
+    const { letter, setLetter, allWords, targetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
+    const { showPopUp } = useContext(Context);
 
     const handleGameOver = useWonOrLost();
 
