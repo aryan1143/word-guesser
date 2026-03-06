@@ -37,7 +37,9 @@ export default function useChallengeWordle() {
                 player1: "joined",
                 player2: "empty",
                 player1Name: userData.name,
-                player2Name: 'empty'
+                player2Name: 'empty',
+                player1Score: 0,
+                player2Score: 0
             });
             setChallengeId(ref.id);
             setChallengeURL(`${baseURL}/challenge/${ref.id}`);
@@ -74,7 +76,7 @@ export default function useChallengeWordle() {
                 }
 
                 transaction.update(ref, {
-                    wordle2Index: wordle2Index,
+                    ...(wordle2Index && {wordle2Index: wordle2Index}),
                     players: arrayUnion(uid),
                     player2: "joined",
                     status: "ready",

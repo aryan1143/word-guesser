@@ -10,6 +10,7 @@ import Context from '../context/Context';
 import useDialog from '../hooks/useDialog';
 import ChallengeContext from '../context/ChallengeContext';
 import { useGlobalTimer } from '../context/TimerContext';
+import { getDataLocal } from '../lib/localStorage';
 
 const Header = () => {
   const { setShowPopUp, setSoundOn, soundOn, challengeId, isTimed } = useContext(Context);
@@ -18,7 +19,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const locationPath = location.pathname;
-  const { confirmBox } = useDialog();
+
+  const { confirmBox, alertBox } = useDialog();
 
   const { remainingTime, pauseTimer, resumeTimer, isRunning } = useGlobalTimer();
 
@@ -39,6 +41,10 @@ const Header = () => {
   }
 
   function handleTimerClick() {
+    if (challengeId) {
+      alertBox('You can not pause the timer in challlenge!');
+      return;
+    }
     isRunning ? pauseTimer() : resumeTimer();
   }
 

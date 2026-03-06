@@ -33,6 +33,8 @@ const Challenge = () => {
         createChallenge, acceptChallenge, startChallenge, exitChallenge,
     } = useContext(ChallengeContext);
 
+    console.log(challengeStatus)
+
     const { showToastMessege, showCreateChallenge, setShowPopUp, setShowCreateChallenge, setChallengeId } = useContext(Context);
     const userId = getDataLocal('userId');
     const ongoingChallengeId = getDataLocal('challengeId');
@@ -116,7 +118,7 @@ const Challenge = () => {
 
     function handleAccept() {
         if (!challengeData) return;
-        if (!compareWord(word) && (!isTimed)) {
+        if (!compareWord(word) && (!challengeData.isTimed)) {
             setIsWrongWordle(true);
             showToastMessege("Word is not in list❌")
             return;
@@ -124,6 +126,7 @@ const Challenge = () => {
         if (!isTimed) {
             const wordle2Index = getWordIndex(word);
             acceptChallenge(challengeId, wordle2Index);
+            return;
         }
         acceptChallenge(challengeId);
     }
@@ -317,17 +320,19 @@ const AcceptChallengeUI = ({ challengeData, handleCancel, handleAccept, word, ha
                     </p>
                 }
             </div>
-            <input type="text" value={word} onChange={(e) => handleWordleInput(e.target.value.toUpperCase())} id="wordleInput" placeholder='Enter a wordle for opponent...' className={`p-2 m-auto text-2xl text-[#234120] focus:outline-0 bg-[#acdda8] ${isWrongWordle ? 'border-[#b10000] shake' : 'border-[#234120]'} border-b-2 w-75/100`} />
+            {challengeData && !challengeData.isTimed &&
+                <input type="text" value={word} onChange={(e) => handleWordleInput(e.target.value.toUpperCase())} id="wordleInput" placeholder='Enter a wordle for opponent...' className={`p-2 m-auto text-2xl text-[#234120] focus:outline-0 bg-[#acdda8] ${isWrongWordle ? 'border-[#b10000] shake' : 'border-[#234120]'} border-b-2 w-75/100`} />
+            }
             <p className='my-auto px-3 text-2xl text-center text-balance text-[#3e613b]'>Do you want to play the wordle challenge?</p>
             <div className='w-full h-15/100 flex justify-around gap-2 mt-auto'>
                 <button onClick={handleCancel} className='w-full h-8/10 bg-[#acdda8] text-[#234120] text-2xl shadow-[1px_2px_0_#234120]'>Cancel</button>
-                <button disabled={isDisabled} onClick={handleAccept} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl shadow-[1px_2px_0_#acdda8]'>Accept</button>
+                <button disabled={isDisabled && challengeData && !challengeData.isTimed} onClick={handleAccept} className='w-full h-8/10 disabled:bg-[#566854] bg-[#234120] text-[#acdda8] text-2xl shadow-[1px_2px_0_#acdda8]'>Accept</button>
             </div>
         </div>
     )
 }
 
-const WaitingUi = ({startChallengeLoading, challengePlayersNo}) => {
+const WaitingUi = ({ startChallengeLoading, challengePlayersNo }) => {
     return (
         <div className='w-full h-full flex flex-col gap-5 justify-center items-center text-4xl text-[#234120] [text-shadow:1px_2px_0_#acdda8]'>
             <h3 className='text-center text-balance'>Waiting for other players to join...</h3>
