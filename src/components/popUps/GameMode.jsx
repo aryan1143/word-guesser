@@ -8,10 +8,16 @@ import { useNavigate } from 'react-router-dom'
 
 const GameMode = () => {
   const { setShowPopUp, setShowCreateChallenge, setInDailyWordle } = useContext(Context);
-  const { setTargetWord } = useContext(WordsContext);
+  const { setTargetWord, setSubmitedRowNo, setLetterIndex, setAllWords, setAllWordsState } = useContext(WordsContext);
   const navigate = useNavigate();
 
   function handlePlay(mode) {
+    setLetterIndex(0);
+    setSubmitedRowNo(0);
+    setAllWords([
+      '-----', '-----', '-----', '-----', '-----', '-----'
+    ]);
+    setAllWordsState(['', '', '', '', '', '']);
     if (mode === 'day') {
       const wordle = getDailyWordle();
       setTargetWord(wordle);
