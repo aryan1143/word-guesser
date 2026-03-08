@@ -5,11 +5,14 @@ import WordsContext from '../../context/WordsContext';
 import Context from '../../context/Context';
 import WonLogo from '/won.jpg';
 import LostLogo from '/lost.jpg';
+import { useScoreContext } from '../../context/ScoreContext';
 
 const WinOrLost = ({ status = 'lost'}) => {
 
-    const { setTargetWord, targetWord, setAllWords } = useContext(WordsContext);
+    const { setTargetWord, targetWord, setAllWords, submitedRowNo, setSubmitedRowNo, setLetterIndex } = useContext(WordsContext);
     const { setShowPopUp, inDailyWordle, isChallengePopUp, setIsChallengePopUp } = useContext(Context);
+
+    const {currentScore} = useScoreContext();
 
     function handleOnClick() {
         const word = randomWord();
@@ -18,12 +21,16 @@ const WinOrLost = ({ status = 'lost'}) => {
         setAllWords([
             '-----', '-----', '-----', '-----', '-----', '-----'
         ]);
+        setLetterIndex(0);
+        setSubmitedRowNo(0);
         console.log(word)
     }
 
     function handleHomeClick() {
         setShowPopUp(null);
         setIsChallengePopUp(false);
+        setLetterIndex(0);
+        setSubmitedRowNo(0);
     }
 
     return (
@@ -48,8 +55,8 @@ const WinOrLost = ({ status = 'lost'}) => {
                             {status === 'won' ? `GUESSED WORDLE: ${targetWord}` : `TARGET WORDLE: ${targetWord}`}
                         </p>
                         <div className='flex justify-center gap-3'>
-                            <p>Tries: 5</p>
-                            <p>Score: 17</p>
+                            <p>Tries: {submitedRowNo || 0}</p>
+                            <p>Score: {currentScore || 0}</p>
                         </div>
                     </div>
                     <div className='w-full flex justify-around mt-auto gap-2 text-2xl'>
