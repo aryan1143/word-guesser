@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect } from 'react';
 import useChallengeWordle from '../hooks/useChallengeWordle';
 import WordsContext from './WordsContext';
 import Context from './Context';
-import { getDataLocal, removeDataLocal } from '../lib/localStorage';
+import { getDataLocal } from '../lib/localStorage';
 import { getWordByIndex } from '../components/utils/getWordleOrIndex';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalTimer } from './TimerContext';
@@ -16,7 +16,7 @@ export const ChallengeProvider = ({ children }) => {
 
     const userId = getDataLocal('userId');
 
-    const { setChallengeId, setShowPopUp, setShowCreateChallenge, setIsTimed, isTimed, challengeId, setIsChallengePopUp } = useContext(Context);
+    const { setChallengeId, setShowPopUp, setShowCreateChallenge, setIsTimed, isTimed, challengeId, setIsChallengePopUp, setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo } = useContext(Context);
     const { setTargetWord } = useContext(WordsContext);
 
     const { startTimer, remainingSeconds } = useGlobalTimer();
@@ -43,6 +43,12 @@ export const ChallengeProvider = ({ children }) => {
                 setTargetWord(wordle);
 
             }
+            setLetterIndex(0);
+            setSubmitedRowNo(0);
+            setAllWords([
+                '-----', '-----', '-----', '-----', '-----', '-----'
+            ]);
+            setAllWordsState(['', '', '', '', '', '']);
             navigate('/game-page');
             setShowCreateChallenge(false);
             setShowPopUp(null);

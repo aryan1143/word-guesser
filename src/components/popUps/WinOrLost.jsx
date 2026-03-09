@@ -16,14 +16,15 @@ const WinOrLost = ({ status = 'lost' }) => {
     const { currentScore } = useScoreContext();
 
     function handleOnClick() {
-        const word = randomWord();
-        setTargetWord(word);
         setShowPopUp(null);
         setAllWords([
             '-----', '-----', '-----', '-----', '-----', '-----'
         ]);
         setLetterIndex(0);
         setSubmitedRowNo(0);
+        setShowPopUp('GetDuration');
+        const word = randomWord();
+        setTargetWord(word);
         console.log(word)
     }
 

@@ -12,13 +12,13 @@ const GameMode = () => {
   const navigate = useNavigate();
 
   function handlePlay(mode) {
-    setLetterIndex(0);
-    setSubmitedRowNo(0);
-    setAllWords([
-      '-----', '-----', '-----', '-----', '-----', '-----'
-    ]);
-    setAllWordsState(['', '', '', '', '', '']);
     if (mode === 'day') {
+      setLetterIndex(0);
+      setSubmitedRowNo(0);
+      setAllWords([
+        '-----', '-----', '-----', '-----', '-----', '-----'
+      ]);
+      setAllWordsState(['', '', '', '', '', '']);
       const wordle = getDailyWordle();
       setTargetWord(wordle);
       navigate('/game-page');

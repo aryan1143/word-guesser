@@ -10,12 +10,11 @@ import WordsContext from "../../context/WordsContext";
 export default function GetDuration() {
     const [timeDuration, setTimeDuration] = useState(90);
     const { setShowPopUp, setIsTimed } = useContext(Context);
-    const {setTargetWord} = useContext(WordsContext);
+    const { setTargetWord, setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
 
     const navigate = useNavigate();
 
-    const { remainingTime, isAboutToEnd, remainingSeconds,
-        startTimer, pauseTimer, resetTimer, isRunning } = useGlobalTimer();
+    const { startTimer } = useGlobalTimer();
 
     const timeOptions = [
         { label: "1 Min", value: 60 },
@@ -29,6 +28,12 @@ export default function GetDuration() {
     }
 
     function handleStartPractice() {
+        setLetterIndex(0);
+        setSubmitedRowNo(0);
+        setAllWords([
+            '-----', '-----', '-----', '-----', '-----', '-----'
+        ]);
+        setAllWordsState(['', '', '', '', '', '']);
         setIsTimed(true);
         setShowPopUp(null);
         startTimer(timeDuration);
