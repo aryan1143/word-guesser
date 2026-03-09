@@ -9,18 +9,19 @@ export default function useWonOrLost() {
     const { showToastMessege, setShowPopUp, isTimed } = useContext(Context);
     const { setCurrentScore } = useScoreContext();
     const handleGameOver = (status) => {
-        status === 'won' ? setCurrentScore((7 - submitedRowNo) * 100) : setCurrentScore(0);
         if (isTimed) {
             setLetterIndex(0);
             setSubmitedRowNo(0);
             const wordle = randomWord();
             setTargetWord(wordle);
+            status === 'won' && setCurrentScore(prev => (prev + ((7 - submitedRowNo) * 100)));
             status === 'won' ? showToastMessege('Right Guess ✅') : showToastMessege('Wrong Guess ❌');
             setAllWords([
                 '-----', '-----', '-----', '-----', '-----', '-----'
             ]);
             setAllWordsState(['', '', '', '', '', '']);
         } else {
+            status === 'won' ? setCurrentScore((7 - submitedRowNo) * 100) : setCurrentScore(0);
             status === 'won' ? setShowPopUp('won') : setShowPopUp('lost');
         }
     }

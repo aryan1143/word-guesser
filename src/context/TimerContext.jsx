@@ -8,7 +8,7 @@ export function TimerProvider({ children }) {
     const [remainingSeconds, setRemainingSeconds] = useState(180);
     const [isRunning, setIsRunning] = useState(false);
 
-    const { setIsTimed, showToastMessege } = useContext(Context);
+    const { setIsTimed, showToastMessege, setShowPopUp } = useContext(Context);
 
     useEffect(() => {
         let intervalId;
@@ -19,6 +19,7 @@ export function TimerProvider({ children }) {
                         clearInterval(intervalId);
                         setIsRunning(false);
                         setIsTimed(false);
+                        setShowPopUp('timeUp');
                         return 0;
                     }
                     return prev - 1;

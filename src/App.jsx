@@ -27,7 +27,7 @@ function App() {
   const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
-  const {challengeData} = useChallengeWordle();
+  const { challengeData } = useChallengeWordle();
   const navigate = useNavigate();
 
   const userId = getDataLocal('userId');
@@ -49,7 +49,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if(!challengeData) return;
+    if (!challengeData) return;
 
     if (challengeData.status === 'waiting' && challengeData.createdBy === userId) {
       setShowCreateChallenge(true);
@@ -59,7 +59,7 @@ function App() {
       navigate('/');
     }
   }, [challengeData])
-  
+
 
 
   useHandleStatsHistory();
@@ -87,8 +87,8 @@ function App() {
         </Routes>
         {showToast && <Toast text={toastMessege} />}
         {showCreateChallenge && <Challenge />}
-        {showPopUp === 'GetDuration' &&  <GetDuration />}
-        {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' && <WinOrLost status='lost' />}
+        {showPopUp === 'GetDuration' && <GetDuration />}
+        {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' ? <WinOrLost status='lost' /> : showPopUp === 'timeUp' && <WinOrLost status='timeUp' />}
         {showPopUp === 'pfpSelect' && <PfpSelector />}
         {showPopUp === 'SignUp' && <SignUp />}
         {showPopUp === 'Verification' && <Verification />}

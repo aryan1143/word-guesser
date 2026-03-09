@@ -5,14 +5,15 @@ import WordsContext from '../../context/WordsContext';
 import Context from '../../context/Context';
 import WonLogo from '/won.jpg';
 import LostLogo from '/lost.jpg';
+import TimeUp from '/time-up.jpg';
 import { useScoreContext } from '../../context/ScoreContext';
 
-const WinOrLost = ({ status = 'lost'}) => {
+const WinOrLost = ({ status = 'lost' }) => {
 
     const { setTargetWord, targetWord, setAllWords, submitedRowNo, setSubmitedRowNo, setLetterIndex } = useContext(WordsContext);
     const { setShowPopUp, inDailyWordle, isChallengePopUp, setIsChallengePopUp } = useContext(Context);
 
-    const {currentScore} = useScoreContext();
+    const { currentScore } = useScoreContext();
 
     function handleOnClick() {
         const word = randomWord();
@@ -46,7 +47,10 @@ const WinOrLost = ({ status = 'lost'}) => {
                         {status === 'won' ?
                             <img className='w-full' src={WonLogo} alt="Won Logo" />
                             :
-                            <img className='w-full' src={LostLogo} alt="Lost Logo" />
+                            status === 'timeUp' ?
+                                <img className='w-full' src={TimeUp} alt="Time Up Logo" />
+                                :
+                                <img className='w-full' src={LostLogo} alt="Lost Logo" />
                         }
 
                     </div>
