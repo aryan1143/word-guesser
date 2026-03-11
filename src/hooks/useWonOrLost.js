@@ -1,16 +1,24 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import WordsContext from "../context/WordsContext";
 import Context from "../context/Context";
 import { randomWord } from "../components/utils/wordUtil";
 import { useScoreContext } from "../context/ScoreContext";
 import useHandleDidDailyWordle from "./useHandleDidDailyWordle";
+import useHandleStreak from "./useHandleStreak";
 
 export default function useWonOrLost() {
     const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
     const { showToastMessege, setShowPopUp, isTimed, inDailyWordle } = useContext(Context);
     const { setCurrentScore } = useScoreContext();
 
-    const {doDailyWordle} = useHandleDidDailyWordle();
+    const { doDailyWordle } = useHandleDidDailyWordle();
+
+    const { updateStreak } = useHandleStreak();
+
+    useEffect(() => {
+        updateStreak();
+    }, []);
+
 
     const handleGameOver = (status) => {
         if (isTimed) {

@@ -4,16 +4,15 @@ import { useState } from "react";
 import { setDataLocal } from "../lib/localStorage";
 import { app } from "../lib/firebaseClient";
 import useDialog from "./useDialog";
-import {isToday, isYesterday } from 'date-fns';
+import { isToday, isYesterday } from 'date-fns';
 
 export default function useHandleStreak() {
     const db = getFirestore();
     const auth = getAuth(app);
     const [loading, setLoading] = useState(false);
-    const [isSuccess, setisSuccess] = useState(false);
     const { alertBox } = useDialog();
 
-    async function handleStreak() {
+    async function updateStreak() {
         setLoading(true);
         const user = auth.currentUser;
         if (!user) return;
@@ -35,17 +34,14 @@ export default function useHandleStreak() {
                     }, { merge: true });
                 }
                 else {
-                    const lastActivityDate = new Date(streakData.lastActivityDate);
-                    if (isToday(lastActivityDate)) {
-                        console.log("Already active today");
-                    }
-                    else if (isYesterday(lastActivityDate)) {
+                    const lastActivityDate = streakData.lastActivityDate.toDate();
+                    if (isYesterday(lastActivityDate)) {
                         await updateDoc(userRef, {
                             "streakData.currentStreak": streakData.currentStreak + 1,
                             "streakData.lastActivityDate": today
                         });
                     }
-                    else {
+                    else if (!isToday(lastActivityDate)) {
                         await updateDoc(userRef, {
                             "streakData.currentStreak": 1,
                             "streakData.lastActivityDate": today
@@ -56,15 +52,13 @@ export default function useHandleStreak() {
                 const userDocSnap = await getDoc(userRef);
                 const userData = userDocSnap.data();
                 setDataLocal("userData", userData);
-                setisSuccess(true);
             }
         } catch (error) {
-            setisSuccess(false);
             console.log(error)
             alertBox("Something went wrong.");
         } finally {
             setLoading(false)
         }
     }
-    return { handleStreak, loading, isSuccess };
+    return { updateStreak, loading };
 }

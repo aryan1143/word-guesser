@@ -39,7 +39,6 @@ const SignUp = () => {
                 email: email,
                 createdAt: serverTimestamp(),
                 name: 'Player',
-                streak: 0,
                 dailyScore: 0,
                 weeklyScore: 0,
                 monthlyScore: 0,

@@ -10,6 +10,7 @@ import useUpdateProfileData from '../../hooks/useUpdateProfileData';
 import Loader from '../Loader';
 import useDialog from '../../hooks/useDialog';
 import { getAuth, signOut } from 'firebase/auth';
+import { isToday, isYesterday } from 'date-fns';
 
 const Profile = () => {
   const { setShowPopUp, showToastMessege } = useContext(Context);
@@ -41,6 +42,11 @@ const Profile = () => {
     const date = new Date(userData.createdAt.seconds * 1000);
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     const rawName = userData.email.split('@')[0];
+    const raw = userData?.streakData?.lastActivityDate;
+    const lastActivityDate =
+      raw?.toDate?.() ??
+      (raw?.seconds ? new Date(raw.seconds * 1000) : new Date(raw));
+    const streak = (isToday(lastActivityDate) || isYesterday(lastActivityDate)) ? userData?.streakData?.currentStreak : 0;
     const cleanname = rawName
       .replace(/[._]/g, ' ')
       .split(' ')
@@ -51,7 +57,7 @@ const Profile = () => {
       formattedDate: date.toLocaleDateString('en-GB', options).replace(/ /g, '-'),
       pfpURL: pfp,
       cleanName: userData.name ? userData.name : cleanname,
-      streak: userData.streak,
+      streak: streak,
     }
   }, [userData]);
 
