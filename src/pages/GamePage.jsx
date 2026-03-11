@@ -3,11 +3,21 @@ import Grid from '../components/Grid'
 import Keyboard from '../components/Keyboard'
 import useHandleLetters from '../hooks/useHandleLetters'
 import WordsContext from '../context/WordsContext'
+import { randomWord } from '../components/utils/wordUtil'
 
 const GamePage = () => {
 
-    const { allWords } = useContext(WordsContext);
+    const { allWords, setTargetWord, targetWord } = useContext(WordsContext);
     useHandleLetters();
+
+    useEffect(() => {
+      if (targetWord) return;
+
+      const wordle = randomWord();
+      setTargetWord(wordle);
+    }, [targetWord])
+    
+
     return (
         <div className='mt-8 md:mt-0 flex flex-col items-center gap-5 md:gap-2 h-8/10 md:flex-1'>
             <Grid isBigTiles={false} allWords={allWords} />

@@ -19,6 +19,7 @@ export default function useHandleDidDailyWordle() {
         const dailyWordleDate = new Date(getDataLocal('dailyWordleDate'))
         if (dailyWordleDate && isToday(dailyWordleDate)) {
             setDidDailyWordle(true);
+            setLoading(false);
             return;
         }
         const user = auth.currentUser;

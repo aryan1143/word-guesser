@@ -3,11 +3,15 @@ import WordsContext from "../context/WordsContext";
 import Context from "../context/Context";
 import { randomWord } from "../components/utils/wordUtil";
 import { useScoreContext } from "../context/ScoreContext";
+import useHandleDidDailyWordle from "./useHandleDidDailyWordle";
 
 export default function useWonOrLost() {
     const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
-    const { showToastMessege, setShowPopUp, isTimed } = useContext(Context);
+    const { showToastMessege, setShowPopUp, isTimed, inDailyWordle } = useContext(Context);
     const { setCurrentScore } = useScoreContext();
+
+    const {doDailyWordle} = useHandleDidDailyWordle();
+
     const handleGameOver = (status) => {
         if (isTimed) {
             setLetterIndex(0);
@@ -23,6 +27,7 @@ export default function useWonOrLost() {
         } else {
             status === 'won' ? setCurrentScore((7 - submitedRowNo) * 100) : setCurrentScore(0);
             status === 'won' ? setShowPopUp('won') : setShowPopUp('lost');
+            inDailyWordle && doDailyWordle();
         }
     }
     return handleGameOver;
