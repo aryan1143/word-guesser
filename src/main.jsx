@@ -10,6 +10,7 @@ import ConfirmContextProvider from './context/ConfirmContextProvider.jsx'
 import { ChallengeProvider } from './context/ChallengeContext.jsx'
 import { TimerProvider } from './context/TimerContext.jsx'
 import { ScoreContextProvider } from './context/ScoreContext.jsx'
+import AchivementContextProvider from './context/AchivementContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -21,7 +22,9 @@ createRoot(document.getElementById('root')).render(
               <TimerProvider >
                 <ScoreContextProvider>
                   <ChallengeProvider >
-                    <App />
+                    <AchivementContextProvider>
+                      <App />
+                    </AchivementContextProvider>
                   </ChallengeProvider>
                 </ScoreContextProvider>
               </TimerProvider>
