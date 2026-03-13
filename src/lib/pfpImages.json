@@ -1,79 +1,94 @@
 {
-    "achivementPfps": [
+    "achievementPfps": [
         {
             "id": "ach_warrior",
             "pfp": "https://i.ibb.co/q3TCvFcs/defaultpfp-1.png",
-            "name": "Warrior"
+            "name": "Warrior",
+            "requirement": "Win a total of 50 games."
         },
         {
             "id": "ach_oracle",
             "pfp": "https://i.ibb.co/21bD0Yjn/Gemini-Generated-Image-aqktehaqktehaqkt-1.png",
-            "name": "The Oracle"
+            "name": "The Oracle",
+            "requirement": "Solve a word on the 2nd attempt."
         },
         {
             "id": "ach_sniper",
             "pfp": "https://i.ibb.co/ccdgD40M/crosshair.jpg",
-            "name": "The Sniper"
+            "name": "The Sniper",
+            "requirement": "Solve a word on the very first attempt."
         },
         {
             "id": "ach_streaker",
             "pfp": "https://i.ibb.co/rfGjV9rX/unnamed.jpg",
-            "name": "Streaker"
+            "name": "Streaker",
+            "requirement": "Maintain a 7-day win streak."
         },
         {
             "id": "ach_immortal",
             "pfp": "https://i.ibb.co/60cLn4W9/immortal.png",
-            "name": "Immortal"
+            "name": "Immortal",
+            "requirement": "Reach a 30-day win streak."
         },
         {
             "id": "ach_lexicon",
             "pfp": "https://i.ibb.co/m7Kgypx/lexicon.jpg",
-            "name": "The Lexicon"
+            "name": "The Lexicon",
+            "requirement": "Play 500 unique valid words."
         },
         {
             "id": "ach_architect",
             "pfp": "https://i.ibb.co/zCQX87t/architec.jpg",
-            "name": "The Architect"
+            "name": "The Architect",
+            "requirement": "Win a game where every guess contains at least one green tile."
         },
         {
             "id": "ach_night_owl",
             "pfp": "https://i.ibb.co/zH2B8xBF/night-owl.jpg",
-            "name": "Night Owl"
+            "name": "Night Owl",
+            "requirement": "Solve a Wordle between 12:00 AM and 4:00 AM."
         },
         {
             "id": "ach_palindrome",
             "pfp": "https://i.ibb.co/svTF1xF6/Palindrome.jpg",
-            "name": "Palindrome"
+            "name": "Palindrome",
+            "requirement": "Solve a word that is a palindrome (e.g., LEVEL, RADAR)."
         },
         {
             "id": "ach_clutch_king",
             "pfp": "https://i.ibb.co/LXLQLNMf/bomb.jpg",
-            "name": "Clutch King"
+            "name": "Clutch King",
+            "requirement": "Solve the word on your 6th and final attempt."
         },
         {
             "id": "ach_speedster",
             "pfp": "https://i.ibb.co/YBfMYHvK/speed.png",
-            "name": "Speedster"
+            "name": "Speedster",
+            "requirement": "Solve a Wordle in under 30 seconds."
         },
         {
             "id": "ach_veteran",
             "pfp": "https://i.ibb.co/chGm4Xdh/Veteran.jpg",
-            "name": "Veteran"
+            "name": "Veteran",
+            "requirement": "Play a total of 100 games."
         },
         {
             "id": "ach_early_bird",
             "pfp": "https://i.ibb.co/3Y91D6kQ/early-bird.jpg",
-            "name": "Early Bird"
+            "name": "Early Bird",
+            "requirement": "Solve a Wordle between 5:00 AM and 8:00 AM."
         },
         {
             "id": "ach_risk_taker",
             "pfp": "https://i.ibb.co/35cpst4T/risk-taker.jpg",
-            "name": "Risk Taker"
+            "name": "Risk Taker",
+            "requirement": "Win a game while 'Hard Mode' is enabled."
         },
         {
             "id": "ach_glitch",
             "pfp": "https://i.ibb.co/VcKJh0r6/skull.jpg",
-            "name": "The Glitch"
+            "name": "The Glitch",
+            "requirement": "Solve a word containing at least two rare letters (X, Z, J, or Q)."
         }
     ],
     "normalPfp": [
