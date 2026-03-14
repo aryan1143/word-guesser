@@ -4,6 +4,7 @@ export const setDataLocal = (key, data) => {
 
 export const getDataLocal = (key) => {
     const data = localStorage.getItem(key);
+    if(data === 'undefined') return;
     return JSON.parse(data);
 }
 

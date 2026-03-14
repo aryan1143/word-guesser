@@ -11,6 +11,7 @@ const PfpSelector = () => {
     const { setShowPopUp, showToastMessege } = useContext(Context);
 
     const pfps = pfpImages;
+    console.log(pfps)
     const { updateProfile, loading, isSuccess } = useUpdateProfileData();
     if (!loading && isSuccess) {
         setShowPopUp('Profile');
@@ -52,7 +53,7 @@ const PfpSelector = () => {
                     </div>
                     <p className='p-1 px-2 text-xl font-bold [text-shadow:1px_2px_0_#acdda8]'>PFP ACHIVEMENTS</p>
                     <div className='gap-y-3 grid grid-cols-3 md:grid-cols-4'>
-                        {pfps.achivementPfps.map((obj) => {
+                        {pfps.achievementPfps.map((obj) => {
                             return (
                                 <div key={obj.name} onClick={() => { updateProfile('pfpURL', obj.pfp) }} className='flex flex-col items-center justify-center hover:scale-105'>
                                     <div className='relative md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>

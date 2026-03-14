@@ -9,11 +9,15 @@ import { getDataLocal, setDataLocal } from '../lib/localStorage';
 const AchivementContext = createContext();
 
 const defaultPfps = {
-    "ach_warrior": false, "ach_oracle": false, "ach_sniper": false,
+    "ach_warrior": true, "ach_oracle": false, "ach_sniper": false,
     "ach_streaker": false, "ach_immortal": false, "ach_lexicon": false,
     "ach_architect": false, "ach_night_owl": false, "ach_palindrome": false,
     "ach_clutch_king": false, "ach_speedster": false, "ach_veteran": false,
     "ach_early_bird": false, "ach_risk_taker": false, "ach_glitch": false,
+};
+
+const defaultGameStats = {
+    totalWins: 0, totalGamesPlayed: 0, totalWinsInRow: 0
 };
 
 const AchivementContextProvider = ({ children }) => {
@@ -21,35 +25,30 @@ const AchivementContextProvider = ({ children }) => {
     const auth = getAuth(app);
     const [loading, setLoading] = useState(false);
     const [unlockedPfps, setUnlockedPfps] = useState(getDataLocal('unlockedPfps') || defaultPfps);
+    const [gameStats, setGameStats] = useState(getDataLocal('gameStats') || defaultGameStats);
 
     const { showToastMessege } = useContext(Context);
     const { submitedRowNo, currentWord, isHardMode, gameTime } = useContext(WordsContext);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) setPfpDataToApp(user.uid);
-        });
-        return () => unsubscribe();
-    }, []);
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (!user) return;
 
-    async function setPfpDataToApp(userId) {
-        if (!userId) return;
-        setLoading(true);
-        const userRef = doc(db, "users", userId);
-        try {
-            const snap = await getDoc(userRef);
-            if (snap.exists()) {
-                const data = snap.data();
-                const cloudPfps = data?.unlockedPfps || defaultPfps;
-                setUnlockedPfps(cloudPfps);
-                setDataLocal('unlockedPfps', cloudPfps);
-            }
-        } catch (error) {
-            console.error("Fetch error:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
+            const snap = await getDoc(doc(db, "users", user.uid));
+            const data = snap.data();
+
+            const pfps = data?.unlockedPfps ?? defaultPfps;
+            const stats = data?.gameStats ?? defaultGameStats;
+
+            setUnlockedPfps(pfps);
+            setGameStats(stats);
+
+            setDataLocal("unlockedPfps", pfps);
+            setDataLocal("gameStats", stats);
+        });
+
+        return unsubscribe;
+    }, []);
 
     async function unlockPfp(pfpId) {
         if (!pfpId || unlockedPfps[pfpId]) return;
@@ -68,7 +67,7 @@ const AchivementContextProvider = ({ children }) => {
                 [`unlockedPfps.${pfpId}`]: true
             });
 
-            showToastMessege(`Achievement Unlocked: ${pfpId.replace('ach_', '').replace('_', ' ')}!`);
+            showToastMessege(`Achievement Unlocked: ${pfpId.replace('ach_', '').replaceAll('_', ' ')}!`);
         } catch (error) {
             console.error("Unlock error:", error);
         }
@@ -98,11 +97,41 @@ const AchivementContextProvider = ({ children }) => {
         if (gameTime < 30) unlockPfp("ach_speedster");
 
         //stats based
-        if (stats?.totalWins >= 50) unlockPfp("ach_warrior");
         if (stats?.streak >= 7) unlockPfp("ach_streaker");
-        if (stats?.streak >= 30) unlockPfp("ach_immortal");
-        if (stats?.totalGames >= 100) unlockPfp("ach_veteran");
+        if (stats?.totalWinsInRow >= 30) unlockPfp("ach_immortal");
+        if (stats?.totalGamesPlayed >= 100) unlockPfp("ach_veteran");
     };
+
+    async function updateGameStats(isWin) {
+        if (!gameStats) return;
+        const userId = auth.currentUser?.uid;
+        if (!userId) return;
+        setLoading(true);
+        const userRef = doc(db, "users", userId);
+
+        const updatedStats = {
+            ...gameStats,
+            totalGamesPlayed: gameStats.totalGamesPlayed + 1,
+            ...(isWin ? {
+                totalWins: gameStats.totalWins + 1,
+                totalWinsInRow: gameStats.totalWinsInRow + 1
+            }
+                : { totalWinsInRow: 0 })
+        };
+
+        try {
+            await updateDoc(userRef, {
+                "gameStats": updatedStats
+            });
+
+            setDataLocal('gameStats', updatedStats);
+            setGameStats(updatedStats);
+        } catch (error) {
+            console.error("GameStats Update Error: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <AchivementContext.Provider value={{
