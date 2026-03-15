@@ -42,7 +42,10 @@ const SignUp = () => {
                 dailyScore: 0,
                 weeklyScore: 0,
                 monthlyScore: 0,
-                pfpURL: 'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png'
+                pfpURL: 'https://i.ibb.co/q3TCvFcs/defaultpfp-1.png',
+                unlockedPfps: {
+                    "ach_warrior": true
+                }
             });
 
             batch.set(historyRef, {
@@ -109,7 +112,7 @@ const SignUp = () => {
                         <input type="text" value={email} onChange={(e) => { setEmail(e.target.value) }} id="email" placeholder='Enter a email...' className='p-2 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-95/100' />
                         <div className='relative flex w-95/100 justify-start'>
                             <input type={showPass ? "text" : "password"} value={password} onChange={(e) => { setPassword(e.target.value) }} id="pass" placeholder='Set a password...' className='p-2 pr-8 text-xl text-[#234120] focus:outline-0 bg-[#acdda8] border-b-2 w-full' />
-                            <button onClick={()=>{setShowPass(prev=>!prev)}} className='absolute cursor-pointer text-[#234120] text-xl right-[2%] top-[50%] -translate-y-[50%]'>{showPass ? <IoEyeOff /> : <IoEye />}</button>
+                            <button onClick={() => { setShowPass(prev => !prev) }} className='absolute cursor-pointer text-[#234120] text-xl right-[2%] top-[50%] -translate-y-[50%]'>{showPass ? <IoEyeOff /> : <IoEye />}</button>
                         </div>
                         <button disabled={loading} onClick={handleRegister} className='p-2 mt-2 shadow-[2px_3px_0_0_#acdda8] cursor-pointer bg-[#234120] text-2xl text-[#acdda8] w-95/100'>{loading ? 'Please wait...' : 'Register'}</button>
                         <p className='text-[#234120] -mt-2 md:mt-0'>Already have an account <span onClick={() => { setShowPopUp('Login') }} className='bg-[#acdda8] p-0.5 shadow-[1px_2px_0_0_#234120] cursor-pointer'>Login</span></p>

@@ -4,7 +4,7 @@
             "id": "ach_warrior",
             "pfp": "https://i.ibb.co/q3TCvFcs/defaultpfp-1.png",
             "name": "Warrior",
-            "requirement": "Win a total of 50 games."
+            "requirement": "Login to unlock."
         },
         {
             "id": "ach_oracle",
@@ -29,18 +29,6 @@
             "pfp": "https://i.ibb.co/60cLn4W9/immortal.png",
             "name": "Immortal",
             "requirement": "Reach a 30-day win streak."
-        },
-        {
-            "id": "ach_lexicon",
-            "pfp": "https://i.ibb.co/m7Kgypx/lexicon.jpg",
-            "name": "The Lexicon",
-            "requirement": "Play 500 unique valid words."
-        },
-        {
-            "id": "ach_architect",
-            "pfp": "https://i.ibb.co/zCQX87t/architec.jpg",
-            "name": "The Architect",
-            "requirement": "Win a game where every guess contains at least one green tile."
         },
         {
             "id": "ach_night_owl",

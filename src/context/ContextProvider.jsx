@@ -12,6 +12,9 @@ const ContextProvider = ({ children }) => {
     const [isTimed, setIsTimed] = useState(false);
     const [inDailyWordle, setInDailyWordle] = useState(false);
     const [isChallengePopUp, setIsChallengePopUp] = useState(false);
+    
+    const [isHardMode, setIsHardMode] = useState(false);
+    const [gameTime, setGameTime] = useState(0);
 
     function showToastMessege (text) {
         setShowToast(true);
@@ -39,7 +42,11 @@ const ContextProvider = ({ children }) => {
         inDailyWordle,
         setInDailyWordle,
         isChallengePopUp,
-        setIsChallengePopUp
+        setIsChallengePopUp,
+        isHardMode,
+        setIsHardMode,
+        gameTime,
+        setGameTime
     }
 
     return (

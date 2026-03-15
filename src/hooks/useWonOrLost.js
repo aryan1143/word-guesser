@@ -5,6 +5,7 @@ import { randomWord } from "../components/utils/wordUtil";
 import { useScoreContext } from "../context/ScoreContext";
 import useHandleDidDailyWordle from "./useHandleDidDailyWordle";
 import useHandleStreak from "./useHandleStreak";
+import { useAchivements } from "../context/AchivementContext";
 
 export default function useWonOrLost() {
     const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
@@ -15,12 +16,16 @@ export default function useWonOrLost() {
 
     const { updateStreak } = useHandleStreak();
 
+    const { checkAchievements, updateGameStats } = useAchivements();
+
     useEffect(() => {
         updateStreak();
     }, []);
 
 
     const handleGameOver = (status) => {
+        checkAchievements();
+        updateGameStats(status === "won");
         if (isTimed) {
             setLetterIndex(0);
             setSubmitedRowNo(0);
