@@ -20,6 +20,9 @@ const Verification = () => {
                     showToastMessege('Verified ✅')
                     setShowPopUp('Login');
                     setLoading(false);
+                    setTimeout(() => {
+                        showToastMessege('Achievement Unlocked: Warrior 🏆');
+                    }, 1500);
                 } else {
                     setMessege('Email is not verified yet please check your inbox or spam folder and verify it first.');
                     setLoading(false);
