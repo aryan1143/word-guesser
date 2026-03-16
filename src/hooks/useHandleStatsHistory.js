@@ -1,65 +1,74 @@
 import { useEffect, useState } from "react";
-import { deleteField, doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
+import { deleteField, doc, getDoc, getFirestore, increment, updateDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDataLocal } from "../lib/localStorage";
 
-function useHandleStatsHistory(action = 'get', statsData = null) {
+function useHandleStatsHistory() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
-    const today = new Date().toISOString().split('T')[0];
 
-    useEffect(() => {
-        const auth = getAuth();
-        const db = getFirestore();
+    const today = new Date().toISOString().split("T")[0];
 
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!action) {
-                setLoading(false);
-                return;
+    const db = getFirestore();
+
+    const userId = getDataLocal('userId');
+    const getHistory = async () => {
+        if (!userId) return null;
+
+        setLoading(true);
+        try {
+            const ref = doc(db, "users", userId, "stats", "history");
+            const snap = await getDoc(ref);
+
+            if (snap.exists()) {
+                const historyData = snap.data();
+                setData(historyData);
+                return historyData;
+            } else {
+                console.log("No history document found.");
+                return null;
             }
-            if (user && action === 'get') {
-                const userHistoryRef = doc(db, "users", user.uid, "stats", "history");
-                try {
-                    const userHistorySnap = await getDoc(userHistoryRef);
-                    if (userHistorySnap.exists()) {
-                        const historyData = userHistorySnap.data();
-                        console.log("Retrieved User History:", historyData);
-                        setData(historyData);
-                    } else {
-                        console.log("No history document found.");
-                    }
-                } catch (error) {
-                    console.error("Firestore Error:", error);
-                } finally {
-                    setLoading(false);
-                }
-
-            } else if (user && action === 'set' && statsData) {
-                try {
-                    const ref = doc(db, "users", user.uid, "stats", "history");
-                    await updateDoc(ref, {
-                        [today]: statsData
-                    });
-                    const snap = await getDoc(ref);
-                    if (snap.exists()) {
-                        const data = snap.data();
-                        const keys = Object.keys(data).sort();
-                        if (keys.length >= 365) {
-                            const oldest = keys[0];
-                            await updateDoc(ref, { [oldest]: deleteField() });
-                        }
-                    }
-
-                } catch (e) {
-                    console.log(e);
-                }
-            } else if (!user) {
-                console.log("User is not logged in");
-            }
+        } catch (error) {
+            console.error("Firestore Error:", error);
+        } finally {
             setLoading(false);
-        });
-        return () => unsubscribe();
-    }, [action, statsData]);
-    return { data, loading };
+        }
+    };
+
+    const setHistory = async (statsData) => {
+        if (!userId || !statsData) return;
+
+        setLoading(true);
+        try {
+            const ref = doc(db, "users", userId, "stats", "history");
+
+            await updateDoc(ref, {
+                [today]: increment(statsData)
+            });
+
+
+            const snap = await getDoc(ref);
+
+            if (snap.exists()) {
+                const history = snap.data();
+                setData(history);
+
+                const keys = Object.keys(history).sort();
+
+                if (keys.length >= 365) {
+                    const oldest = keys[0];
+                    await updateDoc(ref, { [oldest]: deleteField() });
+                }
+            }
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { data, loading, getHistory, setHistory };
 }
 
 export default useHandleStatsHistory;

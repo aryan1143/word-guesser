@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -67,7 +67,13 @@ export const options = {
 
 export function BarChart({ periodType }) {
     const { period, periodLabel } = useGeneratePeriodLabel(periodType);
-    const { data, loading } = useHandleStatsHistory();
+    const { data, loading, getHistory } = useHandleStatsHistory();
+
+    useEffect(() => {
+      getHistory();
+    }, [])
+    
+
     const labels = periodLabel;
     const getValueForPeriod = (e) => {
         if (periodType === 'week') {

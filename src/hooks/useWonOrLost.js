@@ -6,17 +6,20 @@ import { useScoreContext } from "../context/ScoreContext";
 import useHandleDidDailyWordle from "./useHandleDidDailyWordle";
 import useHandleStreak from "./useHandleStreak";
 import { useAchivements } from "../context/AchivementContext";
+import useHandleStatsHistory from "./useHandleStatsHistory";
 
 export default function useWonOrLost() {
     const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
     const { showToastMessege, setShowPopUp, isTimed, inDailyWordle } = useContext(Context);
-    const { setCurrentScore } = useScoreContext();
+    const { setCurrentScore, currentScore } = useScoreContext();
 
     const { doDailyWordle } = useHandleDidDailyWordle();
 
     const { updateStreak } = useHandleStreak();
 
     const { checkAchievements, updateGameStats } = useAchivements();
+
+    const { setHistory } = useHandleStatsHistory();
 
     useEffect(() => {
         updateStreak();
@@ -42,6 +45,7 @@ export default function useWonOrLost() {
             status === 'won' ? setShowPopUp('won') : setShowPopUp('lost');
             inDailyWordle && doDailyWordle();
         }
+        status === 'won' && setHistory((7 - submitedRowNo) * 100);
     }
     return handleGameOver;
 }
