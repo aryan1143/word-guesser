@@ -25,12 +25,15 @@ const PfpSelector = () => {
         showToastMessege('PFP changed ✅');
     }
 
-    const handlePfpSelect = (pfpObj) => {
-        if (!pfpObj) return;
+    const handlePfpSelect = (pfpObj, type) => {
+        if (type === 'achievement') {
 
-        if (!unlockedPfps?.[pfpObj.id]) {
-            alertBox(pfpObj.requirement);
-            return;
+            if (!pfpObj) return;
+    
+            if (!unlockedPfps?.[pfpObj.id]) {
+                alertBox(pfpObj.requirement);
+                return;
+            }
         }
 
         updateProfile('pfpURL', pfpObj.pfp);
@@ -93,7 +96,7 @@ const PfpSelector = () => {
                         <div className='gap-y-3 pb-1 grid grid-cols-3 md:grid-cols-4'>
                             {pfps.normalPfp.map((obj) => {
                                 return (
-                                    <div key={obj.name} onClick={() => handlePfpSelect(obj)} className='flex flex-col items-center justify-center hover:scale-105'>
+                                    <div key={obj.name} onClick={() => handlePfpSelect(obj, 'free')} className='flex flex-col items-center justify-center hover:scale-105'>
                                         <div className='relative md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
                                             <img src={obj.pfp} border="0" />
                                         </div>
@@ -105,7 +108,7 @@ const PfpSelector = () => {
                             {pfps.achievementPfps.map((obj) => {
                                 const isUnlocked = unlockedPfps?.[obj.id];
                                 return (
-                                    <div key={obj.name} onClick={() => handlePfpSelect(obj)} className='flex flex-col items-center justify-center hover:scale-105'>
+                                    <div key={obj.name} onClick={() => handlePfpSelect(obj, 'achievement')} className='flex flex-col items-center justify-center hover:scale-105'>
                                         <div className='relative md:w-9/10 cursor-pointer w-9/10 aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] shadow-[2px_3px_0_0_#acdda8]'>
                                             <img src={obj.pfp} border="0" />
                                             {!isUnlocked && <div className='flex justify-start text-xl items-center flex-col absolute bottom-0 left-0 w-full h-4/10 bg-[#acdda8b1]'>
