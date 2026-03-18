@@ -16,13 +16,7 @@ const LeaderBoard = () => {
     { id: 'monthly', value: 'monthlyScore', label: 'Monthly' }
   ];
 
-  const { getLeaderboardData, loading, data } = useGetLeaderboardData(period);
-
-  useEffect(() => {
-    getLeaderboardData();
-  }, [period])
-
-
+  const { loading, data } = useGetLeaderboardData(period);
 
   return (
     <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] backdrop-blur-xs`}>

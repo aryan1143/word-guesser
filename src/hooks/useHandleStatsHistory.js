@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { deleteField, doc, getDoc, getFirestore, increment, updateDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDataLocal } from "../lib/localStorage";
 
 function useHandleStatsHistory() {
@@ -23,9 +22,11 @@ function useHandleStatsHistory() {
             if (snap.exists()) {
                 const historyData = snap.data();
                 setData(historyData);
+                setLoading(false);
                 return historyData;
             } else {
                 console.log("No history document found.");
+                setLoading(false);
                 return null;
             }
         } catch (error) {

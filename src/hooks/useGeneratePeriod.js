@@ -4,7 +4,7 @@ function useGeneratePeriodLabel(p = 'week') {
     const [periodLabel, setPeriodLabel] = useState([]);
     const [period, setPeriod] = useState([]);
 
-    const today = new Date().toISOString().split('T')[0];;
+    const today = new Date().toISOString().split('T')[0];
     useEffect(() => {
 
         const datesLabel = [];
