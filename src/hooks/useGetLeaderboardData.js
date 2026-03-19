@@ -57,8 +57,7 @@ export default function useGetLeaderboardData(period = 'dailyScore') {
 
     useEffect(() => {
         if (!userId || statsLoading || !statsData) return;
-
-        if (lastSentRef.current === periodScore || periodScore === 0) return;
+        if (lastSentRef.current === periodScore) return;
 
         if (timeOutRef.current) {
             clearTimeout(timeOutRef.current);
@@ -81,7 +80,7 @@ export default function useGetLeaderboardData(period = 'dailyScore') {
 
         return () => clearTimeout(timeOutRef.current);
 
-    }, [periodScore, userId, period, db]);
+    }, [periodScore, userId, period, db, statsData, statsLoading, userId]);
 
     const q = useMemo(() => {
         return query(
