@@ -25,44 +25,55 @@ ChartJS.register(
 
 ChartJS.defaults.font.family = '"Jersey 25"'
 
-export const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: {
-            labels: {
-                color: '#234120',
+const getChartOptions = () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: isDark ? '#e0e8f0' : '#234120',
+                    font: {
+                        size: 24
+                    }
+                },
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Stats of Guessed Words',
                 font: {
-                    size: 24
+                    size: 16
                 }
             },
-            position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Stats of Guessed Words',
-            font: {
-                size: 16
-            }
-        },
-    },
-    scales: {
-        x: {
-            ticks: {
-                color: '#234120',
-            }
-        },
-        y: {
-            beginAtZero: true,
-            ticks: {
-                color: '#234120',
-                font: {
-                    size: 14
+        scales: {
+            x: {
+                ticks: {
+                    color: isDark ? '#e0e8f0' : '#234120',
+                },
+                grid: {
+                    color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
                 }
-            }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: isDark ? '#e0e8f0' : '#234120',
+                    font: {
+                        size: 14
+                    }
+                },
+                grid: {
+                    color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                }
+            },
         },
-    },
+    };
 };
+
+export const options = getChartOptions();
 
 
 export function BarChart({ periodType }) {
@@ -95,13 +106,14 @@ export function BarChart({ periodType }) {
         return period.map(getValueForPeriod);
     }, [period, data, loading, periodType]);
 
+    const isDark = document.documentElement.classList.contains('dark');
     const barData = useMemo(() => ({
         labels,
         datasets: [
             {
                 label: 'Words Guessed',
                 data: periodData,
-                backgroundColor: '#234120',
+                backgroundColor: isDark ? '#4a7c52' : '#234120',
             },
         ],
     }), [labels, periodData]);
@@ -110,7 +122,7 @@ export function BarChart({ periodType }) {
     return (
         <div className='relative h-98/100 w-full'>
             {loading ?
-                <Loader isBg={false} /> : <Bar options={options} data={barData} />}
+                <Loader isBg={false} /> : <Bar options={getChartOptions()} data={barData} />}
         </div>
     )
 }

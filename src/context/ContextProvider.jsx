@@ -15,6 +15,7 @@ const ContextProvider = ({ children }) => {
     
     const [isHardMode, setIsHardMode] = useState(false);
     const [gameTime, setGameTime] = useState(0);
+    const [darkMode, setDarkMode] = useState(false);
 
     function showToastMessege (text) {
         setShowToast(true);
@@ -46,7 +47,9 @@ const ContextProvider = ({ children }) => {
         isHardMode,
         setIsHardMode,
         gameTime,
-        setGameTime
+        setGameTime,
+        darkMode,
+        setDarkMode,
     }
 
     return (
