@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import WordsContext from './WordsContext'
-import { useLocation } from 'react-router-dom';
 
 const WordsContextProvider = ({ children }) => {
   const [letter, setLetter] = useState(null);
@@ -9,12 +8,11 @@ const WordsContextProvider = ({ children }) => {
     '-----', '-----', '-----', '-----', '-----', '-----'
   ]);
   const [allWordsState, setAllWordsState] = useState(['', '', '', '', '', '']);
+  const [guessedList, setGuessedList] = useState([false, false, false, false, false]);
   const [submitedRowNo, setSubmitedRowNo] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   const [isBubbling, setIsBubbling] = useState(false);
-  const location = useLocation();
-  const locationPath = location.pathname;
 
   const value = {
     letter,
@@ -32,7 +30,9 @@ const WordsContextProvider = ({ children }) => {
     isShaking,
     setIsShaking,
     isBubbling,
-    setIsBubbling
+    setIsBubbling,
+    guessedList,
+    setGuessedList
   }
 
   return (

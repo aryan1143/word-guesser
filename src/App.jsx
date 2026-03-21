@@ -24,7 +24,7 @@ import GetDuration from './components/popUps/GetDuration'
 
 
 function App() {
-  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId, darkMode, setDarkMode } = useContext(Context);
+  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId, darkMode, setDarkMode, setHardMode } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
   const { challengeData } = useChallengeWordle();
@@ -34,7 +34,9 @@ function App() {
 
   useEffect(() => {
     const localDarkMode = getDataLocal('darkMode');
+    const localHardMode = getDataLocal('hardMode');
     setDarkMode(localDarkMode);
+    setHardMode(localHardMode);
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {

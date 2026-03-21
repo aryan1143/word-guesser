@@ -5,11 +5,16 @@ import { RiCloseFill } from 'react-icons/ri';
 import { setDataLocal } from '../../lib/localStorage';
 
 const Settings = () => {
-  const { setShowPopUp, setDarkMode, darkMode } = useContext(Context);
+  const { setShowPopUp, setDarkMode, darkMode, setHardMode, hardMode } = useContext(Context);
 
   function toggleDarkMode(value) {
     setDarkMode(value);
     setDataLocal('darkMode', value);
+  }
+
+  function toggleHardMode(value) {
+    setHardMode(value);
+    setDataLocal('hardMode', value);
   }
   
 
@@ -32,7 +37,7 @@ const Settings = () => {
             </div>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
               <p>Hard Mode</p>
-              <ReactSwitch checked={''} onColor={darkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={darkMode ? '#000000' : '#234120'} onChange={(value) => { }} />
+              <ReactSwitch checked={hardMode} onColor={hardMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={hardMode ? '#000000' : '#234120'} onChange={(value) => { toggleHardMode(value) }} />
             </div>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
               <p>Contrast Mode</p>

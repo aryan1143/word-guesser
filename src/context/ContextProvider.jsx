@@ -13,7 +13,7 @@ const ContextProvider = ({ children }) => {
     const [inDailyWordle, setInDailyWordle] = useState(false);
     const [isChallengePopUp, setIsChallengePopUp] = useState(false);
     
-    const [isHardMode, setIsHardMode] = useState(false);
+    const [hardMode, setHardMode] = useState(false);
     const [gameTime, setGameTime] = useState(0);
     const [darkMode, setDarkMode] = useState(false);
 
@@ -44,8 +44,8 @@ const ContextProvider = ({ children }) => {
         setInDailyWordle,
         isChallengePopUp,
         setIsChallengePopUp,
-        isHardMode,
-        setIsHardMode,
+        hardMode,
+        setHardMode,
         gameTime,
         setGameTime,
         darkMode,

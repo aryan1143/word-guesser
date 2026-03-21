@@ -5,8 +5,8 @@ import Context from "../context/Context";
 import useWonOrLost from "./useWonOrLost";
 
 function useHandleLetters() {
-    const { letter, setLetter, allWords, targetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling } = useContext(WordsContext);
-    const { showPopUp } = useContext(Context);
+    const { letter, setLetter, allWords, targetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling, guessedList } = useContext(WordsContext);
+    const { showPopUp, hardMode, showToastMessege } = useContext(Context);
 
     const handleGameOver = useWonOrLost();
 
@@ -17,6 +17,25 @@ function useHandleLetters() {
         }
 
         if (letter === 'ENTER') {
+            if (hardMode) {
+                let isWrong = false;
+                let wrongGuessed = '';
+                const currentWord = allWords[submitedRowNo];
+                guessedList.forEach((isGuessed, index) => {
+                    if (!isGuessed) return;
+                    if (currentWord[index] === targetWord[index]) return;
+                    isWrong = true;
+                    wrongGuessed += wrongGuessed.length > 0 ? `, ${targetWord[index]}` : targetWord[index];
+                });
+                if (isWrong) {
+                    showToastMessege("Guess must contain " + wrongGuessed);
+                    setIsShaking(true);
+                    setTimeout(() => {
+                        setIsShaking(false);
+                    }, 300);
+                    return;
+                }
+            }
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
                 handleGameOver('lost');
                 return;
