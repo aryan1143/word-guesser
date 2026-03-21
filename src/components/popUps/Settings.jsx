@@ -2,23 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import Context from '../../context/Context';
 import ReactSwitch from 'react-switch';
 import { RiCloseFill } from 'react-icons/ri';
+import { setDataLocal } from '../../lib/localStorage';
 
 const Settings = () => {
   const { setShowPopUp, setDarkMode, darkMode } = useContext(Context);
-  const [isDarkMode, setIsDarkMode] = useState(darkMode);
 
   function toggleDarkMode(value) {
     setDarkMode(value);
-    setIsDarkMode(value);
+    setDataLocal('darkMode', value);
   }
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode])
   
 
   return (
@@ -36,19 +28,19 @@ const Settings = () => {
           <div className='h-full w-full p-4 pt-6 flex flex-col gap-2 justify-start text-3xl text-[#234120] dark:text-[#e0e8f0]'>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
               <p>Dark Mode</p>
-              <ReactSwitch checked={darkMode} onColor={isDarkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={isDarkMode ? '#000000' : '#234120'} onChange={(value) => { toggleDarkMode(value) }} />
+              <ReactSwitch checked={darkMode} onColor={darkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={darkMode ? '#000000' : '#234120'} onChange={(value) => { toggleDarkMode(value) }} />
             </div>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
               <p>Hard Mode</p>
-              <ReactSwitch checked={''} onColor={isDarkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={isDarkMode ? '#000000' : '#234120'} onChange={(value) => { }} />
+              <ReactSwitch checked={''} onColor={darkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={darkMode ? '#000000' : '#234120'} onChange={(value) => { }} />
             </div>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
               <p>Contrast Mode</p>
-              <ReactSwitch checked={''} onColor={isDarkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={isDarkMode ? '#000000' : '#234120'} onChange={(value) => { }} />
+              <ReactSwitch checked={''} onColor={darkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={darkMode ? '#000000' : '#234120'} onChange={(value) => { }} />
             </div>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
               <p>Offline Mode</p>
-              <ReactSwitch checked={''} onColor={isDarkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={isDarkMode ? '#000000' : '#234120'} onChange={(value) => {  }} />
+              <ReactSwitch checked={''} onColor={darkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={darkMode ? '#000000' : '#234120'} onChange={(value) => {  }} />
             </div>
 
           </div>

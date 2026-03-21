@@ -24,13 +24,23 @@ import GetDuration from './components/popUps/GetDuration'
 
 
 function App() {
-  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId } = useContext(Context);
+  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId, darkMode, setDarkMode } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
   const { challengeData } = useChallengeWordle();
   const navigate = useNavigate();
 
   const userId = getDataLocal('userId');
+
+  useEffect(() => {
+    const localDarkMode = getDataLocal('darkMode');
+    setDarkMode(localDarkMode);
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     const isNotFirstTimeVisit = getDataLocal("isNotFirstTimeVisit");
