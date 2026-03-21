@@ -11,7 +11,7 @@ import useDialog from '../../hooks/useDialog';
 
 const GameMode = () => {
   const { setShowPopUp, setShowCreateChallenge, setInDailyWordle } = useContext(Context);
-  const { setTargetWord, setSubmitedRowNo, setLetterIndex, setAllWords, setAllWordsState } = useContext(WordsContext);
+  const { setTargetWord, resetWordleData } = useContext(WordsContext);
   const navigate = useNavigate();
 
   const { getDidDailyWordle, loading, didDailyWordle } = useHandleDidDailyWordle();
@@ -29,12 +29,7 @@ const GameMode = () => {
         alertBox('You already tried daily wordle, come back tomorrow!');
         return;
       }
-      setLetterIndex(0);
-      setSubmitedRowNo(0);
-      setAllWords([
-        '-----', '-----', '-----', '-----', '-----', '-----'
-      ]);
-      setAllWordsState(['', '', '', '', '', '']);
+      resetWordleData();
       const wordle = getDailyWordle();
       setTargetWord(wordle);
       navigate('/game-page');

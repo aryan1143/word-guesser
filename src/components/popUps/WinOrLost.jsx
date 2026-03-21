@@ -10,18 +10,14 @@ import { useScoreContext } from '../../context/ScoreContext';
 
 const WinOrLost = ({ status = 'lost' }) => {
 
-    const { setTargetWord, targetWord, setAllWords, submitedRowNo, setSubmitedRowNo, setLetterIndex } = useContext(WordsContext);
+    const { setTargetWord, targetWord, submitedRowNo, setSubmitedRowNo, setLetterIndex, resetWordleData } = useContext(WordsContext);
     const { setShowPopUp, inDailyWordle, isChallengePopUp, setIsChallengePopUp } = useContext(Context);
 
     const { currentScore } = useScoreContext();
 
     function handleOnClick() {
         setShowPopUp(null);
-        setAllWords([
-            '-----', '-----', '-----', '-----', '-----', '-----'
-        ]);
-        setLetterIndex(0);
-        setSubmitedRowNo(0);
+        resetWordleData();
         setShowPopUp('GetDuration');
         const word = randomWord();
         setTargetWord(word);

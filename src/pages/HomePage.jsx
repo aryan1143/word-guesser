@@ -13,7 +13,7 @@ import { useGlobalTimer } from '../context/TimerContext'
 const HomePage = () => {
 
   const { setShowPopUp, setIsTimed, setInDailyWordle } = useContext(Context);
-  const {setTargetWord, setAllWords, setAllWordsState, setSubmitedRowNo, setLetterIndex, setGuessedList} = useContext(WordsContext);
+  const {setTargetWord, resetWordleData} = useContext(WordsContext);
   const {confirmBox} = useDialog();
 
   const {exitChallenge} = useChallengeWordle();
@@ -49,13 +49,7 @@ const HomePage = () => {
     const word = randomWord();
     setTargetWord(word);
     setShowPopUp(null);
-    setAllWords([
-      '-----', '-----', '-----', '-----', '-----', '-----'
-    ]);
-    setAllWordsState(['', '', '', '', '', '']);
-    setGuessedList([false, false, false, false, false]);
-    setLetterIndex(0);
-    setSubmitedRowNo(0);
+    resetWordleData();
     console.log(word)
   }
 

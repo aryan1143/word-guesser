@@ -14,6 +14,16 @@ const WordsContextProvider = ({ children }) => {
   const [isShaking, setIsShaking] = useState(false);
   const [isBubbling, setIsBubbling] = useState(false);
 
+  function resetWordleData() {
+    setAllWords([
+      '-----', '-----', '-----', '-----', '-----', '-----'
+    ]);
+    setAllWordsState(['', '', '', '', '', '']);
+    setGuessedList([false, false, false, false, false]);
+    setLetterIndex(0);
+    setSubmitedRowNo(0);
+  }
+
   const value = {
     letter,
     setLetter,
@@ -32,7 +42,8 @@ const WordsContextProvider = ({ children }) => {
     isBubbling,
     setIsBubbling,
     guessedList,
-    setGuessedList
+    setGuessedList,
+    resetWordleData
   }
 
   return (

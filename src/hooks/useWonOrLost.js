@@ -9,7 +9,7 @@ import { useAchivements } from "../context/AchivementContext";
 import useHandleStatsHistory from "./useHandleStatsHistory";
 
 export default function useWonOrLost() {
-    const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
+    const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo, resetWordleData } = useContext(WordsContext);
     const { showToastMessege, setShowPopUp, isTimed, inDailyWordle } = useContext(Context);
     const { setCurrentScore, currentScore } = useScoreContext();
 
@@ -36,10 +36,7 @@ export default function useWonOrLost() {
             setTargetWord(wordle);
             status === 'won' && setCurrentScore(prev => (prev + ((7 - submitedRowNo) * 100)));
             status === 'won' ? showToastMessege('Right Guess ✅') : showToastMessege('Wrong Guess ❌');
-            setAllWords([
-                '-----', '-----', '-----', '-----', '-----', '-----'
-            ]);
-            setAllWordsState(['', '', '', '', '', '']);
+            resetWordleData();
         } else {
             status === 'won' ? setCurrentScore((7 - submitedRowNo) * 100) : setCurrentScore(0);
             status === 'won' ? setShowPopUp('won') : setShowPopUp('lost');

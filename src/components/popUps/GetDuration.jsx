@@ -10,7 +10,7 @@ import WordsContext from "../../context/WordsContext";
 export default function GetDuration() {
     const [timeDuration, setTimeDuration] = useState(90);
     const { setShowPopUp, setIsTimed } = useContext(Context);
-    const { setTargetWord, setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo } = useContext(WordsContext);
+    const { setTargetWord, resetWordleData } = useContext(WordsContext);
 
     const navigate = useNavigate();
 
@@ -28,12 +28,7 @@ export default function GetDuration() {
     }
 
     function handleStartPractice() {
-        setLetterIndex(0);
-        setSubmitedRowNo(0);
-        setAllWords([
-            '-----', '-----', '-----', '-----', '-----', '-----'
-        ]);
-        setAllWordsState(['', '', '', '', '', '']);
+        resetWordleData();
         setIsTimed(true);
         setShowPopUp(null);
         startTimer(timeDuration);

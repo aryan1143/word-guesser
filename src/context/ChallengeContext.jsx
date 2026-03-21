@@ -17,7 +17,7 @@ export const ChallengeProvider = ({ children }) => {
     const userId = getDataLocal('userId');
 
     const { setChallengeId, setShowPopUp, setShowCreateChallenge, setIsTimed, isTimed, challengeId, setIsChallengePopUp, setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo } = useContext(Context);
-    const { setTargetWord } = useContext(WordsContext);
+    const { setTargetWord, resetWordleData } = useContext(WordsContext);
 
     const { startTimer, remainingSeconds } = useGlobalTimer();
 
@@ -43,12 +43,7 @@ export const ChallengeProvider = ({ children }) => {
                 setTargetWord(wordle);
 
             }
-            setLetterIndex(0);
-            setSubmitedRowNo(0);
-            setAllWords([
-                '-----', '-----', '-----', '-----', '-----', '-----'
-            ]);
-            setAllWordsState(['', '', '', '', '', '']);
+            resetWordleData();
             navigate('/game-page');
             setShowCreateChallenge(false);
             setShowPopUp(null);
