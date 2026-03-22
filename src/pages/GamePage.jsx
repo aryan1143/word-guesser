@@ -3,17 +3,19 @@ import Grid from '../components/Grid'
 import Keyboard from '../components/Keyboard'
 import useHandleLetters from '../hooks/useHandleLetters'
 import WordsContext from '../context/WordsContext'
+import Context from '../context/Context'
 import { randomWord } from '../components/utils/wordUtil'
 
 const GamePage = () => {
 
     const { allWords, setTargetWord, targetWord } = useContext(WordsContext);
+    const { easyMode } = useContext(Context);
     useHandleLetters();
 
     useEffect(() => {
       if (targetWord) return;
 
-      const wordle = randomWord();
+      const wordle = randomWord(easyMode);
       setTargetWord(wordle);
     }, [targetWord])
     

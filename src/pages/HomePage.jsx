@@ -12,7 +12,7 @@ import { useGlobalTimer } from '../context/TimerContext'
 
 const HomePage = () => {
 
-  const { setShowPopUp, setIsTimed, setInDailyWordle } = useContext(Context);
+  const { setShowPopUp, setIsTimed, setInDailyWordle, easyMode } = useContext(Context);
   const {setTargetWord, resetWordleData} = useContext(WordsContext);
   const {confirmBox} = useDialog();
 
@@ -46,7 +46,7 @@ const HomePage = () => {
     }
     exitChallenge();
     removeDataLocal('challengeId');
-    const word = randomWord();
+    const word = randomWord(easyMode);
     setTargetWord(word);
     setShowPopUp(null);
     resetWordleData();

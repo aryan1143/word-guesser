@@ -9,7 +9,7 @@ import WordsContext from "../../context/WordsContext";
 
 export default function GetDuration() {
     const [timeDuration, setTimeDuration] = useState(90);
-    const { setShowPopUp, setIsTimed } = useContext(Context);
+    const { setShowPopUp, setIsTimed, easyMode } = useContext(Context);
     const { setTargetWord, resetWordleData } = useContext(WordsContext);
 
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ export default function GetDuration() {
         setShowPopUp(null);
         startTimer(timeDuration);
         navigate('/game-page');
-        const wordle = randomWord();
+        const wordle = randomWord(easyMode);
         setTargetWord(wordle);
     }
 
