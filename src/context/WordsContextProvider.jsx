@@ -14,6 +14,8 @@ const WordsContextProvider = ({ children }) => {
   const [isShaking, setIsShaking] = useState(false);
   const [isBubbling, setIsBubbling] = useState(false);
 
+  const [remainingHints, setRemainingHints] = useState(2);
+
   function resetWordleData() {
     setAllWords([
       '-----', '-----', '-----', '-----', '-----', '-----'
@@ -22,28 +24,30 @@ const WordsContextProvider = ({ children }) => {
     setGuessedList([false, false, false, false, false]);
     setLetterIndex(0);
     setSubmitedRowNo(0);
+    setRemainingHints(2);
+  }
+
+  function showHint() {
+    if (remainingHints <= 0) {
+      return;
+    }
+    console.log('show hint')
+    setRemainingHints(prev => (prev - 1));
   }
 
   const value = {
-    letter,
-    setLetter,
-    targetWord,
-    setTargetWord,
-    allWords,
-    setAllWords,
-    allWordsState,
-    setAllWordsState,
-    submitedRowNo,
-    setSubmitedRowNo,
-    letterIndex,
-    setLetterIndex,
-    isShaking,
-    setIsShaking,
-    isBubbling,
-    setIsBubbling,
-    guessedList,
-    setGuessedList,
-    resetWordleData
+    letter, setLetter,
+    targetWord, setTargetWord,
+    allWords, setAllWords,
+    allWordsState, setAllWordsState,
+    submitedRowNo, setSubmitedRowNo,
+    letterIndex, setLetterIndex,
+    isShaking, setIsShaking,
+    isBubbling, setIsBubbling,
+    guessedList, setGuessedList,
+    remainingHints, setRemainingHints,
+    resetWordleData,
+    showHint
   }
 
   return (

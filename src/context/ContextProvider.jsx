@@ -12,14 +12,15 @@ const ContextProvider = ({ children }) => {
     const [isTimed, setIsTimed] = useState(false);
     const [inDailyWordle, setInDailyWordle] = useState(false);
     const [isChallengePopUp, setIsChallengePopUp] = useState(false);
-    
+
     const [gameTime, setGameTime] = useState(0);
-    
+
     const [hardMode, setHardMode] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
     const [easyMode, setEasyMode] = useState(false);
+    const [hintBtn, setHintBtn] = useState(false);
 
-    function showToastMessege (text) {
+    function showToastMessege(text) {
         setShowToast(true);
         setToastMessege(text);
         setTimeout(() => {
@@ -29,31 +30,22 @@ const ContextProvider = ({ children }) => {
     }
 
     const value = {
-        showPopUp,
-        setShowPopUp,
-        soundOn,
-        setSoundOn,
-        showToast,
-        toastMessege,
-        showToastMessege,
-        showCreateChallenge,
-        setShowCreateChallenge,
-        challengeId,
-        setChallengeId,
-        isTimed,
-        setIsTimed,
-        inDailyWordle,
-        setInDailyWordle,
-        isChallengePopUp,
-        setIsChallengePopUp,
-        hardMode,
-        setHardMode,
-        gameTime,
-        setGameTime,
-        darkMode,
-        setDarkMode,
-        easyMode,
-        setEasyMode
+        showPopUp, setShowPopUp,
+        showToast, toastMessege, showToastMessege,
+        showCreateChallenge, setShowCreateChallenge,
+        challengeId, setChallengeId,
+        isTimed, setIsTimed,
+        inDailyWordle, setInDailyWordle,
+        isChallengePopUp, setIsChallengePopUp,
+        hardMode, setHardMode,
+        
+        soundOn, setSoundOn,
+
+        gameTime, setGameTime,
+
+        darkMode, setDarkMode,
+        easyMode, setEasyMode,
+        hintBtn, setHintBtn
     }
 
     return (

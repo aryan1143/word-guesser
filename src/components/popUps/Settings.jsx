@@ -5,7 +5,7 @@ import { RiCloseFill } from 'react-icons/ri';
 import { setDataLocal } from '../../lib/localStorage';
 
 const Settings = () => {
-  const { setShowPopUp, setDarkMode, darkMode, setHardMode, hardMode, setEasyMode, easyMode } = useContext(Context);
+  const { setShowPopUp, setDarkMode, darkMode, setHardMode, hardMode, setEasyMode, easyMode, setHintBtn, hintBtn } = useContext(Context);
 
   function toggleDarkMode(value) {
     setDarkMode(value);
@@ -30,6 +30,11 @@ const Settings = () => {
       setHardMode(!value);
       setDataLocal('hardMode', !value);
     }
+  }
+
+  function toggleHintBtn(value) {
+    setHintBtn(value);
+    setDataLocal('hintBtn', value);
   }
 
 
@@ -59,8 +64,8 @@ const Settings = () => {
               <ReactSwitch checked={easyMode} onColor={easyMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={easyMode ? '#000000' : '#234120'} onChange={(value) => { toggleEasyMode(value) }} />
             </div>
             <div className='flex justify-between h-18/100 w-full bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] items-center px-5'>
-              <p>Offline Mode</p>
-              <ReactSwitch checked={''} onColor={darkMode ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={darkMode ? '#000000' : '#234120'} onChange={(value) => { }} />
+              <p>Hint Button</p>
+              <ReactSwitch checked={hintBtn} onColor={hintBtn ? '#4a7c52' : '#234120'} offColor='#505a6b' activeBoxShadow={hintBtn ? '#000000' : '#234120'} onChange={(value) => { toggleHintBtn(value) }} />
             </div>
 
           </div>
