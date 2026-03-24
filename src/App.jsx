@@ -20,6 +20,7 @@ import Toast from './components/popUps/Toast'
 import Challenge from './components/popUps/Challenge'
 import useChallengeWordle from './hooks/useChallengeWordle'
 import GetDuration from './components/popUps/GetDuration'
+import HintBox from './components/popUps/HintBox'
 
 
 
@@ -115,6 +116,7 @@ function App() {
         {showPopUp === 'Profile' && (isLoggedIn ? <Profile /> : <Login />)}
         {showPopUp === 'Settings' && <Settings />}
         {showPopUp === 'GameMode' && <GameMode />}
+        {showPopUp === 'HintBox' && <HintBox />}
       </div>
     </>
   )

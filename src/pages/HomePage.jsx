@@ -3,7 +3,6 @@ import logo from '/logo.svg'
 import Grid from '../components/Grid'
 import { useContext, useEffect } from 'react'
 import Context from '../context/Context'
-import { randomWord } from '../components/utils/wordUtil'
 import WordsContext from '../context/WordsContext'
 import { getDataLocal, removeDataLocal } from '../lib/localStorage'
 import useDialog from '../hooks/useDialog'
@@ -13,7 +12,7 @@ import { useGlobalTimer } from '../context/TimerContext'
 const HomePage = () => {
 
   const { setShowPopUp, setIsTimed, setInDailyWordle, easyMode } = useContext(Context);
-  const {setTargetWord, resetWordleData} = useContext(WordsContext);
+  const {setTargetWord, resetWordleData, randomWord} = useContext(WordsContext);
   const {confirmBox} = useDialog();
 
   const {exitChallenge} = useChallengeWordle();

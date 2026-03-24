@@ -4,13 +4,12 @@ import { RiCloseFill } from "react-icons/ri";
 import Context from "../../context/Context";
 import { useGlobalTimer } from "../../context/TimerContext";
 import { useNavigate } from "react-router-dom";
-import { randomWord } from "../utils/wordUtil";
 import WordsContext from "../../context/WordsContext";
 
 export default function GetDuration() {
     const [timeDuration, setTimeDuration] = useState(90);
     const { setShowPopUp, setIsTimed, easyMode } = useContext(Context);
-    const { setTargetWord, resetWordleData } = useContext(WordsContext);
+    const { setTargetWord, resetWordleData, randomWord } = useContext(WordsContext);
 
     const navigate = useNavigate();
 

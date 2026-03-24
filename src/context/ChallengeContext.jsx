@@ -6,7 +6,6 @@ import { getDataLocal } from '../lib/localStorage';
 import { getWordByIndex } from '../components/utils/getWordleOrIndex';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalTimer } from './TimerContext';
-import { randomWord } from '../components/utils/wordUtil';
 
 const ChallengeContext = createContext();
 
@@ -17,7 +16,7 @@ export const ChallengeProvider = ({ children }) => {
     const userId = getDataLocal('userId');
 
     const { setChallengeId, setShowPopUp, setShowCreateChallenge, setIsTimed, isTimed, challengeId, setIsChallengePopUp, setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo } = useContext(Context);
-    const { setTargetWord, resetWordleData } = useContext(WordsContext);
+    const { setTargetWord, resetWordleData, randomWord } = useContext(WordsContext);
 
     const { startTimer, remainingSeconds } = useGlobalTimer();
 

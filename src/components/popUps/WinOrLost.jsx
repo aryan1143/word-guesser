@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { randomWord } from '../utils/wordUtil';
 import WordsContext from '../../context/WordsContext';
 import Context from '../../context/Context';
 import WonLogo from '/won.jpg';
@@ -10,7 +9,7 @@ import { useScoreContext } from '../../context/ScoreContext';
 
 const WinOrLost = ({ status = 'lost' }) => {
 
-    const { setTargetWord, targetWord, submitedRowNo, setSubmitedRowNo, setLetterIndex, resetWordleData } = useContext(WordsContext);
+    const { setTargetWord, targetWord, submitedRowNo, setSubmitedRowNo, setLetterIndex, resetWordleData, randomWord } = useContext(WordsContext);
     const { setShowPopUp, inDailyWordle, isChallengePopUp, setIsChallengePopUp, easyMode } = useContext(Context);
 
     const { currentScore } = useScoreContext();

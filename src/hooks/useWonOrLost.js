@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import WordsContext from "../context/WordsContext";
 import Context from "../context/Context";
-import { randomWord } from "../components/utils/wordUtil";
 import { useScoreContext } from "../context/ScoreContext";
 import useHandleDidDailyWordle from "./useHandleDidDailyWordle";
 import useHandleStreak from "./useHandleStreak";
@@ -9,7 +8,7 @@ import { useAchivements } from "../context/AchivementContext";
 import useHandleStatsHistory from "./useHandleStatsHistory";
 
 export default function useWonOrLost() {
-    const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo, resetWordleData } = useContext(WordsContext);
+    const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo, resetWordleData, randomWord } = useContext(WordsContext);
     const { showToastMessege, setShowPopUp, isTimed, inDailyWordle, easyMode } = useContext(Context);
     const { setCurrentScore, currentScore } = useScoreContext();
 
