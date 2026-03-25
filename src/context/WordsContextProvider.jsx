@@ -7,7 +7,7 @@ const WordsContextProvider = ({ children }) => {
 
 
   const [letter, setLetter] = useState(null);
-  const [targetWord, setTargetWord] = useState(null);
+  const [targetWord, setTargetWord] = useState('GUESS');
   const [allWords, setAllWords] = useState([
     '-----', '-----', '-----', '-----', '-----', '-----'
   ]);
@@ -24,7 +24,7 @@ const WordsContextProvider = ({ children }) => {
 
   const [remainingHints, setRemainingHints] = useState(2);
 
-  const { setShowPopUp } = useContext(Context);
+  const { setShowPopUp, showToastMessege } = useContext(Context);
 
   function randomWord(isEasyMode = false) {
 
@@ -38,9 +38,10 @@ const WordsContextProvider = ({ children }) => {
     }
 
     const randomIndex = Math.floor(Math.random() * poolOfWords.length);
-    console.log(poolOfWords[randomIndex]);
+    
+    setTargetWordData(poolOfWords?.[randomIndex]);
 
-    return poolOfWords[randomIndex]?.word.toUpperCase();
+    return poolOfWords?.[randomIndex]?.word.toUpperCase();
   }
 
 
@@ -57,7 +58,10 @@ const WordsContextProvider = ({ children }) => {
 
   function showHint() {
     if (remainingHints <= 0) {
+      showToastMessege('You have used all your hints.')
       return;
+    } else if(remainingHints === 1) {
+
     }
     setShowPopUp('HintBox');
     setRemainingHints(prev => (prev - 1));
@@ -81,6 +85,7 @@ const WordsContextProvider = ({ children }) => {
         setDictionary(data);
         const randomIndex = Math.floor(Math.random() * data.length);
         setTargetWordData(data[randomIndex]);
+        setTargetWord(data[randomIndex].word.toUpperCase());
 
       } catch (err) {
         setError(err.message);
@@ -104,9 +109,11 @@ const WordsContextProvider = ({ children }) => {
     isBubbling, setIsBubbling,
     guessedList, setGuessedList,
     remainingHints, setRemainingHints,
+    targetWordData,
+    remainingHints,
     resetWordleData,
     showHint,
-    randomWord
+    randomWord,
   }
 
   return (
