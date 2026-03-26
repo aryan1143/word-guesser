@@ -45,6 +45,7 @@ function useHandleLetters() {
                     setSubmitedRowNo((prev) => prev + 1);
                     setLetterIndex(0);
                 } else {
+                    showToastMessege('Word is not in the list❗');
                     setIsShaking(true);
                     setTimeout(() => {
                         setIsShaking(false);

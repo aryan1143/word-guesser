@@ -15,7 +15,7 @@ export const ChallengeProvider = ({ children }) => {
 
     const userId = getDataLocal('userId');
 
-    const { setChallengeId, setShowPopUp, setShowCreateChallenge, setIsTimed, isTimed, challengeId, setIsChallengePopUp, setAllWords, setAllWordsState, setLetterIndex, setSubmitedRowNo } = useContext(Context);
+    const { setChallengeId, setShowPopUp, setShowCreateChallenge, setIsTimed, isTimed, setIsChallengePopUp, showPopUp } = useContext(Context);
     const { setTargetWord, resetWordleData, randomWord } = useContext(WordsContext);
 
     const { startTimer, remainingSeconds } = useGlobalTimer();
@@ -54,12 +54,50 @@ export const ChallengeProvider = ({ children }) => {
             if (isTimed && remainingSeconds <= 0) {
                 setShowPopUp('won');
                 setIsChallengePopUp(true);
-                challengeState.exitChallenge(challengeId, true);
                 setIsTimed(false);
             }
         }
-    }, [remainingSeconds, challengeData])
+    }, [remainingSeconds, challengeData, showPopUp])
 
+
+    useEffect(() => {
+        if (!challengeData || challengeData.status !== 'active') return;
+
+        const isHost = challengeData.createdBy === userId;
+        const myStatusField = isHost ? "player1Status" : "player2Status";
+        const opponentStatusField = isHost ? "player2Status" : "player1Status";
+
+        const myStatus = challengeData[myStatusField];
+        const opponentStatus = challengeData[opponentStatusField];
+
+        if (
+            (isHost && challengeData.player2 === "left") ||
+            (!isHost && challengeData.player1 === "left")
+        ) {
+            setShowPopUp("won");
+            setIsChallengePopUp(true);
+            return;
+        }
+
+        if (myStatus && !opponentStatus) {
+            setShowPopUp("waiting");
+            setIsChallengePopUp(true);
+        }
+    }, [challengeData]);
+
+    useEffect(() => {
+        if (!challengeData || challengeData.status !== 'finished') return;
+
+        if (challengeData.winner === "draw") {
+            setShowPopUp("draw");
+        } else if (challengeData.winner === userId) {
+            setShowPopUp("won");
+        } else {
+            setShowPopUp("lost");
+        }
+
+        setIsChallengePopUp(true);
+    }, [challengeData?.status, challengeData?.winner]);
 
     return (
         <ChallengeContext.Provider value={challengeState}>

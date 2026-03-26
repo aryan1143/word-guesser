@@ -8,9 +8,9 @@ import { useAchivements } from "../context/AchivementContext";
 import useHandleStatsHistory from "./useHandleStatsHistory";
 
 export default function useWonOrLost() {
-    const { setAllWords, setAllWordsState, setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo, resetWordleData, randomWord } = useContext(WordsContext);
+    const { setTargetWord, submitedRowNo, setLetterIndex, setSubmitedRowNo, resetWordleData, randomWord } = useContext(WordsContext);
     const { showToastMessege, setShowPopUp, isTimed, inDailyWordle, easyMode } = useContext(Context);
-    const { setCurrentScore, currentScore } = useScoreContext();
+    const { setCurrentScore } = useScoreContext();
 
     const { doDailyWordle } = useHandleDidDailyWordle();
 

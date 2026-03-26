@@ -1,6 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import WordsContext from "./WordsContext";
-
+import { createContext, useContext, useState } from "react";
 const ScoreContext = createContext();
 
 export const ScoreContextProvider = ({ children }) => {

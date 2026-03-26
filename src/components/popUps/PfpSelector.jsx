@@ -56,7 +56,7 @@ const PfpSelector = () => {
                 </div>
                 {loading && <Loader />}
                 <div className='relative p-3 pt-1 overflow-y-scroll no-scrollbar text-[#234120] dark:text-[#e0e8f0] felx flex-col shadow-[0_4px_0_0_#234120] dark:shadow-[0_4px_0_0_#000000] h-full w-full items-center border dark:border-[rgba(255,255,255,0.1)] rounded-t-none border-[#0000004d] bg-[#d7ead5] dark:bg-[#1d2532]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[30px_30px]'>
-                    <form className='sticky top-0 left-0 z-2 w-full h-15/100 mb-1 flex justify-around items-center gap-5 px-2 backdrop-blur-sm dark:backdrop-blur-sm bg-[#ffffff40] dark:bg-[#00000040]'>
+                    <form className='sticky top-0 left-0 z-2 w-full h-12/100 md:h-15/100 mb-1 flex justify-around items-center gap-5 px-2 backdrop-blur-sm dark:backdrop-blur-sm bg-[#ffffff40] dark:bg-[#00000040]'>
                         <div className='flex-1'>
                             <input
                                 className='peer sr-only'
@@ -68,7 +68,7 @@ const PfpSelector = () => {
                                 onChange={(e) => setIsInAchievement(e.target.value === "true")}
                             />
                             <label
-                                className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
+                                className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-[4vw] md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
                                 htmlFor="achievement"
                             >
                                 ACHIEVEMENT PFP
@@ -85,7 +85,7 @@ const PfpSelector = () => {
                                 onChange={(e) => setIsInAchievement(e.target.value === "true")}
                             />
                             <label
-                                className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
+                                className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-[4vw] md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
                                 htmlFor="free"
                             >
                                 FREE PFP

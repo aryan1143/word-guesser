@@ -3,6 +3,7 @@ import { app } from "../lib/firebaseClient";
 import { useContext, useEffect, useState } from "react";
 import { getDataLocal, removeDataLocal, setDataLocal } from "../lib/localStorage";
 import Context from "../context/Context";
+import { useScoreContext } from "../context/ScoreContext";
 
 export default function useChallengeWordle() {
     const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
@@ -19,6 +20,7 @@ export default function useChallengeWordle() {
     const userData = getDataLocal('userData');
 
     const { showToastMessege, challengeId, setChallengeId } = useContext(Context);
+    const { currentScore } = useScoreContext();
 
     async function createChallenge({ wordle1Index = 0, wordle2Index = 0, isTimed = false, duration = 0 }) {
         setCreateChallengeLoading(true);
@@ -39,7 +41,9 @@ export default function useChallengeWordle() {
                 player1Name: userData.name,
                 player2Name: 'empty',
                 player1Score: 0,
-                player2Score: 0
+                player2Score: 0,
+                player1Status: null,
+                player2Status: null
             });
             setChallengeId(ref.id);
             setChallengeURL(`${baseURL}/challenge/${ref.id}`);
@@ -76,7 +80,7 @@ export default function useChallengeWordle() {
                 }
 
                 transaction.update(ref, {
-                    ...(wordle2Index && {wordle2Index: wordle2Index}),
+                    ...(wordle2Index && { wordle2Index: wordle2Index }),
                     players: arrayUnion(uid),
                     player2: "joined",
                     status: "ready",
@@ -115,40 +119,91 @@ export default function useChallengeWordle() {
         }
     }
 
-    async function exitChallenge(challengeId, isFinished = false) {
+    async function submitResult(challengeId, result) {
+        try {
+            const ref = doc(db, "challenges", challengeId);
+
+            await runTransaction(db, async (transaction) => {
+                const snap = await transaction.get(ref);
+                if (!snap.exists()) return;
+
+                const data = snap.data();
+                const isHost = data.createdBy === uid;
+                const myStatusField = isHost ? "player1Status" : "player2Status";
+                const myScoreField = isHost ? "player1Score" : "player2Score";
+                const opponentStatusField = isHost ? "player2Status" : "player1Status";
+                const opponentScoreField = isHost ? "player2Score" : "player1Score";
+
+                const opponentStatus = data[opponentStatusField];
+                const opponentScore = data[opponentScoreField];
+
+                const updates = {
+                    [myStatusField]: result,
+                    [myScoreField]: currentScore,
+                };
+
+                const bothDone = opponentStatus === "won" || opponentStatus === "lost";
+                if (bothDone) {
+                    const myScore = currentScore;
+                    let winner;
+                    if (myScore > opponentScore) {
+                        winner = uid;
+                    } else if (opponentScore > myScore) {
+                        winner = isHost ? data.players.find(p => p !== uid) : data.createdBy;
+                    } else {
+                        winner = "draw";
+                    }
+                    updates.status = "finished";
+                    updates.winner = winner;
+                }
+
+                transaction.update(ref, updates);
+            });
+        } catch (e) {
+            console.error("submitResult error:", e);
+        }
+    }
+
+    async function exitChallenge(challengeId) {
         setExitChallengeLoading(true);
 
         try {
             const ref = doc(db, "challenges", challengeId);
-            const snap = await getDoc(ref);
-            const data = snap.data();
 
-            if (isFinished || data.players.length <= 1) {
-                await deleteDoc(ref);
-                isFinished ? showToastMessege('Challenge Ended ✅') : showToastMessege('Challenge Deleted ✅');
-                return;
-            }
+            await runTransaction(db, async (transaction) => {
+                const snap = await transaction.get(ref);
+                if (!snap.exists()) return;
 
+                const data = snap.data();
+                const isHost = data.createdBy === uid;
+                const field = isHost ? "player1" : "player2";
 
-            const isHost = data.createdBy === uid;
-            const field = isHost ? "player1" : "player2";
+                const updatedData = {
+                    [field]: "left",
+                    players: arrayRemove(uid),
+                    [`${field}Score`]: currentScore
+                };
 
-            await updateDoc(ref, {
-                [field]: "left",
-                status: "abondoned",
-                players: arrayRemove(uid)
+                const remainingPlayers = data.players.length - 1;
+
+                if (remainingPlayers <= 0) {
+                    transaction.delete(ref);
+                } else {
+                    transaction.update(ref, updatedData);
+                }
             });
-            removeDataLocal('challengeId');
-            showToastMessege('Challenge Leaved ✅')
-        } catch (e) {
-            console.log(e)
-            setError(e.code);
-        } finally {
-            setExitChallengeLoading(false);
+
             removeDataLocal('challengeId');
             setChallengeId(null);
             setChallengeData(null);
             setChallengeURL(null);
+
+            showToastMessege('Exited challenge');
+
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setExitChallengeLoading(false);
         }
     }
 
@@ -204,6 +259,7 @@ export default function useChallengeWordle() {
         createChallenge,
         acceptChallenge,
         startChallenge,
+        submitResult,
         exitChallenge,
         setChallengeId
     };
