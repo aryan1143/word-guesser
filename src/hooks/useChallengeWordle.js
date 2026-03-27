@@ -1,6 +1,6 @@
 import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getFirestore, onSnapshot, runTransaction, serverTimestamp, updateDoc } from "firebase/firestore";
 import { app } from "../lib/firebaseClient";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getDataLocal, removeDataLocal, setDataLocal } from "../lib/localStorage";
 import Context from "../context/Context";
 import { useScoreContext } from "../context/ScoreContext";
@@ -19,8 +19,15 @@ export default function useChallengeWordle() {
     const db = getFirestore(app);
     const userData = getDataLocal('userData');
 
+    const statusRef = useRef(null);
+
     const { showToastMessege, challengeId, setChallengeId } = useContext(Context);
     const { currentScore } = useScoreContext();
+
+    useEffect(() => {
+      !challengeId && setChallengeURL(null)
+    }, [challengeId])
+    
 
     async function createChallenge({ wordle1Index = 0, wordle2Index = 0, isTimed = false, duration = 0 }) {
         setCreateChallengeLoading(true);
@@ -185,8 +192,9 @@ export default function useChallengeWordle() {
                 };
 
                 const remainingPlayers = data.players.length - 1;
-
+                
                 if (remainingPlayers <= 0) {
+                    console.log(remainingPlayers)
                     transaction.delete(ref);
                 } else {
                     transaction.update(ref, updatedData);
@@ -204,6 +212,7 @@ export default function useChallengeWordle() {
             console.log(e);
         } finally {
             setExitChallengeLoading(false);
+            setChallengeId(null);
         }
     }
 
@@ -230,14 +239,16 @@ export default function useChallengeWordle() {
                 showToastMessege("Opponent joined");
             }
 
-            if (data.status === "active") {
+            if (data.status === "active" && statusRef.current !== "active") {
                 showToastMessege("Game started ✅");
             }
+
+            statusRef.current = data.status;
 
             if (data.player1 === "left" || data.player2 === "left") {
                 if ((data.createdBy === uid && data.player1 === 'left') || (data.createdBy !== uid && data.player2 === 'left')) {
                     showToastMessege('You left 🚨')
-                } else {
+                } else if((data.createdBy === uid && data.player2 === 'left') || (data.createdBy !== uid && data.player1 === 'left')){
                     showToastMessege("Player left 🚨");
                 }
             }

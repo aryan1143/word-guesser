@@ -28,16 +28,19 @@ const Challenge = () => {
     const { challengeId } = useContext(Context);
 
     const {
-        createChallengeLoading, acceptChallengeLoading, startChallengeLoading, exitChallengeLoading, challengeDataLoading,
+        createChallengeLoading, acceptChallengeLoading, startChallengeLoading, challengeDataLoading,
         error, challengeURL, challengeStatus, challengeData,
         createChallenge, acceptChallenge, startChallenge, exitChallenge,
     } = useContext(ChallengeContext);
 
-    console.log(challengeStatus)
-
     const { showToastMessege, showCreateChallenge, setShowPopUp, setShowCreateChallenge, setChallengeId } = useContext(Context);
     const userId = getDataLocal('userId');
     const ongoingChallengeId = getDataLocal('challengeId');
+
+    useEffect(() => {
+      if(!ongoingChallengeId) setChallengeId(null);
+    }, [])
+    
 
     useEffect(() => {
         if (locationPath.includes('challenge') && paramsChallengeId) {
@@ -132,7 +135,7 @@ const Challenge = () => {
     }
 
     useEffect(() => {
-        if (challengeData) {
+        if (challengeData && challengeId) {
             if (challengeData.players.length >= 2 && challengeData.status === 'ready') {
                 startChallenge(challengeId);
                 setIsWaiting(false);

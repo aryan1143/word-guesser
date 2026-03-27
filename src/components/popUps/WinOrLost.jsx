@@ -12,18 +12,13 @@ import Loader from '../Loader';
 const WinOrLost = ({ status = 'lost' }) => {
 
     const { setTargetWord, targetWord, submitedRowNo, setSubmitedRowNo, setLetterIndex, resetWordleData, randomWord } = useContext(WordsContext);
-    const { setShowPopUp, inDailyWordle, isChallengePopUp, setIsChallengePopUp, easyMode, challengeId } = useContext(Context);
+    const { setShowPopUp, inDailyWordle, isChallengePopUp, setIsChallengePopUp, easyMode, challengeId, setChallengeId } = useContext(Context);
 
     const { currentScore } = useScoreContext();
 
     const { challengeData, submitResult, exitChallenge } = useChallengeWordle();
 
     function handlePlay() {
-        if (challengeData) {
-            submitResult(challengeId, status);
-            exitChallenge(challengeId)
-            return;
-        };
         setShowPopUp(null);
         resetWordleData();
         const word = randomWord(easyMode);
@@ -31,7 +26,19 @@ const WinOrLost = ({ status = 'lost' }) => {
         console.log(word)
     }
 
+    useEffect(() => {
+        if (challengeId) {
+            submitResult(challengeId, status);
+            return;
+        };
+    }, [challengeId])
+
+
     function handleHomeClick() {
+        if (challengeId) {
+            exitChallenge(challengeId);
+            setChallengeId(null);
+        };
         setShowPopUp(null);
         setIsChallengePopUp(false);
         setLetterIndex(0);
@@ -47,7 +54,8 @@ const WinOrLost = ({ status = 'lost' }) => {
                     </p>
                 </div>
                 <div className='overflow-hidden p-3 shadow-[0_4px_0_0_#234120] dark:shadow-[0_4px_0_0_#000000] flex flex-col h-full w-full items-center border dark:border-[rgba(255,255,255,0.1)] rounded-t-none border-[#0000004d] bg-[#d7ead5] dark:bg-[#1d2532]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[30px_30px]'>
-                    {status === 'waiting' ? <Loader text='Waiting for your opponent to finish...' isBg={false}/> :
+                    {status === 'waiting' ? <Loader text='Waiting for your opponent to finish...' isBg={false} /> :
+                        challengeId && challengeData?.status !== 'finished' ? <Loader isBg={false} /> :
                         <>
                             <div className='w-full mb-auto'>
                                 {status === 'won' ?

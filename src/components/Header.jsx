@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LoginContext from "../context/LoginContext";
 import { MdOutlineLeaderboard, MdArrowBack } from "react-icons/md";
 import { RiSettingsLine } from "react-icons/ri";
@@ -10,10 +10,11 @@ import Context from '../context/Context';
 import useDialog from '../hooks/useDialog';
 import ChallengeContext from '../context/ChallengeContext';
 import { useGlobalTimer } from '../context/TimerContext';
-import { getDataLocal } from '../lib/localStorage';
+import { getDataLocal, removeDataLocal } from '../lib/localStorage';
+import useChallengeWordle from '../hooks/useChallengeWordle';
 
 const Header = () => {
-  const { setShowPopUp, setSoundOn, soundOn, challengeId, isTimed } = useContext(Context);
+  const { setShowPopUp, setSoundOn, soundOn, challengeId, isTimed, setChallengeId } = useContext(Context);
   const { isLoggedIn } = useContext(LoginContext);
   const { exitChallenge } = useContext(ChallengeContext);
   const location = useLocation();
@@ -24,11 +25,16 @@ const Header = () => {
 
   const { remainingTime, pauseTimer, resumeTimer, isRunning } = useGlobalTimer();
 
+  const { submitResult } = useChallengeWordle();  
+
   async function handleLeaveChallenge() {
     if (!challengeId) return;
     const result = await confirmBox('Are you sure you want to leave the challenge!');
     if (result) {
+      submitResult(challengeId, "lost");
       exitChallenge(challengeId);
+      removeDataLocal('challengeId');
+      setChallengeId(null);
       navigate('/');
     }
   }

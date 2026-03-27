@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect } from 'react';
 import useChallengeWordle from '../hooks/useChallengeWordle';
 import WordsContext from './WordsContext';
 import Context from './Context';
-import { getDataLocal } from '../lib/localStorage';
+import { getDataLocal, removeDataLocal } from '../lib/localStorage';
 import { getWordByIndex } from '../components/utils/getWordleOrIndex';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalTimer } from './TimerContext';
@@ -25,6 +25,7 @@ export const ChallengeProvider = ({ children }) => {
     useEffect(() => {
         const ongoingChallengeId = getDataLocal('challengeId');
         if (ongoingChallengeId) {
+            removeDataLocal("challengeId")
             setChallengeId(ongoingChallengeId);
         }
     }, [setChallengeId]);

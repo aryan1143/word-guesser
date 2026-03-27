@@ -33,6 +33,8 @@ function App() {
 
   const userId = getDataLocal('userId');
 
+  console.log(showPopUp)
+
   useEffect(() => {
     const localDarkMode = getDataLocal('darkMode');
     const localHardMode = getDataLocal('hardMode');
@@ -107,7 +109,7 @@ function App() {
         {showToast && <Toast text={toastMessege} />}
         {showCreateChallenge && <Challenge />}
         {showPopUp === 'GetDuration' && <GetDuration />}
-        {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' ? <WinOrLost status='lost' /> : showPopUp === 'timeUp' && <WinOrLost status='timeUp' />}
+        {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' ? <WinOrLost status='lost' /> : showPopUp === 'timeUp' ? <WinOrLost status='timeUp' /> : showPopUp === 'waiting' && <WinOrLost status='waiting' />}
         {showPopUp === 'pfpSelect' && <PfpSelector />}
         {showPopUp === 'SignUp' && <SignUp />}
         {showPopUp === 'Verification' && <Verification />}
