@@ -1,27 +1,46 @@
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import HomePage from './pages/HomePage'
-import GamePage from './pages/GamePage'
-import Header from './components/Header'
-import LeaderBoard from './components/popUps/LeaderBoard'
-import { useContext, useEffect } from 'react'
-import Settings from './components/popUps/Settings'
-import Context from './context/Context'
-import GameMode from './components/popUps/GameMode'
-import Profile from './components/popUps/Profile'
-import LoginContext from './context/LoginContext'
-import Login from './components/popUps/Login'
-import SignUp from './components/popUps/SignUp'
 import { getDataLocal } from './lib/localStorage'
-import PfpSelector from './components/popUps/PfpSelector'
+import { lazy, Suspense, useContext, useEffect } from 'react'
+import Header from './components/Header'
+import Context from './context/Context'
 import useHandleStatsHistory from './hooks/useHandleStatsHistory'
-import Verification from './components/popUps/Verification'
-import WinOrLost from './components/popUps/WinOrLost'
-import Toast from './components/popUps/Toast'
-import Challenge from './components/popUps/Challenge'
 import useChallengeWordle from './hooks/useChallengeWordle'
-import GetDuration from './components/popUps/GetDuration'
-import HintBox from './components/popUps/HintBox'
+import Fallback from './components/Fallback'
+import LoginContext from './context/LoginContext'
+import Toast from './components/popUps/Toast'
 
+
+function lazyLoad(path, namedExport) {
+  return lazy(() => {
+    const promise = import(path);
+    if (namedExport == null) {
+      return promise
+    } else {
+      return promise.then(module => ({ default: module[namedExport] }));
+    }
+  })
+}
+
+function LazyWrapper({ children }) {
+  return <Suspense fallback={<Fallback />}>{children}</Suspense>;
+}
+
+const GamePage = lazyLoad('./pages/GamePage');
+
+// Popups
+const LeaderBoard = lazyLoad('./components/popUps/LeaderBoard');
+const Settings = lazyLoad('./components/popUps/Settings');
+const GameMode = lazyLoad('./components/popUps/GameMode');
+const Profile = lazyLoad('./components/popUps/Profile');
+const Login = lazyLoad('./components/popUps/Login');
+const SignUp = lazyLoad('./components/popUps/SignUp');
+const Verification = lazyLoad('./components/popUps/Verification');
+const WinOrLost = lazyLoad('./components/popUps/WinOrLost');
+const Challenge = lazyLoad('./components/popUps/Challenge');
+const GetDuration = lazyLoad('./components/popUps/GetDuration');
+const HintBox = lazyLoad('./components/popUps/HintBox');
+const PfpSelector = lazyLoad('./components/popUps/PfpSelector');
 
 
 function App() {
@@ -30,10 +49,6 @@ function App() {
   const challengeId = getDataLocal('challengeId');
   const { challengeData } = useChallengeWordle();
   const navigate = useNavigate();
-
-  const userId = getDataLocal('userId');
-
-  console.log(showPopUp)
 
   useEffect(() => {
     const localDarkMode = getDataLocal('darkMode');
@@ -45,7 +60,7 @@ function App() {
     setHardMode(localHardMode);
     setEasyMode(localEasyMode);
     setHintBtn(localHintBtn);
-    
+
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -70,6 +85,7 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const userId = getDataLocal('userId');
     if (!challengeData) return;
 
     if (challengeData.status === 'waiting' && challengeData.createdBy === userId) {
@@ -97,28 +113,117 @@ function App() {
     <>
       <div onClick={handleBgClick} className="relative select-none flex items-center w-screen h-screen flex-col bg-[#ccf0c1] dark:bg-[#0f1419] overflow-hidden bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[40px_40px]">
         <Header />
-        <Routes >
+        <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/game-page' element={<GamePage />} />
-          <Route path='/challenge/:challengeId' element={<>
-            <Challenge />
-            <HomePage />
-          </>
-          } />
+
+          <Route
+            path='/game-page'
+            element={
+              <LazyWrapper>
+                <GamePage />
+              </LazyWrapper>
+            }
+          />
+
+          <Route
+            path='/challenge/:challengeId'
+            element={
+              <LazyWrapper>
+                <>
+                  <Challenge />
+                  <HomePage />
+                </>
+              </LazyWrapper>
+            }
+          />
         </Routes>
-        {showToast && <Toast text={toastMessege} />}
-        {showCreateChallenge && <Challenge />}
-        {showPopUp === 'GetDuration' && <GetDuration />}
-        {showPopUp === 'won' ? <WinOrLost status='won' /> : showPopUp === 'lost' ? <WinOrLost status='lost' /> : showPopUp === 'timeUp' ? <WinOrLost status='timeUp' /> : showPopUp === 'waiting' && <WinOrLost status='waiting' />}
-        {showPopUp === 'pfpSelect' && <PfpSelector />}
-        {showPopUp === 'SignUp' && <SignUp />}
-        {showPopUp === 'Verification' && <Verification />}
-        {showPopUp === 'Login' && <Login />}
-        {showPopUp === 'LeaderBoard' && <LeaderBoard />}
-        {showPopUp === 'Profile' && (isLoggedIn ? <Profile /> : <Login />)}
-        {showPopUp === 'Settings' && <Settings />}
-        {showPopUp === 'GameMode' && <GameMode />}
-        {showPopUp === 'HintBox' && <HintBox />}
+        {showToast &&
+          <Toast text={toastMessege} />
+        }
+
+        {showCreateChallenge && (
+          <LazyWrapper>
+            <Challenge />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'GetDuration' && (
+          <LazyWrapper>
+            <GetDuration />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'won' ? (
+          <LazyWrapper>
+            <WinOrLost status='won' />
+          </LazyWrapper>
+        ) : showPopUp === 'lost' ? (
+          <LazyWrapper>
+            <WinOrLost status='lost' />
+          </LazyWrapper>
+        ) : showPopUp === 'timeUp' ? (
+          <LazyWrapper>
+            <WinOrLost status='timeUp' />
+          </LazyWrapper>
+        ) : showPopUp === 'waiting' && (
+          <LazyWrapper>
+            <WinOrLost status='waiting' />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'pfpSelect' && (
+          <LazyWrapper>
+            <PfpSelector />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'SignUp' && (
+          <LazyWrapper>
+            <SignUp />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'Verification' && (
+          <LazyWrapper>
+            <Verification />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'Login' && (
+          <LazyWrapper>
+            <Login />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'LeaderBoard' && (
+          <LazyWrapper>
+            <LeaderBoard />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'Profile' && (
+          <LazyWrapper>
+            {isLoggedIn ? <Profile /> : <Login />}
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'Settings' && (
+          <LazyWrapper>
+            <Settings />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'GameMode' && (
+          <LazyWrapper>
+            <GameMode />
+          </LazyWrapper>
+        )}
+
+        {showPopUp === 'HintBox' && (
+          <LazyWrapper>
+            <HintBox />
+          </LazyWrapper>
+        )}
       </div>
     </>
   )
