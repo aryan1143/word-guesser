@@ -10,37 +10,24 @@ import Fallback from './components/Fallback'
 import LoginContext from './context/LoginContext'
 import Toast from './components/popUps/Toast'
 
-
-function lazyLoad(path, namedExport) {
-  return lazy(() => {
-    const promise = import(path);
-    if (namedExport == null) {
-      return promise
-    } else {
-      return promise.then(module => ({ default: module[namedExport] }));
-    }
-  })
-}
-
 function LazyWrapper({ children }) {
   return <Suspense fallback={<Fallback />}>{children}</Suspense>;
 }
 
-const GamePage = lazyLoad('./pages/GamePage');
+const GamePage = lazy(()=> import('./pages/GamePage'));
 
-// Popups
-const LeaderBoard = lazyLoad('./components/popUps/LeaderBoard');
-const Settings = lazyLoad('./components/popUps/Settings');
-const GameMode = lazyLoad('./components/popUps/GameMode');
-const Profile = lazyLoad('./components/popUps/Profile');
-const Login = lazyLoad('./components/popUps/Login');
-const SignUp = lazyLoad('./components/popUps/SignUp');
-const Verification = lazyLoad('./components/popUps/Verification');
-const WinOrLost = lazyLoad('./components/popUps/WinOrLost');
-const Challenge = lazyLoad('./components/popUps/Challenge');
-const GetDuration = lazyLoad('./components/popUps/GetDuration');
-const HintBox = lazyLoad('./components/popUps/HintBox');
-const PfpSelector = lazyLoad('./components/popUps/PfpSelector');
+const LeaderBoard = lazy(() => import('./components/popUps/LeaderBoard'));
+const Settings = lazy(() => import('./components/popUps/Settings'));
+const GameMode = lazy(() => import('./components/popUps/GameMode'));
+const Profile = lazy(() => import('./components/popUps/Profile'));
+const Login = lazy(() => import('./components/popUps/Login'));
+const SignUp = lazy(() => import('./components/popUps/SignUp'));
+const Verification = lazy(() => import('./components/popUps/Verification'));
+const WinOrLost = lazy(() => import('./components/popUps/WinOrLost'));
+const Challenge = lazy(() => import('./components/popUps/Challenge'));
+const GetDuration = lazy(() => import('./components/popUps/GetDuration'));
+const HintBox = lazy(() => import('./components/popUps/HintBox'));
+const PfpSelector = lazy(() => import('./components/popUps/PfpSelector'));
 
 
 function App() {
