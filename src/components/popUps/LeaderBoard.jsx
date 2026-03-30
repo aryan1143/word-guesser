@@ -4,11 +4,14 @@ import { RiCloseFill } from 'react-icons/ri'
 import useGetLeaderboardData from '../../hooks/useGetLeaderboardData'
 import Loader from '../Loader'
 import { getDataLocal } from '../../lib/localStorage'
+import LoginContext from '../../context/LoginContext'
 
 const LeaderBoard = () => {
   const { setShowPopUp } = useContext(Context)
   const [period, setPeriod] = useState('dailyScore');
   const userId = getDataLocal('userId');
+
+  const {isLoggedIn} = useContext(LoginContext);
 
   const timePeriods = [
     { id: 'daily', value: 'dailyScore', label: 'Daily' },
@@ -29,7 +32,11 @@ const LeaderBoard = () => {
             <RiCloseFill className='text-[#234120] dark:text-[#e0e8f0]' />
           </button>
         </div>
-        <div className='overflow-hidden shadow-[0_4px_0_0_#234120] dark:shadow-[0_4px_0_0_#000000] flex h-full w-full items-center border dark:border-[rgba(255,255,255,0.1)] rounded-t-none border-[#0000004d] bg-[#d7ead5] dark:bg-[#1d2532]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[30px_30px]'>
+        <div className='relative overflow-hidden shadow-[0_4px_0_0_#234120] dark:shadow-[0_4px_0_0_#000000] flex h-full w-full items-center border dark:border-[rgba(255,255,255,0.1)] rounded-t-none border-[#0000004d] bg-[#d7ead5] dark:bg-[#1d2532]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[30px_30px]'>
+          {!isLoggedIn && <div className="absolute flex flex-col gap-3 text-2xl justify-center items-center w-full h-full bg-[#ffffff4d] dark:bg-[#0000004d] z-100 backdrop-blur-md [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24]">
+              <p className='dark:text-white text-[#234120]'>Login to see Leaderboard</p>
+              <button onClick={() => { setShowPopUp('Login') }} className='p-1.5 px-6 mt-2 shadow-[2px_3px_0_0_#acdda8] dark:shadow-[2px_3px_0_0_#4a7c52] cursor-pointer bg-[#234120] dark:bg-[#1a1f24] text-2xl text-[#acdda8] dark:text-[#e0e8f0]'>Login</button>
+          </div> }
           <form className='flex flex-col p-3 py-5 gap-3 justify-start h-full w-fit border-r-2 dark:border-[#505a6b] border-gray-600 shadow-[2px_1px_0_0_#acdda8] dark:shadow-[2px_1px_0_0_#4a7c52] text-[#234120] dark:text-[#e0e8f0]'>
             {timePeriods.map(({ id, value, label }) => (
               <div key={id}>

@@ -44,6 +44,18 @@ const WordsContextProvider = ({ children }) => {
     return poolOfWords?.[randomIndex]?.word.toUpperCase();
   }
 
+  function getDailyWordle() {
+      const poolOfWords = dictionary;
+  
+      const startDate = new Date("2024-01-01");
+      const today = new Date();
+  
+      const diffTime = today - startDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const wordle = poolOfWords[diffDays % poolOfWords.length]?.word?.toUpperCase();
+      setTargetWordData(poolOfWords?.[diffDays & poolOfWords.length]);
+      return wordle;
+  }
 
   function resetWordleData() {
     setAllWords([
@@ -114,6 +126,7 @@ const WordsContextProvider = ({ children }) => {
     resetWordleData,
     showHint,
     randomWord,
+    getDailyWordle,
   }
 
   return (

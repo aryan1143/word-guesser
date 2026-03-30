@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { deleteField, doc, getDoc, getFirestore, increment, updateDoc } from "firebase/firestore";
 import { getDataLocal } from "../lib/localStorage";
+import LoginContext from "../context/LoginContext";
 
 function useHandleStatsHistory() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
+    const { isLoggedIn } = useContext(LoginContext);
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -12,7 +14,7 @@ function useHandleStatsHistory() {
 
     const userId = getDataLocal('userId');
     const getHistory = async () => {
-        if (!userId) return null;
+        if (!isLoggedIn || !userId) return null;
 
         setLoading(true);
         try {
@@ -37,7 +39,7 @@ function useHandleStatsHistory() {
     };
 
     const setHistory = async (statsData) => {
-        if (!userId || !statsData) return;
+        if (!isLoggedIn || !userId || !statsData) return;
 
         setLoading(true);
         try {

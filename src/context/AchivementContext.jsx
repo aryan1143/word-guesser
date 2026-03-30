@@ -4,6 +4,7 @@ import { app } from '../lib/firebaseClient';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Context from './Context';
 import WordsContext from './WordsContext';
+import LoginContext from './LoginContext';
 import { getDataLocal, setDataLocal } from '../lib/localStorage';
 
 const AchivementContext = createContext();
@@ -30,6 +31,7 @@ const AchivementContextProvider = ({ children }) => {
     const { showToastMessege } = useContext(Context);
     const { submitedRowNo, targetWord } = useContext(WordsContext);
     const { gameTime, isHardMode } = useContext(Context);
+    const { isLoggedIn } = useContext(LoginContext);
 
     const userData = getDataLocal('userData');
 
@@ -54,7 +56,7 @@ const AchivementContextProvider = ({ children }) => {
     }, [auth, db]);
 
     async function unlockPfp(pfpId) {
-        if (!pfpId || unlockedPfps[pfpId]) return;
+        if (!isLoggedIn || !pfpId || unlockedPfps[pfpId]) return;
 
         const userId = auth.currentUser?.uid;
         if (!userId) return;
@@ -110,7 +112,7 @@ const AchivementContextProvider = ({ children }) => {
     };
 
     async function updateGameStats(isWin) {
-        if (!gameStats) return;
+        if (!isLoggedIn || !gameStats) return;
         const userId = auth.currentUser?.uid;
         if (!userId) return;
         setLoading(true);

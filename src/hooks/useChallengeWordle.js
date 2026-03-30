@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { getDataLocal, removeDataLocal, setDataLocal } from "../lib/localStorage";
 import Context from "../context/Context";
 import { useScoreContext } from "../context/ScoreContext";
+import LoginContext from "../context/LoginContext";
 
 export default function useChallengeWordle() {
     const [createChallengeLoading, setCreateChallengeLoading] = useState(false);
@@ -18,6 +19,7 @@ export default function useChallengeWordle() {
     const uid = getDataLocal('userId');
     const db = getFirestore(app);
     const userData = getDataLocal('userData');
+    const { isLoggedIn } = useContext(LoginContext);
 
     const statusRef = useRef(null);
 
@@ -30,6 +32,10 @@ export default function useChallengeWordle() {
     
 
     async function createChallenge({ wordle1Index = 0, wordle2Index = 0, isTimed = false, duration = 0 }) {
+        if (!isLoggedIn) {
+            setCreateChallengeLoading(false);
+            return;
+        }
         setCreateChallengeLoading(true);
         try {
             const baseURL = window.location.origin;
@@ -64,6 +70,10 @@ export default function useChallengeWordle() {
     }
 
     async function acceptChallenge(challengeId, wordle2Index) {
+        if (!isLoggedIn) {
+            setAcceptChallengeLoading(false);
+            return;
+        }
         setAcceptChallengeLoading(true);
 
         try {
@@ -104,6 +114,10 @@ export default function useChallengeWordle() {
     }
 
     async function startChallenge(challengeId) {
+        if (!isLoggedIn) {
+            setStartChallengeLoading(false);
+            return;
+        }
         setStartChallengeLoading(true);
 
         try {
@@ -127,6 +141,7 @@ export default function useChallengeWordle() {
     }
 
     async function submitResult(challengeId, result) {
+        if (!isLoggedIn) return;
         try {
             const ref = doc(db, "challenges", challengeId);
 
@@ -172,6 +187,10 @@ export default function useChallengeWordle() {
     }
 
     async function exitChallenge(challengeId) {
+        if (!isLoggedIn) {
+            setExitChallengeLoading(false);
+            return;
+        }
         setExitChallengeLoading(true);
 
         try {

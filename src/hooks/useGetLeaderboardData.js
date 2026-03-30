@@ -1,13 +1,15 @@
 import { collection, doc, getDocs, getFirestore, limit, orderBy, query, updateDoc } from "firebase/firestore";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import useDialog from "./useDialog";
 import useHandleStatsHistory from "./useHandleStatsHistory";
 import useGeneratePeriodLabel from "./useGeneratePeriod";
 import { getDataLocal } from "../lib/localStorage";
+import LoginContext from "../context/LoginContext";
 
 export default function useGetLeaderboardData(period = 'dailyScore') {
     const db = getFirestore();
     const [data, setData] = useState(null);
+    const { isLoggedIn } = useContext(LoginContext);
 
     const [loadingCount, setLoadingCount] = useState(0);
 
@@ -29,6 +31,7 @@ export default function useGetLeaderboardData(period = 'dailyScore') {
     );
 
     useEffect(() => {
+        if (!isLoggedIn) return;
         getHistory();
     }, []);
 
@@ -56,7 +59,7 @@ export default function useGetLeaderboardData(period = 'dailyScore') {
 
 
     useEffect(() => {
-        if (!userId || statsLoading || !statsData) return;
+        if (!isLoggedIn || !userId || statsLoading || !statsData) return;
         if (lastSentRef.current === periodScore) return;
 
         if (timeOutRef.current) {
@@ -91,6 +94,7 @@ export default function useGetLeaderboardData(period = 'dailyScore') {
     }, [db, period]);
 
     const getLeaderboardData = useCallback(async () => {
+        if (!isLoggedIn) return;
         try {
             startLoading();
             const snap = await getDocs(q);

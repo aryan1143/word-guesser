@@ -1,18 +1,24 @@
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { setDataLocal } from "../lib/localStorage";
 import { app } from "../lib/firebaseClient";
 import useDialog from "./useDialog";
 import { isToday, isYesterday } from 'date-fns';
+import LoginContext from "../context/LoginContext";
 
 export default function useHandleStreak() {
     const db = getFirestore();
     const auth = getAuth(app);
     const [loading, setLoading] = useState(false);
     const { alertBox } = useDialog();
+    const { isLoggedIn } = useContext(LoginContext);
 
     async function updateStreak() {
+        if (!isLoggedIn) {
+            setLoading(false);
+            return;
+        }
         setLoading(true);
         const user = auth.currentUser;
         if (!user) return;
