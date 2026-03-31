@@ -8,6 +8,7 @@ import { getDataLocal, removeDataLocal } from '../lib/localStorage'
 import useDialog from '../hooks/useDialog'
 import useChallengeWordle from '../hooks/useChallengeWordle'
 import { useGlobalTimer } from '../context/TimerContext'
+import usePlaySound from '../components/utils/usePlaySound'
 
 const HomePage = () => {
 
@@ -18,6 +19,7 @@ const HomePage = () => {
   const {exitChallenge} = useChallengeWordle();
 
   const {resetTimer} = useGlobalTimer();
+  const playSound = usePlaySound();
 
   useEffect(() => {
     setIsTimed(false);
@@ -39,6 +41,7 @@ const HomePage = () => {
   const challengeId = getDataLocal('challengeId');
 
   async function handleOnClick() {
+    playSound('click');
     if (challengeId) {
       const result = await confirmBox('Previous challenge is ongoing, want to continue ?');
       if (result) return;

@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import WordsContext from "../context/WordsContext";
 import useWonOrLost from "./useWonOrLost";
 import Context from "../context/Context";
+import usePlaySound from "../components/utils/usePlaySound";
 
 function useTilesStateHandle(allWords, isSample = false) {
   const { targetWord, submitedRowNo, letter, allWordsState, setAllWordsState, guessedList } = useContext(WordsContext);
@@ -9,12 +10,15 @@ function useTilesStateHandle(allWords, isSample = false) {
 
   const handleGameOver = useWonOrLost();
 
+  const playSound = usePlaySound();
+
   const target = isSample ? 'GUESS' : targetWord;
 
   useEffect(() => {
     const WordsState = allWords.map((word, i) => {
       if (word === targetWord && submitedRowNo === (i + 1)) {
         handleGameOver('won');
+        playSound('won');
       }
       if ((!isSample) && submitedRowNo <= i) return '';
       const state = word.split('').map((letter, index) => {

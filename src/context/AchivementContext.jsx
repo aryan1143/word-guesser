@@ -6,6 +6,7 @@ import Context from './Context';
 import WordsContext from './WordsContext';
 import LoginContext from './LoginContext';
 import { getDataLocal, setDataLocal } from '../lib/localStorage';
+import usePlaySound from '../components/utils/usePlaySound';
 
 const AchivementContext = createContext();
 
@@ -34,6 +35,8 @@ const AchivementContextProvider = ({ children }) => {
     const { isLoggedIn } = useContext(LoginContext);
 
     const userData = getDataLocal('userData');
+
+    const playSound = usePlaySound();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -71,7 +74,8 @@ const AchivementContextProvider = ({ children }) => {
             await updateDoc(userRef, {
                 [`unlockedPfps.${pfpId}`]: true
             });
-
+            
+            playSound('achievement');
             showToastMessege(`Achievement Unlocked: ${pfpId
                 .replace('ach_', '')
                 .replaceAll('_', ' ')

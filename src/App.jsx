@@ -9,6 +9,7 @@ import useChallengeWordle from './hooks/useChallengeWordle'
 import Fallback from './components/Fallback'
 import LoginContext from './context/LoginContext'
 import Toast from './components/popUps/Toast'
+import usePlaySound from './components/utils/usePlaySound'
 
 function LazyWrapper({ children }) {
   return <Suspense fallback={<Fallback />}>{children}</Suspense>;
@@ -31,10 +32,11 @@ const PfpSelector = lazy(() => import('./components/popUps/PfpSelector'));
 
 
 function App() {
-  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId, darkMode, setDarkMode, setHardMode, setEasyMode, setHintBtn } = useContext(Context);
+  const { showPopUp, setShowPopUp, showToast, toastMessege, showCreateChallenge, setShowCreateChallenge, setChallengeId, darkMode, setDarkMode, setHardMode, setEasyMode, setHintBtn, setSoundOn } = useContext(Context);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
   const challengeId = getDataLocal('challengeId');
   const { challengeData } = useChallengeWordle();
+  const playSound = usePlaySound();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,11 +44,13 @@ function App() {
     const localHardMode = getDataLocal('hardMode');
     const localEasyMode = getDataLocal('easyMode');
     const localHintBtn = getDataLocal('hintBtn');
+    const soundOn = getDataLocal('soundOn');
 
     setDarkMode(localDarkMode);
     setHardMode(localHardMode);
     setEasyMode(localEasyMode);
     setHintBtn(localHintBtn);
+    setSoundOn(soundOn);
 
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -83,6 +87,19 @@ function App() {
       navigate('/');
     }
   }, [challengeData])
+
+  useEffect(() => {
+    function handleGlobalButtonClick(event) {
+      const button = event.target.closest('button, input[type="button"], input[type="submit"], input[type="reset"]');
+      if (!button) return;
+      playSound('click');
+    }
+
+    document.addEventListener('click', handleGlobalButtonClick, true);
+    return () => {
+      document.removeEventListener('click', handleGlobalButtonClick, true);
+    };
+  }, [playSound])
 
 
 

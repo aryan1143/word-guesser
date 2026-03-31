@@ -3,12 +3,15 @@ import WordsContext from "../context/WordsContext";
 import compareWord from "../components/utils/compareWord";
 import Context from "../context/Context";
 import useWonOrLost from "./useWonOrLost";
+import usePlaySound from "../components/utils/usePlaySound";
 
 function useHandleLetters() {
     const { letter, setLetter, allWords, targetWord, setAllWords, setSubmitedRowNo, submitedRowNo, letterIndex, setLetterIndex, setIsShaking, setIsBubbling, guessedList } = useContext(WordsContext);
     const { showPopUp, hardMode, showToastMessege } = useContext(Context);
 
     const handleGameOver = useWonOrLost();
+
+    const playSound = usePlaySound();
 
     useEffect(() => {
         if (!letter) return;
@@ -38,6 +41,7 @@ function useHandleLetters() {
             }
             if (letterIndex === 5 && submitedRowNo === 5 && (!allWords.includes(targetWord))) {
                 handleGameOver('lost');
+                playSound('lost');
                 return;
             }
             if (letterIndex === 5 && submitedRowNo < 6) {
@@ -46,6 +50,7 @@ function useHandleLetters() {
                     setLetterIndex(0);
                 } else {
                     showToastMessege('Word is not in the list❗');
+                    playSound('wrong');
                     setIsShaking(true);
                     setTimeout(() => {
                         setIsShaking(false);
@@ -77,6 +82,7 @@ function useHandleLetters() {
 
             setAllWords(newGrid);
             setLetterIndex((prev) => prev + 1);
+            playSound('key');
             setIsBubbling(true);
             setTimeout(() => {
                 setIsBubbling(false);
