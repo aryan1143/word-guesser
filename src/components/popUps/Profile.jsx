@@ -85,7 +85,7 @@ const Profile = () => {
 
   return (
     <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] dark:bg-[rgba(0,0,0,0.4)] backdrop-blur-xs`}>
-      <div className={`flex flex-col items-center pop-up w-9/10 h-6/10 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-40/100`}>
+      <div className={`flex flex-col items-center pop-up w-9/10 h-6/10 -translate-y-10 lg:translate-y-0 lg:h-7/10 lg:w-40/100`}>
         <div className="w-full flex justify-between h-fit text-2xl items-center">
           <p className='bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] bg-[#d7ead5] dark:bg-[#1d2532] border dark:border-[rgba(255,255,255,0.1)] border-b-0 rounded-b-none rounded-xl px-2 p-1 border-[#0000004d] text-[#234120] dark:text-[#e0e8f0]'>
             Profile
@@ -94,17 +94,17 @@ const Profile = () => {
             <RiCloseFill />
           </button>
         </div>
-        <div className='overflow-hidden shadow-[0_4px_0_0_#234120] dark:shadow-[0_4px_0_0_#000000] flex flex-col md:flex-row h-full w-full items-center border dark:border-[rgba(255,255,255,0.1)] rounded-t-none border-[#0000004d] bg-[#d7ead5] dark:bg-[#1d2532]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[30px_30px]'>
-          <div className='text-2xl flex flex-row md:flex-col p-3 py-5 pb-1 gap-3 justify-start items-center h-32/100 md:h-full w-full md:w-35/100 border-b-2 md:border-r-2 dark:border-[#505a6b] border-r-0 md:border-b-0 border-gray-600 shadow-[0px_2px_0_0_#acdda8] dark:shadow-[0px_2px_0_0_#4a7c52] md:shadow-[2px_1px_0_0_#acdda8] dark:md:shadow-[2px_1px_0_0_#4a7c52] text-[#234120] dark:text-[#e0e8f0]'>
-            <div className='relative flex justify-center items-center md:w-8/10 h-8/10 md:h-fit'>
-              <div className='md:w-full h-full md:h-fit aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] dark:border-[#505a6b] shadow-[2px_3px_0_0_#acdda8] dark:shadow-[2px_3px_0_0_#4a7c52]'>
+        <div className='overflow-hidden shadow-[0_4px_0_0_#234120] dark:shadow-[0_4px_0_0_#000000] flex flex-col lg:flex-row h-full w-full items-center border dark:border-[rgba(255,255,255,0.1)] rounded-t-none border-[#0000004d] bg-[#d7ead5] dark:bg-[#1d2532]  rounded-xl bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[30px_30px]'>
+          <div className='text-2xl flex flex-row lg:flex-col p-3 py-5 pb-1 gap-3 justify-start items-center h-32/100 lg:h-full w-full lg:w-35/100 border-b-2 lg:border-r-2 dark:border-[#505a6b] border-r-0 lg:border-b-0 border-gray-600 shadow-[0px_2px_0_0_#acdda8] dark:shadow-[0px_2px_0_0_#4a7c52] lg:shadow-[2px_1px_0_0_#acdda8] dark:lg:shadow-[2px_1px_0_0_#4a7c52] text-[#234120] dark:text-[#e0e8f0]'>
+            <div className='relative flex justify-center items-center lg:w-8/10 h-8/10 lg:h-fit'>
+              <div className='lg:w-full h-full lg:h-fit aspect-square rounded-[50%] overflow-hidden border-3 border-[#234120] dark:border-[#505a6b] shadow-[2px_3px_0_0_#acdda8] dark:shadow-[2px_3px_0_0_#4a7c52]'>
                 <img src={pfpURL} border="0" />
               </div>
               <button onClick={changePfp} className='absolute pl-0.5 pb-0.5 cursor-pointer text-xl flex items-center justify-center bg-[#acdda8] dark:bg-[#4a7c52] rounded-sm top-[86%] left-[70%] -translate-x-[50%] shadow-[1px_1px_0_0_#234120] dark:shadow-[1px_1px_0_0_#000000] text-[#234120] dark:text-[#e0e8f0]'>
                 <FaEdit />
               </button>
             </div>
-            <div className='flex flex-col items-center justify-center h-full md:h-fit w-fit'>
+            <div className='flex flex-col items-center justify-center h-full lg:h-fit w-fit'>
               {isEditingName ? loading ? <Loader /> :
                 <div className='flex justify-center w-full px-0.5'>
                   <input className='px-2 text-xl text-[#234120] dark:text-[#e0e8f0] focus:outline-0 bg-[#acdda8] dark:bg-[#2a3942] border-b-2 dark:border-[#4a7c52] w-8/10' type="text" name="name" value={name || cleanName} onChange={e => setName(e.target.value)} />
@@ -112,37 +112,37 @@ const Profile = () => {
                 </div>
                 :
                 <div className='relative w-full flex justify-center'>
-                  <p className='[text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] text-center md:text-2xl'>{cleanName}</p>
+                  <p className='[text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] text-center lg:text-2xl'>{cleanName}</p>
                   <button onClick={() => setIsEditingName(true)} className='absolute pl-0.5 pb-0.5 cursor-pointer text-sm flex items-center justify-center bg-[#acdda8] dark:bg-[#4a7c52] rounded-sm top-[0%] -right-[1%] shadow-[1px_1px_0_0_#234120] dark:shadow-[1px_1px_0_0_#000000] text-[#234120] dark:text-[#e0e8f0]'>
                     <FaEdit />
                   </button>
                 </div>
               }
               <p className='text-[calc(1rem+0.3vw)] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24]'>Joined: {formattedDate}</p>
-              <div className='flex flex-row md:flex-col gap-2'>
-                <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
+              <div className='flex flex-row lg:flex-col gap-2'>
+                <div className='mt-2 flex gap-1 lg:gap-3 justify-center items-center text-2xl lg:text-3xl'>
                   <img src="/streak.png" className='w-[calc(1.5rem+1vw)] -mt-1 drop-shadow-[1px_2px_0_#acdda8] dark:drop-shadow-[1px_2px_0_#1a1f24] dark:invert dark:hue-rotate-180' />
                   <p className='[text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24]'>{streak} Days</p>
                 </div>
-                <div className='mt-2 flex gap-1 md:gap-3 justify-center items-center text-2xl md:text-3xl'>
+                <div className='mt-2 flex gap-1 lg:gap-3 justify-center items-center text-2xl lg:text-3xl'>
                   <img src="/rank.png" className='w-[calc(1.3rem+1vw)] -mt-1 dark:invert dark:hue-rotate-180' />
                   <p className='[text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24]'>Rank --</p>
                 </div>
               </div>
-              <button onClick={handleLogOut} className='md:flex hidden w-fit p-0.5 px-2 cursor-pointer self-center md:mt-5 rounded-md gap-1 justify-end items-center text-2xl text-[#acdda8] dark:text-[#e0e8f0] bg-[#234120] dark:bg-[#1a1f24] shadow-[1px_2px_0_#234120] dark:shadow-[1px_2px_0_#4a7c52]'>
+              <button onClick={handleLogOut} className='lg:flex hidden w-fit p-0.5 px-2 cursor-pointer self-center lg:mt-5 rounded-md gap-1 justify-end items-center text-2xl text-[#acdda8] dark:text-[#e0e8f0] bg-[#234120] dark:bg-[#1a1f24] shadow-[1px_2px_0_#234120] dark:shadow-[1px_2px_0_#4a7c52]'>
                 <p>Logout</p>
                 <LuLogOut />
               </button>
             </div>
           </div>
-          <div className='flex flex-col h-68/100 w-full md:h-full md:w-65/100 p-5 bg-[#d7ead5] dark:bg-[#1d2532]'>
+          <div className='flex flex-col h-68/100 w-full lg:h-full lg:w-65/100 p-5 bg-[#d7ead5] dark:bg-[#1d2532]'>
             <div className='flex justify-between w-full'>
               <select value={periodType} onChange={(e) => setpPeriodType(e.target.value)} className='w-fit text-[#acdda8] dark:text-[#e0e8f0] bg-[#234120] dark:bg-[#1a1f24] px-2 py-1 active:outline-0 focus:outline-0  text-xl rounded-md dark:border dark:border-[#505a6b]' name="period">
                 <option value="week">This Week</option>
                 <option value="month">This Month</option>
                 <option value="year">Past 12 Months</option>
               </select>
-              <button onClick={handleLogOut} className='flex md:hidden w-fit p-1 cursor-pointer self-end md:self-center md:mt-5 rounded-md gap-1 justify-center items-center text-xl text-[#acdda8] dark:text-[#e0e8f0] bg-[#234120] dark:bg-[#1a1f24] shadow-[1px_2px_0_#234120] dark:shadow-[1px_2px_0_#4a7c52]'>
+              <button onClick={handleLogOut} className='flex lg:hidden w-fit p-1 cursor-pointer self-end lg:self-center lg:mt-5 rounded-md gap-1 justify-center items-center text-xl text-[#acdda8] dark:text-[#e0e8f0] bg-[#234120] dark:bg-[#1a1f24] shadow-[1px_2px_0_#234120] dark:shadow-[1px_2px_0_#4a7c52]'>
                 <LuLogOut />
               </button>
             </div>

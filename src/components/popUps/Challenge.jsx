@@ -202,7 +202,7 @@ const Challenge = () => {
 
     return (
         <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] dark:bg-[rgba(0,0,0,0.4)] backdrop-blur-xs`}>
-            <div className={`flex flex-col items-center pop-up w-9/10 h-5/10 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-30/100`}>
+            <div className={`flex flex-col items-center pop-up w-9/10 h-5/10 -translate-y-10 lg:translate-y-0 lg:h-7/10 lg:w-30/100`}>
                 <div className="w-full flex justify-between h-fit text-2xl items-center">
                     <p className='flex items-center gap-1 bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] bg-[#d7ead5] dark:bg-[#1d2532] border dark:border-[rgba(255,255,255,0.1)] border-b-0 rounded-b-none rounded-xl px-2 p-1 border-[#0000004d] text-[#234120] dark:text-[#e0e8f0]'>
                         <button className='cursor-pointer' onClick={() => handleClose('back')}>
@@ -242,7 +242,7 @@ const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challenge
                         onChange={(e) => setIsTimed(e.target.value === "true")}
                     />
                     <label
-                        className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl dark:text-[#698566] md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
+                        className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl dark:text-[#698566] lg:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
                         htmlFor="customWordle"
                     >
                         Custom Wordle
@@ -259,7 +259,7 @@ const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challenge
                         onChange={(e) => setIsTimed(e.target.value === "true")}
                     />
                     <label
-                        className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl dark:text-[#698566] md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
+                        className='flex-1 py-1 bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl dark:text-[#698566] lg:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
                         htmlFor="timedWordle"
                     >
                         Timed Wordle
@@ -281,7 +281,7 @@ const CreateChallengeUI = ({ isTimed, word, isWrongWordle, handleCopy, challenge
             </div>
             <div className='w-full flex-1 flex justify-center items-center'>
                 <div className='relative w-8/10 h-7/10 border-2 border-[#234120] dark:border-[#505a6b] flex flex-col shadow-[2px_3px_0_0_#acdda8] dark:shadow-[2px_3px_0_0_#4a7c52]'>
-                    <button onClick={handleCopy} className={`absolute top-1 left-[75%] md:left-[80%] w-fit h-fit flex justify-end p-1 items-center text-[#234120] dark:text-[#e0e8f0] cursor-pointer ${!challengeURL && 'text-gray-400 dark:text-gray-600'}`}>
+                    <button onClick={handleCopy} className={`absolute top-1 left-[75%] lg:left-[80%] w-fit h-fit flex justify-end p-1 items-center text-[#234120] dark:text-[#e0e8f0] cursor-pointer ${!challengeURL && 'text-gray-400 dark:text-gray-600'}`}>
                         {copied ? <FaClipboardCheck /> : <FaClipboard />}
                         <p>{copied ? 'Copied' : 'Copy'}</p>
                     </button>

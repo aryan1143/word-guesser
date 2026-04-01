@@ -38,7 +38,7 @@ export default function GetDuration() {
 
     return (
         <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] dark:bg-[rgba(0,0,0,0.4)] backdrop-blur-xs`}>
-            <div className={`flex flex-col items-center pop-up w-9/10 h-45/100 -translate-y-10 md:translate-y-0 md:h-60/100 md:w-25/100`}>
+            <div className={`flex flex-col items-center pop-up w-9/10 h-45/100 -translate-y-10 lg:translate-y-0 lg:h-60/100 lg:w-25/100`}>
                 <div className="w-full flex justify-between h-fit text-2xl items-center">
                     <p className='flex items-center gap-1 bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] bg-[#d7ead5] dark:bg-[#1d2532] border dark:border-[rgba(255,255,255,0.1)] border-b-0 rounded-b-none rounded-xl px-2 p-1 border-[#0000004d] text-[#234120] dark:text-[#e0e8f0]'>
                         <button className='cursor-pointer' onClick={() => handleClose('back')}>

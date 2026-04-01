@@ -55,7 +55,7 @@ const Header = () => {
   }
 
   return (
-    <div className='flex z-50 gap-2 w-screen max-w-540 pt-2 md:pt-3 px-2 md-px-5'>
+    <div className='flex z-50 gap-2 w-screen max-w-540 pt-2 lg:pt-3 px-2 md-px-5'>
       <div className='shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex gap-2 items-center justify-center px-[min(5rem,(calc(0.5rem+0.5vw)))] py-1 bg-[#acdda8] dark:bg-[#4a7c52] text-[calc(0.8rem+1vw)] min-w-25 min-h-10 font-bold text-[#234120] dark:text-[#e0e8f0] rounded-4xl cursor-pointer hover:bg-[#9ac596] dark:hover:bg-[#5d8d65] duration-95 '>
         <button onClick={() => { setShowPopUp((prev) => (prev === 'Profile' ? null : 'Profile')) }} className={`pop-up-button ${locationPath === '/' ? 'animate-main-down' : 'animate-up hidden'} flex gap-1 justify-center items-center text-[#234120] dark:text-[#e0e8f0]`}><img src='/profile.png' className='w-[calc(1rem+1vw)] mr-1 dark:invert dark:hue-rotate-180' />{isLoggedIn ? 'Profile' : 'Login'}</button>
         {challengeId ?

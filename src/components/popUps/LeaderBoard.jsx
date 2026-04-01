@@ -23,7 +23,7 @@ const LeaderBoard = () => {
 
   return (
     <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] dark:bg-[rgba(0,0,0,0.4)] backdrop-blur-xs`}>
-      <div className={`flex flex-col items-center pop-up w-9/10 h-6/10 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-40/100`}>
+      <div className={`flex flex-col items-center pop-up w-9/10 h-6/10 -translate-y-10 lg:translate-y-0 lg:h-7/10 lg:w-40/100`}>
         <div className="w-full flex justify-between h-fit text-2xl items-center">
           <p className='bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] bg-[#d7ead5] dark:bg-[#1d2532] border dark:border-[rgba(255,255,255,0.1)] border-b-0 rounded-b-none rounded-xl px-2 p-1 border-[#0000004d] text-[#234120] dark:text-[#e0e8f0]'>
             Leaderboard
@@ -50,7 +50,7 @@ const LeaderBoard = () => {
                   onChange={(e) => setPeriod(e.target.value)}
                 />
                 <label
-                  className='w-[calc(4rem+8vw)] h-[calc(1.6rem+1vw)] bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl md:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
+                  className='w-[calc(4rem+8vw)] h-[calc(1.6rem+1vw)] bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] flex justify-center items-center text-xl lg:text-2xl peer-checked:bg-[#234120] dark:peer-checked:bg-[#1a1f24] peer-checked:shadow-[2px_3px_0_0_#acdda8] dark:peer-checked:shadow-[2px_3px_0_0_#4a7c52] peer-checked:text-[#acdda8] dark:peer-checked:text-[#e0e8f0] cursor-pointer transition-colors duration-100'
                   htmlFor={id}
                 >
                   {label}
@@ -59,9 +59,9 @@ const LeaderBoard = () => {
             ))}
           </form>
           <div className='flex-1 flex flex-col gap-2 h-full p-3 py-5 text-[#234120] dark:text-[#e0e8f0] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24]'>
-            <div className='h-fit w-full flex justify-around md:justify-start items-center text-xl'>
+            <div className='h-fit w-full flex justify-around lg:justify-start items-center text-xl'>
               <p>Rank</p>
-              <p className='md:mr-auto md:ml-10'>User Profile</p>
+              <p className='lg:mr-auto lg:ml-10'>User Profile</p>
               <p className=''>Score</p>
             </div>
             <div className='relative overflow-y-scroll no-scrollbar flex w-full h-9/10 flex-col gap-3'>
@@ -69,7 +69,7 @@ const LeaderBoard = () => {
                 data && data.map((e, i) => {
                   const isCurrentUser = userId === e.id;
                   return (
-                    <div key={i} className={`h-11/100 md:h-13/100 w-full flex justify-between gap-1 md:gap-3 items-center px-3 ${
+                    <div key={i} className={`h-11/100 lg:h-13/100 w-full flex justify-between gap-1 lg:gap-3 items-center px-3 ${
                       isCurrentUser 
                         ? 'bg-[#234120] dark:bg-[#1a1f24] shadow-[2px_3px_0_0_#acdda8] dark:shadow-[2px_3px_0_0_#4a7c52] text-[#acdda8] dark:text-[#e0e8f0] [text-shadow:1px_2px_0_#234100] dark:[text-shadow:1px_2px_0_#1a1f24]' 
                         : 'bg-[#acdda8] dark:bg-[#2a3942] shadow-[2px_3px_0_0_#234120] dark:shadow-[2px_3px_0_0_#000000] text-[#234120] dark:text-[#e0e8f0]'
@@ -77,8 +77,8 @@ const LeaderBoard = () => {
                       <p className='h-fit w-1/10 text-xl'>
                         #{i+1}
                       </p>
-                      <div className='flex w-70/100 md:ml-3 md:mr-auto gap-2 md:gap-3 md:w-8/10 h-full justify-start items-center md:text-xl'>
-                        <div className='justify-self-start h-85/100 md:aspect-square rounded-[50%] flex items-center justify-center overflow-hidden border border-gray-400 dark:border-[#505a6b]'>
+                      <div className='flex w-70/100 lg:ml-3 lg:mr-auto gap-2 lg:gap-3 lg:w-8/10 h-full justify-start items-center lg:text-xl'>
+                        <div className='justify-self-start h-85/100 lg:aspect-square rounded-[50%] flex items-center justify-center overflow-hidden border border-gray-400 dark:border-[#505a6b]'>
                           <img className='h-full w-full' src={e.pfpURL} />
                         </div>
                         <p className='flex-1 truncate'>{isCurrentUser ? '(You) ' + e.name : e.name || 'Player'}</p>

@@ -47,7 +47,7 @@ const WinOrLost = ({ status = 'lost' }) => {
 
     return (
         <div className={`absolute top-0 left-0 z-30 h-screen w-screen bg-[#62626225] dark:bg-[rgba(0,0,0,0.4)] backdrop-blur-xs`}>
-            <div className={`flex flex-col items-center pop-up w-9/10 h-45/100 -translate-y-10 md:translate-y-0 md:h-7/10 md:w-30/100`}>
+            <div className={`flex flex-col items-center pop-up w-9/10 h-45/100 -translate-y-10 lg:translate-y-0 lg:h-7/10 lg:w-30/100`}>
                 <div className="w-full flex justify-between h-fit text-2xl items-center">
                     <p className='bg-[linear-gradient(rgba(35,65,32,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(35,65,32,0.05)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] -mb-0.5 z-20 bg-size-[30px_30px] [text-shadow:1px_2px_0_#acdda8] dark:[text-shadow:1px_2px_0_#1a1f24] bg-[#d7ead5] dark:bg-[#1d2532] border dark:border-[rgba(255,255,255,0.1)] border-b-0 rounded-b-none rounded-xl px-2 p-1 border-[#0000004d] text-[#234120] dark:text-[#e0e8f0]'>
                         Game Status
@@ -79,12 +79,12 @@ const WinOrLost = ({ status = 'lost' }) => {
                             </div>
                         </>}
                     <div className='w-full flex justify-around mt-auto gap-2 text-2xl'>
-                        <Link onClick={handleHomeClick} to={'/'} className='flex justify-center items-center flex-1 md:w-[6vw] h-[calc(1rem+3vh)] md:h-[calc(1.2rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>
+                        <Link onClick={handleHomeClick} to={'/'} className='flex justify-center items-center flex-1 lg:w-[6vw] h-[calc(1rem+3vh)] lg:h-[calc(1.2rem+3vh)] text-[#234120] bg-[#acdda8] cursor-pointer shadow-[0_2px_0_0_#234120]'>
                             Home
                         </Link>
 
                         {!inDailyWordle && !isChallengePopUp && !challengeData && (
-                            <button onClick={handlePlay} className='flex-1 md:w-[6vw] h-[calc(1rem+3vh)] md:h-[calc(1.2rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>
+                            <button onClick={handlePlay} className='flex-1 lg:w-[6vw] h-[calc(1rem+3vh)] lg:h-[calc(1.2rem+3vh)] bg-[#234120] text-[#acdda8] cursor-pointer shadow-[0_3px_0_0_#acdda8]'>
                                 Play Again
                             </button>
                         )}
