@@ -53,7 +53,7 @@ const WordsContextProvider = ({ children }) => {
       const diffTime = today - startDate;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       const wordle = poolOfWords[diffDays % poolOfWords.length]?.word?.toUpperCase();
-      setTargetWordData(poolOfWords?.[diffDays & poolOfWords.length]);
+      setTargetWordData(poolOfWords?.[diffDays % poolOfWords.length]);
       return wordle;
   }
 

@@ -108,7 +108,7 @@ function App() {
   function handleBgClick(e) {
     const isInsidePopup = e.target.closest('.pop-up');
     const isPopupButton = e.target.closest('.pop-up-button');
-    if (!isInsidePopup && !isPopupButton) {
+    if (!isInsidePopup && !isPopupButton && !(showPopUp === 'won') && !(showPopUp === 'lost')) {
       setShowPopUp(null);
     }
   }
